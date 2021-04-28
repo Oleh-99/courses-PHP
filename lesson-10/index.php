@@ -24,8 +24,8 @@ if ( ! empty( $_REQUEST['name'] ) ) {
 <?php
 if ( ! empty( $_REQUEST['name'] ) && ! empty( $_REQUEST['age'] ) && ! empty( $_REQUEST['text'] ) ) {
 	$name = $_REQUEST['name'];
-	$age = $_REQUEST['age'];
+	$age  = $_REQUEST['age'];
 	$text = $_REQUEST['text'];
-	echo 'Привет, ' . $name . ', ' . $age .' лет. <br> Твое сообщение: ' . $text;
+	echo 'Привет, ' . $name . ', ' . $age . ' лет. <br> Твое сообщение: ' . $text;
 }
 ?>
