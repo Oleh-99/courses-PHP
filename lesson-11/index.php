@@ -23,7 +23,7 @@ ol_todo_2();
 
 <?php
 function ol_todo_3() {
-	echo mktime( 23, 59, 59, 31, 12, date( 'Y' ) );
+	echo mktime( 00, 00, 00, 12, 31, date( 'Y' ) );
 }
 
 ol_todo_3();
@@ -33,7 +33,7 @@ ol_todo_3();
 
 <?php
 function ol_todo_4() {
-	echo time() - mktime( 13, 12, 59, 15, 03, 2000 );
+	echo time() - mktime( 13, 12, 59, 03, 15, 2000 );
 }
 
 ol_todo_4();
@@ -77,7 +77,7 @@ ol_todo_7();
 
 <?php
 function ol_todo_8() {
-	echo date( 'd.m.Y', mktime( 00, 00, 00, 12, 02, 2025 ) ) . '<br>';
+	echo date( 'd.m.Y', mktime( 00, 00, 00, 02, 12, 2025 ) ) . '<br>';
 }
 
 ol_todo_8();
@@ -193,8 +193,8 @@ function ol_todo_15() {
 		$date2      = $_GET['date_15_2'];
 		$arr1       = explode( '-', $date1 );
 		$arr2       = explode( '-', $date2 );
-		$datestamp1 = mktime( 00, 00, 00, $arr1[2], $arr1[1], $arr1[0] );
-		$datestamp2 = mktime( 00, 00, 00, $arr2[2], $arr2[1], $arr2[0] );
+		$datestamp1 = mktime( 00, 00, 00, $arr1[1], $arr1[2], $arr1[0] );
+		$datestamp2 = mktime( 00, 00, 00, $arr2[1], $arr2[2], $arr2[0] );
 
 		if ( $datestamp1 <= $datestamp2 ) {
 			echo $date2;

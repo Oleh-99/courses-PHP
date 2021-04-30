@@ -12,6 +12,8 @@ function exc_html( $data ) {
 }
 
 function ol_todo_1() {
+	$name = '';
+
 	if ( ! empty( $_GET['name_1'] ) ) {
 		$name = exc_html( $_GET['name_1'] );
 		echo 'Привіт ' . $name;
@@ -103,6 +105,8 @@ ol_todo_4();
 
 <?php
 function ol_todo_5() {
+	$name = '';
+
 	if ( ! empty( $_GET['name_5'] ) ) {
 		$name = exc_html( $_GET['name_5'] );
 	}
@@ -122,6 +126,9 @@ ol_todo_5();
 
 <?php
 function ol_todo_6() {
+	$name = '';
+	$text = '';
+	
 	if ( ! empty( $_GET['name_6'] ) && ! empty( $_GET['text_6'] ) ) {
 		$name = exc_html( $_GET['name_6'] );
 		$text = exc_html( $_GET['text_6'] );

@@ -473,7 +473,7 @@ ol_todo_39( 'loremipsumdolorsitamet' );
 
 <?php
 function ol_todo_40( $num ) {
-	echo number_format( $num );
+	echo number_format( $num, 0, ',', ' ' );
 }
 
 ol_todo_40( '12345678' );

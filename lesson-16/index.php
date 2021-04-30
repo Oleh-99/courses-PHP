@@ -38,31 +38,92 @@ ol_todo_2();
 <?php
 function ol_todo_3() {
 	$array = array();
-
-	function arrayFill( $array = array(), $str, $num ) {
-		for ( $i = 0; $i <= $num; $i++ ) {
-			$array[] .= $str;
-		}
-	}
-
-	arrayFill( $array, 'x', 5 );
+	$array = get_ol_arrayFill( $array, 'x', 5 );
 
 	print_r( $array );
+}
+
+function get_ol_arrayFill( $array = array(), $str, $num ) {
+	for ( $i = 0; $i <= $num; $i++ ) {
+		$array[] .= $str;
+	}
+
+	return $array;
 }
 
 ol_todo_3();
 ?>
 
-<h3>4.  Дан массив с числами. Узнайте сколько элементов с начала массива надо сложить, чтобы в сумме получилось больше 10-ти. Считайте, что в массиве есть нужное количество элементов.</h3>
+<h3>4. Дан массив с числами. Узнайте сколько элементов с начала массива надо сложить, чтобы в сумме получилось больше 10-ти. Считайте, что в массиве есть нужное количество элементов.</h3>
 
 <?php
 function ol_todo_4() {
-	$arr = [ 3, 2, 5, 4, 3, 1, 8, 7 ];
+	$arr    = array( 3, 2, 5, 4, 3, 1, 8, 7 );
+	$result = 0;
 
-	// foreach ( $arr as $value ) {
+	for ( $i = 0; $i <= count( $arr ); $i++ ) {
+		$result += $arr[ $i ];
 
-	// }
+		if ( 10 < $result ) {
+			echo $i;
+			break;
+		}
+	}
 }
 
 ol_todo_4();
+?>
+
+<h3>5. Дан двухмерный массив с числами, например [[1, 2, 3], [4, 5], [6]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.</h3>
+
+<?php
+function ol_todo_5() {
+	$arr    = array( array( 1, 2, 3 ), array( 4, 5 ), array( 6 ) );
+	$result = 0;
+
+	foreach ( $arr as $value ) {
+		$result += array_sum( $value );
+	}
+
+	echo $result;
+}
+
+ol_todo_5();
+?>
+
+<h3>6. Дан трехмерный массив с числами, например [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.</h3>
+
+<?php
+function ol_todo_6() {
+	$arr    = array( array( array( 1, 2 ), array( 3, 4 ) ), array( array( 5, 6 ), array( 7, 8 ) ) );
+	$result = 0;
+
+	foreach ( $arr as $val ) {
+		foreach ( $val as $value ) {
+			$result += array_sum( $value );
+		}
+	}
+
+	echo $result;
+}
+
+ol_todo_6();
+?>
+
+<h3>7. С помощью двух циклов создайте массив [[1, 2, 3], [4, 5, 6], [7, 8, 9]].</h3>
+
+<?php
+function ol_todo_7() {
+	$arr = array();
+
+	for ( $i = 1; $i <= 3; $i++ ) {
+		for ( $n = $i * 3 - 3; $n < $i * 3; $n++ ) {
+			$arr[ $i ][] .= $n + 1;
+		}
+	}
+
+	print_r( $arr );
+}
+
+ol_todo_7();
 ?>
