@@ -7,13 +7,13 @@
 </form>
 
 <?php
-function exc_html( $data ) {
+function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
 }
 
 function ol_todo_1() {
 	if ( ! empty( $_GET['text_1'] ) ) {
-		$text         = exc_html( $_GET['text_1'] );
+		$text         = esc_html( $_GET['text_1'] );
 		$arr_text     = preg_split( '//u', $text );
 		$res          = '';
 		$arr_translit = array(
@@ -150,7 +150,7 @@ function ol_todo_4() {
 		}
 
 		if ( 1 < $sum_arr1 ) {
-			$arr2 = get_ol_number_divisors( $sum_arr1 );
+			$arr2     = get_ol_number_divisors( $sum_arr1 );
 			$sum_arr2 = get_ol_array_sum( $arr2 );
 
 			if ( $i === $sum_arr2 && $i !== $sum_arr1 ) {
@@ -161,8 +161,8 @@ function ol_todo_4() {
 }
 
 function get_ol_number_divisors( $num ) {
-	$arr = [];
-	
+	$arr = array();
+
 	for ( $j = 1; $j < $num; $j++ ) {
 		if ( 0 === $num % $j ) {
 			$arr[] = $j;

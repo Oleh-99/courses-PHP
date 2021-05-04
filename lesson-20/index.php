@@ -8,13 +8,13 @@
 </form>
 
 <?php
-function exc_html( $data ) {
+function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
 }
 
 function ol_todo_1() {
 	if ( ! empty( $_REQUEST['name_1'] ) ) {
-		$name = exc_html( $_REQUEST['name_1'] );
+		$name = esc_html( $_REQUEST['name_1'] );
 
 		if ( ! empty( $_REQUEST['check_1'] ) && '1' === $_REQUEST['check_1'] ) {
 			echo 'Hello ' . $name;
@@ -39,7 +39,7 @@ ol_todo_1();
 <?php
 function ol_todo_2() {
 	if ( ! empty( $_REQUEST['check_2'] ) ) {
-		echo 'Вы знаете: ' . implode(', ', $_REQUEST['check_2']);
+		echo 'Вы знаете: ' . implode( ', ', esc_html( $_REQUEST['check_2'] ) );
 	}
 }
 
@@ -58,7 +58,7 @@ ol_todo_2();
 <?php
 function ol_todo_3() {
 	if ( ! empty( $_REQUEST['radio_3'] ) ) {
-		$radiobtn = $_REQUEST['radio_3'];
+		$radiobtn = esc_html( $_REQUEST['radio_3'] );
 		if ( 'yes' === $radiobtn ) {
 			echo 'Вы знаете PHP';
 		} elseif ( 'no' === $radiobtn ) {
@@ -84,7 +84,7 @@ ol_todo_3();
 <?php
 function ol_todo_4() {
 	if ( ! empty( $_REQUEST['radio_4'] ) ) {
-		$radiobtn = $_REQUEST['radio_4'];
+		$radiobtn = esc_html( $_REQUEST['radio_4'] );
 		if ( '1' === $radiobtn ) {
 			echo 'Вам менее 20 лет';
 		} elseif ( '2' === $radiobtn ) {
@@ -115,7 +115,7 @@ ol_todo_4();
 <?php
 function ol_todo_5() {
 	if ( ! empty( $_REQUEST['select_5'] ) ) {
-		$select = $_REQUEST['select_5'];
+		$select = esc_html( $_REQUEST['select_5'] );
 		if ( '1' === $select ) {
 			echo 'Вам менее 20 лет';
 		} elseif ( '2' === $select ) {
@@ -146,7 +146,7 @@ ol_todo_5();
 <?php
 function ol_todo_6() {
 	if ( ! empty( $_REQUEST['select_6'] ) ) {
-		echo 'Вы знаете: ' . implode(', ', $_REQUEST['select_6']);
+		echo 'Вы знаете: ' . implode( ', ', esc_html( $_REQUEST['select_6'] ) );
 	}
 }
 
@@ -158,13 +158,42 @@ ol_todo_6();
 <?php
 function get_ol_input( $type, $name, $value ) {
 	if ( ! empty( $_REQUEST['input_8'] ) ) {
-		$value = exc_html( $_REQUEST['input_8'] );
+		$value = esc_html( $_REQUEST['input_8'] );
 	}
 
-	return '<input type="'. $type . '" name="' . $name . '" value="' . $value . '">';	
+	return '<input type="' . $type . '" name="' . $name . '" value="' . $value . '">';
 }
 
-echo get_ol_input('text', 'input_7', '1');
+echo get_ol_input( 'text', 'input_7', '1' );
 ?>
 <input type="submit">
 </form>
+
+
+<h3>9. Сделайте функцию, которая создает чекбокс. Если чекбокс не отмечен - функция должна отправлять 0 (то есть нужно сделать hidden инпут), если отмечен - 1</h3>
+
+<?php
+function ol_todo_9( $name ) {
+	return '<input type="hidden" name="' . $name . '" value="0">
+	<input type="checkbox" name="' . $name . '" value="1">';
+}
+
+echo ol_todo_9( 'checkbox' );
+?>
+
+<h3>10. Напишите функцию, которая создает чекбокс и сохраняет его значение после отправки. </h3>
+
+<?php
+function ol_todo_10( $name ) {
+	if ( isset( $_REQUEST[ $name ] ) && 1 === $_REQUEST[ $name ] ) {
+		$value = 'checked';
+	} else {
+		$value = '';
+	}
+
+	return '<input type="hidden" name="' . $name . '" value="0">
+	<input type="checkbox" name="' . $name . '" value="1" ' . $value . '>';
+}
+
+echo ol_todo_10( 'checkbox' );
+?>

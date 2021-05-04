@@ -7,7 +7,7 @@
 
 <?php
 
-function exc_html( $data ) {
+function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
 }
 
@@ -15,7 +15,7 @@ function ol_todo_1() {
 	$name = '';
 
 	if ( ! empty( $_GET['name_1'] ) ) {
-		$name = exc_html( $_GET['name_1'] );
+		$name = esc_html( $_GET['name_1'] );
 		echo 'Привіт ' . $name;
 	}
 }
@@ -35,9 +35,9 @@ ol_todo_1();
 <?php
 function ol_todo_2() {
 	if ( ! empty( $_GET['name_2'] ) && ! empty( $_GET['age_2'] ) && ! empty( $_GET['text_2'] ) ) {
-		$name = exc_html( $_GET['name_2'] );
-		$age  = exc_html( $_GET['age_2'] );
-		$text = exc_html( $_GET['text_2'] );
+		$name = esc_html( $_GET['name_2'] );
+		$age  = esc_html( $_GET['age_2'] );
+		$text = esc_html( $_GET['text_2'] );
 		echo 'Привет, ' . $name . ', ' . $age . ' лет. <br> Твое сообщение: ' . $text;
 	}
 }
@@ -80,8 +80,8 @@ function ol_todo_4() {
 	if ( ! empty( $_POST['login'] ) && ! empty( $_POST['password'] ) ) {
 		$handle   = file_get_contents( 'login.txt' );
 		$arr_data = json_decode( $handle, true );
-		$login    = exc_html( $_POST['login'] );
-		$password = exc_html( $_POST['password'] );
+		$login    = esc_html( $_POST['login'] );
+		$password = esc_html( $_POST['password'] );
 		$access   = false;
 
 		foreach ( $arr_data as $value ) {
@@ -108,7 +108,7 @@ function ol_todo_5() {
 	$name = '';
 
 	if ( ! empty( $_GET['name_5'] ) ) {
-		$name = exc_html( $_GET['name_5'] );
+		$name = esc_html( $_GET['name_5'] );
 	}
 
 	?>
@@ -130,8 +130,8 @@ function ol_todo_6() {
 	$text = '';
 	
 	if ( ! empty( $_GET['name_6'] ) && ! empty( $_GET['text_6'] ) ) {
-		$name = exc_html( $_GET['name_6'] );
-		$text = exc_html( $_GET['text_6'] );
+		$name = esc_html( $_GET['name_6'] );
+		$text = esc_html( $_GET['text_6'] );
 	}
 
 	?>
