@@ -1,0 +1,79 @@
+body {
+	background: #f3f3f3;
+	font-family: 'Roboto', sans-serif;
+}
+
+.add-todo-wrapper {
+	padding: 30px;
+	background: #ffffff;
+	max-width: 700px;
+	margin: 20px auto;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.todo {
+	position: relative;
+	padding: 30px;
+	background: #ffffff;
+	max-width: 700px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+.todo-name {
+	margin-right: 210px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.todo-text {
+	margin-right: 210px;
+}
+
+.todo-date {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+.mixin-color-red {
+	color: red;
+}
+
+.header-inner {
+	padding: 10px;
+	text-align: center;
+	font-style: italic;
+}
+
+input[type=text],
+textarea {
+	width: 100%;
+	margin-bottom: 20px;
+	padding: 10px;
+	outline: none;
+}
+
+input[type=date],
+input[type=submit] {
+	margin: 0 30px;
+}
+
+.btn-group {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
+.edit-todo {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	background-color: #c7c7c7;
+	border-radius: 5px;
+	border: 1px solid #000;
+}
