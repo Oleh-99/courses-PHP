@@ -1,5 +1,11 @@
 <?php
 	require 'function.php';
+
+	ol_sending_data();
+	ol_delete_todo();
+	ol_done_todo();
+	ol_edit_todo();
+	ol_save_edit_todo();
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +50,3 @@
 	</section>
 </body>
 </html>
-
-<?php
-ol_sending_data();
-ol_delete_todo();
-ol_done_todo();
-ol_edit_todo();
-ol_save_edit_todo();

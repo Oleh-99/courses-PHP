@@ -1,6 +1,4 @@
 <?php
-ob_start();
-
 require '../mixin/mixin.php';
 
 $dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
@@ -41,23 +39,28 @@ function ol_data_download() {
 		$date       = strtotime( date( 'd-m-Y' ) ) - strtotime( $value['date'] );
 		$date_class = '';
 		if ( 0 < $date ) {
-			$date_class = 'mixin-color-red';
+			$date_class = ' mixin-color-red';
 		}
 		?>
 			<div class="todo">
-				<div class="todo-name"> <?php echo $value['id'] . '. ' . $value['name']; ?></div>
-				<div class="todo-text"><?php echo $value['description']; ?></div>
+				<div class="todo-name">
+					<?php echo $value['id'] . '. ' . $value['name']; ?>
+				</div>
+				<div class="todo-text">
+					<?php echo $value['description']; ?>
+				</div>
 				<form class="btn-group" method="get" role="group" aria-label="Basic mixed styles example">
 					<button name="delete" value="<?php echo $value['id']; ?>" class="btn btn-danger">Delete</button>
 					<button name="edit" value="<?php echo $value['id']; ?>" class="btn btn-warning">Edit</button>
-					<?php
-					if ( $value['done'] ) {
-						echo '<button name="done" value="' . $value['id'] . '-' . $value['done'] . '" class="btn btn-success">Do again</button>';
-					} else {
-						echo '<button name="done" value="' . $value['id'] . '-' . $value['done'] . '" class="btn btn-success">Done</button>';}
-					?>
+					<?php if ( $value['done'] ): ?>
+						<button name="done" value="<?php echo $value['id'] . '-' . $value['done'] ?>" class="btn btn-success">Do again</button>';
+					<?php else: ?>
+						<button name="done" value=" <?php echo $value['id'] . '-' . $value['done']?>" class="btn btn-success">Done</button>
+					<?php endif;?>
 				</form>
-				<div class="todo-date <?php echo $date_class; ?> "><?php echo $value['date']; ?></div>
+				<div class="todo-date<?php echo $date_class; ?>">
+					<?php echo $value['date']; ?>
+				</div>
 			</div>
 		<?php
 	}
