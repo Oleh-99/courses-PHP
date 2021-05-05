@@ -3,7 +3,7 @@ ob_start();
 
 require '../mixin/mixin.php';
 
-$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 /**
  * Ol_sending_data
@@ -132,7 +132,7 @@ function ol_edit_todo() {
 			$text_todo  = $value['description'];
 			$date_todo  = $value['date'];
 		}
-		
+
 		ol_create_form( $id_todo, $title_todo, $text_todo, $date_todo );
 	}
 }
@@ -162,9 +162,9 @@ function ol_create_form( $id_todo, $title_todo, $text_todo, $date_todo ) {
 }
 
 /**
- * ol_save_edit_todo
+ * Ol_save_edit_todo
  *
- * save edits to do list
+ * Save edits to do list
  */
 function ol_save_edit_todo() {
 	if ( ! empty( $_GET['title_edit'] ) && ! empty( $_GET['text_edit'] ) && ! empty( $_GET['date_edit'] ) && ! empty( $_GET['todo_id'] ) ) {

@@ -3,7 +3,7 @@
 
 <?php
 function ol_todo_1() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 LIMIT 6' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -16,7 +16,7 @@ ol_todo_1();
 
 <?php
 function ol_todo_2() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 LIMIT 2, 3' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -29,7 +29,7 @@ ol_todo_2();
 
 <?php
 function ol_todo_3() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 ORDER BY salary' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -42,7 +42,7 @@ ol_todo_3();
 
 <?php
 function ol_todo_4() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 ORDER BY salary DESC' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -55,7 +55,7 @@ ol_todo_4();
 
 <?php
 function ol_todo_5() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 ORDER BY salary LIMIT 1, 4' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -68,7 +68,7 @@ ol_todo_5();
 
 <?php
 function ol_todo_6() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT COUNT(*) from bg1' ) as $row ) {
 		print_r( $row );
@@ -81,7 +81,7 @@ ol_todo_6();
 
 <?php
 function ol_todo_7() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT COUNT(*) from bg1 WHERE salary = 300' ) as $row ) {
 		print_r( $row );
@@ -97,7 +97,7 @@ ol_todo_7();
 
 <?php
 function ol_todo_10() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 WHERE age LIKE "3_"' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
@@ -110,7 +110,7 @@ ol_todo_10();
 
 <?php
 function ol_todo_11() {
-	$dbh = new PDO( 'mysql:host=localhost;dbname=courses', 'root', 'root' );
+	$dbh = new PDO( 'mysql:host=192.168.1.116;dbname=courses', 'cours', 'cours' );
 
 	foreach ( $dbh->query( 'SELECT * from bg1 WHERE name LIKE "%я"' ) as $row ) {
 		echo $row['name'] . ' ' . $row['age'] . ' ' . $row['salary'] . '<br>';
