@@ -3,6 +3,30 @@ body {
 	font-family: 'Roboto', sans-serif;
 }
 
+ul {
+	list-style: none;
+	padding: 20px;
+	background: #ffffff;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px 0px rgba(34, 60, 80, 0.2);
+}
+
+li {
+	margin-bottom: 10px;
+}
+
+li a {
+	color: #000;
+	text-decoration: none;
+	transition: opacity .3s ease;
+}
+
+li a:hover {
+	color: #000;
+	text-decoration: none;
+	opacity: 0.6;
+}
+
 .add-todo-wrapper {
 	padding: 30px;
 	background: #ffffff;
@@ -12,14 +36,24 @@ body {
 	border-radius: 5px;
 }
 
+.todos-inner {
+	max-width: 700px;
+	margin: 0 auto;
+}
+
 .todo {
 	position: relative;
 	padding: 30px;
 	background: #ffffff;
-	max-width: 700px;
-	margin: 0 auto;
+	min-height: 100px;
 	margin-bottom: 20px;
 	border-radius: 5px;
+	transition: background .3s ease;
+	box-shadow: 0px 0px 10px 0px rgba(34, 60, 80, 0.2);
+}
+
+.todo.done {
+	background: #c1f5ab;
 }
 
 .todo-name {
@@ -63,7 +97,7 @@ input[type=submit] {
 
 .btn-group {
 	position: absolute;
-	bottom: 20px;
+	top: 50px;
 	right: 20px;
 }
 
@@ -77,3 +111,35 @@ input[type=submit] {
 	border-radius: 5px;
 	border: 1px solid #000;
 }
+
+.form-edit-todo {
+	display: none;
+	margin-top: 20px;
+    text-align: center;
+}
+
+.btn:focus, .btn.focus {
+	box-shadow: none !important;
+}
+
+.info-error {
+	display: inline-block;
+	margin: 10px;
+}
+
+.alert {
+	margin-bottom: 0;
+}
+/* .info-error {
+	position: fixed;
+	right: 20px;
+}
+
+
+.info-error:first-child {
+	bottom: 20px;
+}
+
+.info-error:nth-child(2) {
+	bottom: 85px;
+} */

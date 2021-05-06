@@ -17,7 +17,9 @@
 	<title>Document</title>
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -32,10 +34,10 @@
 		<div class="container">
 			<div class="add-todo-wrapper">
 				<h3>Add to do list</h3>
-				<form action="" method="get">
-					<input type="text" name="title_todo" placeholder="Title" value=>
-					<textarea name="text_todo" cols="30" rows="5" placeholder="Description"></textarea>
-					<input type="submit" class="btn btn-primary" value="Create">
+				<form action="" method="post">
+					<input type="text" name="title_todo" placeholder="Title">
+					<input type="text" name="category_todo" placeholder="Category">
+					<input type="submit" name="add_todo" class="btn btn-primary" value="Create">
 					<input type="date" name="date_todo" value="<?php echo date( 'Y-m-d' )?>" >
 				</form>
 			</div>
@@ -43,10 +45,22 @@
 	</section>
 	<section class="todos">
 		<div class="container">
-			<?php
-				ol_data_download();
-			?>
+			<div class="row">
+				<div class="col-3">
+					<?php
+						ol_download_category();
+					?>
+				</div>
+				<div class="col-9 todos-inner">
+					<?php
+						ol_data_download();
+					?>
+				</div>
+			</div>
 		</div>	
 	</section>
+	<script src="lib/jquery-3.6.0.min.js"></script>
+	<script src="lib/jquery-ui.min.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>
