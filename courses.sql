@@ -2,8 +2,8 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Май 05 2021 г., 15:50
+-- Хост: 192.168.1.84:3306
+-- Время создания: Май 07 2021 г., 17:52
 -- Версия сервера: 5.7.29
 -- Версия PHP: 7.4.14
 
@@ -81,33 +81,25 @@ INSERT INTO `bg2` (`id`, `athor`, `article`) VALUES
 
 CREATE TABLE `todo` (
   `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
   `name` text NOT NULL,
-  `description` text NOT NULL,
+  `category` text NOT NULL,
   `date` date NOT NULL,
-  `done` tinyint(1) NOT NULL
+  `done` tinyint(1) NOT NULL DEFAULT '0',
+  `orders` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Дамп данных таблицы `todo`
+-- Структура таблицы `userstodo`
 --
 
-INSERT INTO `todo` (`id`, `name`, `description`, `date`, `done`) VALUES
-(1, 'todo1', 'description todo', '2021-05-05', 1),
-(2, 'todo2', 'todo_description', '2021-05-05', 0),
-(3, 'todo3', 'todo_description І', '2021-05-05', 0),
-(4, 'hello', 'dsavdv', '2020-01-21', 1),
-(5, 'hello', 'dsavdv', '2020-01-21', 1),
-(6, 'hello', 'dsavdv', '2020-01-21', 0),
-(7, 'todbrbdfb', 'advsdvdvdsvdvsdcvdsvsv', '2020-05-13', 0),
-(8, 'hello', 'advsdvdvdsv', '2020-05-12', 0),
-(9, 'hello', 'advsdvdvdsv', '2020-05-12', 1),
-(10, 'hello', 'advsdvdvdsv', '2020-05-12', 0),
-(11, 'sdvdsvdsv', 'dsvsdvsd', '1222-05-12', 0),
-(12, 'hello213', 'sdvvdsv', '2020-05-12', 0),
-(15, 'todo', 'dvfsvsdfv', '2021-05-06', 0),
-(18, 'decvdv', 'dsvdsvdsv', '2021-05-22', 1),
-(19, 'hello', 'sdvvsdvsdv', '2021-05-22', 0),
-(20, 'todo43235', 'description32fwerfgbfbf', '2021-05-14', 0);
+CREATE TABLE `userstodo` (
+  `id` int(11) NOT NULL,
+  `login` text NOT NULL,
+  `password` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Индексы сохранённых таблиц
@@ -132,6 +124,12 @@ ALTER TABLE `todo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `userstodo`
+--
+ALTER TABLE `userstodo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -151,7 +149,13 @@ ALTER TABLE `bg2`
 -- AUTO_INCREMENT для таблицы `todo`
 --
 ALTER TABLE `todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
+-- AUTO_INCREMENT для таблицы `userstodo`
+--
+ALTER TABLE `userstodo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
