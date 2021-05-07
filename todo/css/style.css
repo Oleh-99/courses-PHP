@@ -31,9 +31,10 @@ li a:hover {
 	padding: 30px;
 	background: #ffffff;
 	max-width: 700px;
-	margin: 20px auto;
+	margin: 0 auto 40px;
 	text-align: center;
 	border-radius: 5px;
+	box-shadow: 0px 0px 10px 0px rgba(34, 60, 80, 0.2);
 }
 
 .todos-inner {
@@ -82,8 +83,7 @@ li a:hover {
 	font-style: italic;
 }
 
-input[type=text],
-textarea {
+input[type=text] {
 	width: 100%;
 	margin-bottom: 20px;
 	padding: 10px;
@@ -92,7 +92,7 @@ textarea {
 
 input[type=date],
 input[type=submit] {
-	margin: 0 30px;
+	margin-bottom: 10px;
 }
 
 .btn-group {
@@ -110,11 +110,12 @@ input[type=submit] {
 	background-color: #c7c7c7;
 	border-radius: 5px;
 	border: 1px solid #000;
+	z-index: 10;
 }
 
 .form-edit-todo {
 	display: none;
-	margin-top: 20px;
+	margin-top: 30px;
     text-align: center;
 }
 
@@ -123,23 +124,66 @@ input[type=submit] {
 }
 
 .info-error {
-	display: inline-block;
-	margin: 10px;
+	position: absolute;
+	left: 20px;
+	z-index: 1;
+}
+
+.info-error:first-child {
+	top: 20px;
+}
+
+.info-error:nth-child(2) {
+	top: 80px;
+}
+
+.info-error:nth-child(3) {
+	top: 140px;
 }
 
 .alert {
 	margin-bottom: 0;
 }
-/* .info-error {
-	position: fixed;
+
+.todo-done:before {
+    content: "\f00c";
+	font-family: "Font Awesome 5 Pro";
+}
+
+.todo-done {
+	width: 40px;
+	height: 38px;
+}
+
+.todo-done.done:before {
+    content: "\f01e";
+}
+
+.users-wrapper {
+	max-width: 700px;
+    margin: 40px auto;
+}
+
+.btn-warning {
+	color: #ffffff;
+}
+
+.exit-profile {
+	position: absolute;
+	top: 20px;
 	right: 20px;
+	width: 70px;
+	background: #ff0000;
+	color: #ffffff;
+	text-align: center;
+	padding: 10px;
+	border-radius: 5px;
+	transition: all .3s ease;
 }
 
+.exit-profile:hover {
+	background: #f13838;
+	color: #000;
+	text-decoration: none;
 
-.info-error:first-child {
-	bottom: 20px;
 }
-
-.info-error:nth-child(2) {
-	bottom: 85px;
-} */

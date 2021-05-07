@@ -1,11 +1,18 @@
 <?php
 	require 'function.php';
-
+	session_start();
+	
 	ol_sending_data();
 	ol_delete_todo();
 	ol_done_todo();
 	ol_edit_todo();
 	ol_save_edit_todo();
+	ol_update_orders_todo();
+	ol_exit_profile();
+
+	if( ! $_SESSION['login'] ) {
+		header( 'Location: /todo/registr.php' );
+	}
 ?>
 
 <!DOCTYPE html>
@@ -30,23 +37,19 @@
 			</div>
 		</div>
 	</header>
-	<section class="add-todo">
-		<div class="container">
-			<div class="add-todo-wrapper">
-				<h3>Add to do list</h3>
-				<form action="" method="post">
-					<input type="text" name="title_todo" placeholder="Title">
-					<input type="text" name="category_todo" placeholder="Category">
-					<input type="submit" name="add_todo" class="btn btn-primary" value="Create">
-					<input type="date" name="date_todo" value="<?php echo date( 'Y-m-d' )?>" >
-				</form>
-			</div>
-		</div>
-	</section>
 	<section class="todos">
 		<div class="container">
 			<div class="row">
 				<div class="col-3">
+					<div class="add-todo-wrapper">
+						<h3>Add to do list</h3>
+						<form action="" method="post">
+							<input type="text" name="title_todo" placeholder="Title">
+							<input type="text" name="category_todo" placeholder="Category">
+							<input type="date" name="date_todo" value="<?php echo date( 'Y-m-d' )?>" >
+							<input type="submit" name="add_todo" class="btn btn-primary" value="Create">
+						</form>
+					</div>
 					<?php
 						ol_download_category();
 					?>
@@ -59,6 +62,7 @@
 			</div>
 		</div>	
 	</section>
+	<a href="?exit_profile=1" class="exit-profile">Exit</a>
 	<script src="lib/jquery-3.6.0.min.js"></script>
 	<script src="lib/jquery-ui.min.js"></script>
 	<script src="js/main.js"></script>

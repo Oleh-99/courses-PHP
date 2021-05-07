@@ -31,9 +31,9 @@
 			}
 
 			var $todoId = $thisParent.data('id');
-			var $todoTitle = $this.parent().siblings('.todo-name').find('.todo-name-inner').text();
-			var $todoText = $this.parent().siblings('.todo-text').text();
-			var $todoDate = $this.parent().siblings('.todo-date').text();
+			var $todoTitle = $this.parent().siblings('.todo-name').find('.todo-name-inner').text().trim();
+			var $todoText = $this.parent().siblings('.todo-text').text().trim();
+			var $todoDate = $this.parent().siblings('.todo-date').text().trim();
 			
 			$this.addClass('active');
 		
@@ -41,7 +41,7 @@
 				$thisParent.append(
 					`<form class="form-edit-todo">
 						<input type="text" name="title_edit" placeholder="Title" value="${$todoTitle}">
-						<textarea name="text_edit" cols="30" rows="5" placeholder="Description">${$todoText}</textarea>
+						<input type="text" name="category_edit" placeholder="Category" value="${$todoText}">
 						<input type="date" name="date_edit" value="${$todoDate}">
 						<input type="submit" class="btn btn-primary" value="Edit">
 						<input type="hidden" name="todo_id" value="${$todoId}">
@@ -66,6 +66,12 @@
 			} else {
 				$thisParents.addClass('done');
 			}
+
+			if ( $this.hasClass('done')) {
+				$this.removeClass('done');
+			} else {
+				$this.addClass('done');
+			}
 			
 			$.ajax({
 				url: `${href}`,
@@ -80,12 +86,12 @@
 		$(document).on('submit', '.form-edit-todo', function(e) {
 			e.preventDefault();
 			
-			$this = $(this);
-			$id = $this.find('[name="todo_id"]').val();
-			$title = $this.find('[name="title_edit"]').val();
-			$text = $this.find('[name="text_edit"]').val();
-			$date = $this.find('[name="date_edit"]').val();
-			
+			var $this = $(this);
+			var $id = $this.find('[name="todo_id"]').val();
+			var $title = $this.find('[name="title_edit"]').val();
+			var $text = $this.find('[name="category_edit"]').val();
+			var $date = $this.find('[name="date_edit"]').val();
+
 			$this.siblings('.todo-name').find('.todo-name-inner').text($title);
 			$this.siblings('.todo-text').text($text);
 			$this.siblings('.todo-date').text($date);
@@ -93,7 +99,7 @@
 			$this.slideToggle(300);
 
 			$.ajax({
-				url: `?title_edit=${$title}&text_edit=${$text}&date_edit=${$date}&todo_id=${$id}`,
+				url: `?title_edit=${$title}&category_edit=${$text}&date_edit=${$date}&todo_id=${$id}`,
 				error: function() {
 					alert('Error');
 				},
@@ -102,8 +108,41 @@
 		})
 	}
 
-	function sortable() {
-		$('.todos-inner').sortable().disableSelection();
+	function olTodoSortable() {
+		$('.todos-inner').sortable({
+			update: function( ) {
+				var arr = [];
+				var order = $('.todos-inner').sortable('serialize').split('&');
+				for (let i = 0; i < order.length; i++) {
+					var count =  order[i].split('=');
+					arr[i] = count[1];
+				}
+			
+				for (let i = 1; i <= arr.length; i++) {
+					var index = arr.length - i;
+
+					$.ajax({
+						url: `?order=${i}&id=${arr[index]}`,
+						error: function() {
+							alert('Error');
+						},
+					});
+				}
+			}
+		});
+		$('.todos-inner').disableSelection();
+	}
+
+	function olAvailability()  {
+		if ( ! $('.todo').length ) {
+			$('.todos-inner').append(
+				`<div class="not-availability alert alert-danger" role="alert">
+					<h3>У вас немає завдань</h3>
+				</div>`
+			);
+		} else {
+			$('.not-availability').remove();
+		}
 	}
 
 	$(document).ready(function() {
@@ -111,7 +150,8 @@
 		olTodoEdit();
 		olTodoDone();
 		olTodoSaveEdit();
-		sortable();
+		olTodoSortable();
+		olAvailability();
 	});
 
 })(jQuery);
