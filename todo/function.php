@@ -33,8 +33,8 @@ function ol_user_initialization() {
 /**
  * Ol_log_up
  *
- * @param  text $login
- * @param  text $password
+ * @param string $login
+ * @param string $password
  */
 function ol_log_up( $login, $password ) {
 	global $dbh;
@@ -54,8 +54,8 @@ function ol_log_up( $login, $password ) {
 /**
  * Ol_sing_up
  * user registration in the database
- * @param  text $login
- * @param  text $password
+ * @param string $login
+ * @param string $password
  */
 function ol_sing_up( $login, $password ) {
 	global $dbh;
@@ -341,8 +341,8 @@ function ol_edit_todo() {
  * Show the user the data
  *
  * @param  int  $id_todo
- * @param  text $title_todo
- * @param  text $category_todo
+ * @param string $title_todo
+ * @param string $category_todo
  * @param  date $date_todo
  * @return void
  */
