@@ -92,6 +92,31 @@
 			var $text = $this.find('[name="category_edit"]').val();
 			var $date = $this.find('[name="date_edit"]').val();
 
+			if ( '' === $title || '' === $text || '' === $date ) {
+				return;
+			}
+
+			var date = new Date();
+			var month = date.getMonth() + 1;
+			var day = date.getDate();
+	
+			if (month <= 9) {
+				month = "0" + month;
+			}
+			if (day <= 9) {
+				day = "0" + day;
+			}
+	
+			var strDate = date.getFullYear() + "-" + month + "-" + day;
+
+			if ( strDate >= $date ) {
+				$this.siblings('.todo-date').addClass('mixin-color-red');
+			}
+
+			if ( strDate <= $date ) {
+				$this.siblings('.todo-date').removeClass('mixin-color-red');
+			}
+
 			$this.siblings('.todo-name').find('.todo-name-inner').text($title);
 			$this.siblings('.todo-text').text($text);
 			$this.siblings('.todo-date').text($date);
@@ -137,11 +162,19 @@
 		if ( ! $('.todo').length ) {
 			$('.todos-inner').append(
 				`<div class="not-availability alert alert-danger" role="alert">
-					<h3>У вас немає завдань</h3>
+					<h4>You have no tasks</h4>
 				</div>`
 			);
 		} else {
 			$('.not-availability').remove();
+		}
+	}
+
+	function olHideCategory() {
+		var $category = $('.category').find('li');
+
+		if ( 1 >= $category.length ) {
+			$category.parent().fadeOut();
 		}
 	}
 
@@ -152,6 +185,7 @@
 		olTodoSaveEdit();
 		olTodoSortable();
 		olAvailability();
+		olHideCategory();
 	});
 
 })(jQuery);

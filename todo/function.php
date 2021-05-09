@@ -19,8 +19,13 @@ function ol_user_initialization() {
 		return;
 	}
 
+	if ( 8 >= strlen( $_POST['user_password'] ) ) {
+		ol_add_errors( ' The minimum password length is 8 characters ' );
+		return;
+	}
+
 	$login    = esc_html( $_POST['user_login'] );
-	$password = md5( esc_html( $_POST['user_login'] ) );
+	$password = esc_html( $_POST['user_password'] );
 
 	if ( ! empty( $_POST['log_in'] ) ) {
 		ol_log_up( $login, $password );
@@ -36,20 +41,24 @@ function ol_user_initialization() {
  * @param string $login
  * @param string $password
  */
-function ol_log_up( $login, $password ) {
+ function ol_log_up( $login, $password ) {
 	global $dbh;
-	$stmt = $dbh->prepare( 'SELECT * FROM users_todo WHERE login = :login' );
+	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
 	$stmt->bindParam( ':login', $login );
 	$stmt->execute();
 	$data = $stmt->fetchAll();
 
 	foreach ( $data as $value ) {
-		echo $value['login'];
-		if ( $value['login'] == $login && $value['password'] == $password ) {
+		if ( $value['login'] === $login && password_verify( $password, $value['password'] ) ) {
 			$_SESSION['login'] = $login;
 		}
 	}
+
+	if ( ! $_SESSION['login'] ) {
+		ol_add_errors( ' Wrong login or password ' );
+	}
 }
+
 
 /**
  * Ol_sing_up
@@ -57,11 +66,23 @@ function ol_log_up( $login, $password ) {
  * @param string $login
  * @param string $password
  */
-function ol_sing_up( $login, $password ) {
+ function ol_sing_up( $login, $password ) {
 	global $dbh;
+	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
+	$stmt->bindParam( ':login', $login );
+	$stmt->execute();
+	$data = $stmt->fetchAll();
+
+	foreach ( $data as $value ) {
+		if ( $value['login'] === $login) {
+			ol_add_errors( ' The user with such a login exists ' );
+			return;
+		}
+	}
+
 	$stmt = $dbh->prepare( 'INSERT INTO userstodo ( login, password ) VALUES ( :login, :password )' );
 	$stmt->bindParam( ':login', $login );
-	$stmt->bindParam( ':password', $password );
+	$stmt->bindParam( ':password', password_hash($password, PASSWORD_DEFAULT) );
 	$stmt->execute();
 	$_SESSION['login'] = $login;
 }
@@ -86,10 +107,11 @@ function ol_exit_profile() {
  *
  * Add user id in SESSION
  */
-function ol_add_user_id() {
+ function ol_add_user_id() {
 	if ( ! $_SESSION['login'] ) {
 		return;
 	}
+	
 	global $dbh;
 	$stm = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
 	$stm->bindParam( ':login', $_SESSION['login'] );
@@ -408,6 +430,12 @@ function ol_update_orders_todo() {
 	$stmt->execute();
 }
 
+/**
+ * Ol_add_errors
+ *
+ * Adding errors to cookies 
+ * @param string $date
+ */
 function ol_add_errors( $date ) {
 	ob_start();
 
@@ -421,6 +449,12 @@ function ol_add_errors( $date ) {
 	setcookie( 'Errors', '', time() );
 }
 
+/**
+ * Ol_error_output
+ *
+ * Error output 
+ * @param array $arr
+ */
 function ol_error_output( $arr ) {
 	?>
 	<div class="info-error alert alert-danger" role="alert">
