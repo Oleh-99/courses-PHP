@@ -41,7 +41,7 @@ function ol_user_initialization() {
  * @param string $login
  * @param string $password
  */
- function ol_log_up( $login, $password ) {
+function ol_log_up( $login, $password ) {
 	global $dbh;
 	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
 	$stmt->bindParam( ':login', $login );
@@ -63,10 +63,11 @@ function ol_user_initialization() {
 /**
  * Ol_sing_up
  * user registration in the database
+ *
  * @param string $login
  * @param string $password
  */
- function ol_sing_up( $login, $password ) {
+function ol_sing_up( $login, $password ) {
 	global $dbh;
 	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
 	$stmt->bindParam( ':login', $login );
@@ -74,7 +75,7 @@ function ol_user_initialization() {
 	$data = $stmt->fetchAll();
 
 	foreach ( $data as $value ) {
-		if ( $value['login'] === $login) {
+		if ( $value['login'] === $login ) {
 			ol_add_errors( ' The user with such a login exists ' );
 			return;
 		}
@@ -82,7 +83,7 @@ function ol_user_initialization() {
 
 	$stmt = $dbh->prepare( 'INSERT INTO userstodo ( login, password ) VALUES ( :login, :password )' );
 	$stmt->bindParam( ':login', $login );
-	$stmt->bindParam( ':password', password_hash($password, PASSWORD_DEFAULT) );
+	$stmt->bindParam( ':password', password_hash( $password, PASSWORD_DEFAULT ) );
 	$stmt->execute();
 	$_SESSION['login'] = $login;
 }
@@ -107,11 +108,11 @@ function ol_exit_profile() {
  *
  * Add user id in SESSION
  */
- function ol_add_user_id() {
+function ol_add_user_id() {
 	if ( ! $_SESSION['login'] ) {
 		return;
 	}
-	
+
 	global $dbh;
 	$stm = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
 	$stm->bindParam( ':login', $_SESSION['login'] );
@@ -191,10 +192,10 @@ function ol_data_download() {
 	$user_id = $_SESSION['user_id'];
 
 	if ( '' !== $category ) {
-		$stm = $dbh->prepare( 'SELECT * FROM todo WHERE category = :category, userId = :userId ORDER BY orders DESC' );
+		$stm = $dbh->prepare( 'SELECT * FROM todo WHERE userId = :userId AND category = :category ORDER BY orders DESC' );
 		$stm->bindParam( ':category', $category );
 	} else {
-		$stm = $dbh->prepare( 'SELECT * FROM todo WHERE userId = :userId ORDER BY orders DESC LIMIT 10' );
+		$stm = $dbh->prepare( 'SELECT * FROM todo WHERE userId = :userId ORDER BY orders DESC' );
 	}
 
 	$stm->bindParam( ':userId', $user_id );
@@ -266,6 +267,7 @@ function ol_download_category() {
 
 	?>
 	<ul>
+		<h3>Category</h3>
 		<li>
 			<a href="?category=">All</a>
 		</li>
@@ -362,10 +364,10 @@ function ol_edit_todo() {
  * Ol_create_form
  * Show the user the data
  *
- * @param  int  $id_todo
+ * @param  int    $id_todo
  * @param string $title_todo
  * @param string $category_todo
- * @param  date $date_todo
+ * @param  date   $date_todo
  * @return void
  */
 function ol_create_form( $id_todo, $title_todo, $category_todo, $date_todo ) {
@@ -433,7 +435,8 @@ function ol_update_orders_todo() {
 /**
  * Ol_add_errors
  *
- * Adding errors to cookies 
+ * Adding errors to cookies
+ *
  * @param string $date
  */
 function ol_add_errors( $date ) {
@@ -452,7 +455,8 @@ function ol_add_errors( $date ) {
 /**
  * Ol_error_output
  *
- * Error output 
+ * Error output
+ *
  * @param array $arr
  */
 function ol_error_output( $arr ) {

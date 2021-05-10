@@ -41,6 +41,10 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-3">
+				<div class="add-todo-wrapper">
+						<h3>Hello <?php echo $_SESSION['login']; ?></h3>
+						<a href="?exit_profile=1" class="exit-profile">Exit</a>
+					</div>
 					<div class="add-todo-wrapper">
 						<h3>Add to do list</h3>
 						<form action="" method="post">
@@ -62,7 +66,6 @@
 			</div>
 		</div>	
 	</section>
-	<a href="?exit_profile=1" class="exit-profile">Exit</a>
 	<script src="lib/jquery-3.6.0.min.js"></script>
 	<script src="lib/jquery-ui.min.js"></script>
 	<script src="js/main.js"></script>
