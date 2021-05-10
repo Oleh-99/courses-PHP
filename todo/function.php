@@ -266,7 +266,7 @@ function ol_download_category() {
 	$arr  = array();
 
 	?>
-	<ul>
+	<ul class="category">
 		<h3>Category</h3>
 		<li>
 			<a href="?category=">All</a>
