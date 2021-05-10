@@ -4,12 +4,12 @@
 			e.preventDefault();
 
 			var $this = $(this);
-			var href = $this.attr('href');
+			var $href = $this.attr('href');
 
 			$this.parents('.todo').fadeOut(300);
 
 			$.ajax({
-				url: `${href}`,
+				url: `${$href}`,
 				error: function() {
 					alert('Error');
 				},
@@ -58,7 +58,7 @@
 			e.preventDefault();
 
 			var $this = $(this);
-			var href = $this.attr('href');
+			var $href = $this.attr('href');
 			var $thisParents = $this.parents('.todo');
 
 			if ( $thisParents.hasClass('done')) {
@@ -74,7 +74,7 @@
 			}
 			
 			$.ajax({
-				url: `${href}`,
+				url: `${$href}`,
 				error: function() {
 					alert('Error');
 				},
@@ -100,14 +100,14 @@
 			var month = date.getMonth() + 1;
 			var day = date.getDate();
 	
-			if (month <= 9) {
-				month = "0" + month;
+			if ( month <= 9 ) {
+				month = '0' + month;
 			}
-			if (day <= 9) {
-				day = "0" + day;
+			if ( day <= 9 ) {
+				day = '0' + day;
 			}
 	
-			var strDate = date.getFullYear() + "-" + month + "-" + day;
+			var strDate = date.getFullYear() + '-' + month + '-' + day;
 
 			if ( strDate >= $date ) {
 				$this.siblings('.todo-date').addClass('mixin-color-red');
@@ -138,8 +138,9 @@
 			update: function( ) {
 				var arr = [];
 				var order = $('.todos-inner').sortable('serialize').split('&');
+				
 				for (let i = 0; i < order.length; i++) {
-					var count =  order[i].split('=');
+					var count = order[i].split('=');
 					arr[i] = count[1];
 				}
 			

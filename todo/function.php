@@ -59,7 +59,6 @@ function ol_log_up( $login, $password ) {
 	}
 }
 
-
 /**
  * Ol_sing_up
  * user registration in the database
@@ -100,6 +99,7 @@ function ol_exit_profile() {
 
 	unset( $_SESSION['user_id'] );
 	unset( $_SESSION['login'] );
+
 	header( 'Location: /todo/registr.php' );
 }
 
@@ -148,19 +148,22 @@ function ol_sending_data() {
 	$category_todo = esc_html( $_POST['category_todo'] );
 	$date_todo     = esc_html( $_POST['date_todo'] );
 	$order         = 0;
-	header( 'Location: /todo/index.php' );
 
-	global $dbh;
-	$stm = $dbh->query( 'SELECT COUNT(*) FROM todo' );
-	foreach ( $stm as $value ) {
-		$order = $value[0];
-	}
+	header( 'Location: /todo/index.php' );
 
 	if ( ! $_SESSION['user_id'] ) {
 		ol_add_user_id();
 	}
 
 	$user_id = $_SESSION['user_id'];
+
+	global $dbh;
+	$stm = $dbh->prepare( 'SELECT COUNT(*) FROM todo WHERE userId = :userId' );
+	$stm->bindParam( ':userId', $user_id );
+	$stm->execute();
+	foreach ( $stm as $value ) {
+		$order = $value[0];
+	}
 
 	$stmt = $dbh->prepare( 'INSERT INTO todo ( name, category, date, orders, userId ) VALUES ( :name, :category, :date, :orders, :userId )' );
 	$stmt->bindParam( ':name', $title_todo );
@@ -213,16 +216,16 @@ function ol_data_download() {
 			$done_class = ' done';
 		}
 		?>
-			<div class="todo<?php echo $done_class; ?>" data-id="<?php echo $value['id']; ?> " id="order_<?php echo $value['orders'] . '_' . $value['id']; ?>">
+			<div class="todo<?php echo $done_class; ?>" data-id="<?php echo $value['id']; ?>" id="order_<?php echo $value['orders'] . '_' . $value['id']; ?>">
 				<div class="todo-name">
 					<span>
 						<?php
-						echo $counter++ . '. ';
+							echo $counter++ . '. ';
 						?>
 					</span>
 					<span class="todo-name-inner">
 						<?php
-						echo $value['name'];
+							echo $value['name'];
 						?>
 					</span>
 				</div>
@@ -245,7 +248,6 @@ function ol_data_download() {
 		<?php
 	}
 }
-
 
 /**
  * Ol_download_category
@@ -276,7 +278,8 @@ function ol_download_category() {
 				<?php $arr[] = $value['category']; ?>
 				<li>
 					<a href="?category=<?php echo $value['category']; ?>">
-					<?php echo ucfirst( $value['category'] ); ?></a>
+						<?php echo ucfirst( $value['category'] ); ?>
+					</a>
 				</li>
 			<?php endif; ?>
 		<?php endforeach; ?>
@@ -408,7 +411,6 @@ function ol_save_edit_todo() {
 	$stmt->execute();
 	header( 'Location: /todo/index.php' );
 }
-
 
 /**
  * Ol_update_orders_todo

@@ -1,7 +1,7 @@
 <?php
 	require 'function.php';
 	session_start();
-	
+
 	ol_sending_data();
 	ol_delete_todo();
 	ol_done_todo();
@@ -42,7 +42,7 @@
 			<div class="row">
 				<div class="col-3">
 				<div class="add-todo-wrapper">
-						<h3>Hello <?php echo $_SESSION['login']; ?></h3>
+						<h3>Hello, <?php echo $_SESSION['login']; ?>!</h3>
 						<a href="?exit_profile=1" class="exit-profile">Exit</a>
 					</div>
 					<div class="add-todo-wrapper">
