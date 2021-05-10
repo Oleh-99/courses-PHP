@@ -19,7 +19,7 @@ function ol_user_initialization() {
 		return;
 	}
 
-	if ( 8 >= strlen( $_POST['user_password'] ) ) {
+	if ( 8 > strlen( $_POST['user_password'] ) ) {
 		ol_add_errors( ' The minimum password length is 8 characters ' );
 		return;
 	}
@@ -68,16 +68,10 @@ function ol_log_up( $login, $password ) {
  */
 function ol_sing_up( $login, $password ) {
 	global $dbh;
-	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
-	$stmt->bindParam( ':login', $login );
-	$stmt->execute();
-	$data = $stmt->fetchAll();
 
-	foreach ( $data as $value ) {
-		if ( $value['login'] === $login ) {
-			ol_add_errors( ' The user with such a login exists ' );
-			return;
-		}
+	if ( ol_is_users( $login ) ) {
+		ol_add_errors( ' The user with such a login exists ' );
+		return;
 	}
 
 	$stmt = $dbh->prepare( 'INSERT INTO userstodo ( login, password ) VALUES ( :login, :password )' );
@@ -85,6 +79,27 @@ function ol_sing_up( $login, $password ) {
 	$stmt->bindParam( ':password', password_hash( $password, PASSWORD_DEFAULT ) );
 	$stmt->execute();
 	$_SESSION['login'] = $login;
+}
+
+/**
+ * Ol_is_users
+ * Checks whether the user with such login
+ *
+ * @param  string $login
+ * @return boolean
+ */
+function ol_is_users( $login ) {
+	global $dbh;
+	$stmt = $dbh->prepare( 'SELECT * FROM userstodo WHERE login = :login' );
+	$stmt->bindParam( ':login', $login );
+	$stmt->execute();
+	$data = $stmt->fetchAll();
+
+	foreach ( $data as $value ) {
+		if ( $value['login'] === $login ) {
+			return true;
+		}
+	}
 }
 
 /**
@@ -161,6 +176,7 @@ function ol_sending_data() {
 	$stm = $dbh->prepare( 'SELECT COUNT(*) FROM todo WHERE userId = :userId' );
 	$stm->bindParam( ':userId', $user_id );
 	$stm->execute();
+
 	foreach ( $stm as $value ) {
 		$order = $value[0];
 	}
@@ -182,7 +198,6 @@ function ol_sending_data() {
 function ol_data_download() {
 	global $dbh;
 	$category = '';
-	$counter  = 1;
 
 	if ( ! empty( $_GET['category'] ) ) {
 		$category = esc_html( $_GET['category'] );
@@ -218,11 +233,6 @@ function ol_data_download() {
 		?>
 			<div class="todo<?php echo $done_class; ?>" data-id="<?php echo $value['id']; ?>" id="order_<?php echo $value['orders'] . '_' . $value['id']; ?>">
 				<div class="todo-name">
-					<span>
-						<?php
-							echo $counter++ . '. ';
-						?>
-					</span>
 					<span class="todo-name-inner">
 						<?php
 							echo $value['name'];
@@ -413,24 +423,33 @@ function ol_save_edit_todo() {
 }
 
 /**
- * Ol_update_orders_todo
+ * Ol_update_order_todo
  *
  * Installation order todo
  */
-function ol_update_orders_todo() {
-	if ( empty( $_GET['order'] ) && empty( $_GET['id'] ) ) {
+function ol_update_order_todo() {
+	if ( empty( $_REQUEST['orders'] ) ) {
 		return;
 	}
 
-	$order   = esc_html( $_GET['order'] );
-	$id_todo = esc_html( $_GET['id'] );
+	$data = esc_html( $_REQUEST['orders'] );
+	$arr  = explode( ',', $data );
 
-	header( 'Location: /todo/index.php' );
+	if ( ! $_SESSION['user_id'] ) {
+		ol_add_user_id();
+	}
+
+	$user_id = $_SESSION['user_id'];
+	$query   = 'UPDATE todo SET orders = ( CASE ';
+
+	foreach ( $arr as $key => $value ) {
+		$order  = count( $arr ) - $key;
+		$query .= ' WHEN id= ' . $value . ' THEN ' . $order . ' ';
+	}
+	$query .= ' ELSE orders END ) WHERE userId = ' . $user_id;
 
 	global $dbh;
-	$stmt = $dbh->prepare( 'UPDATE todo SET orders = :orders WHERE id = :id' );
-	$stmt->bindParam( ':orders', $order );
-	$stmt->bindParam( ':id', $id_todo );
+	$stmt = $dbh->prepare( $query );
 	$stmt->execute();
 }
 
@@ -439,36 +458,12 @@ function ol_update_orders_todo() {
  *
  * Adding errors to cookies
  *
- * @param string $date
+ * @param string $data
  */
-function ol_add_errors( $date ) {
-	ob_start();
-
-	$cookie        = stripslashes( $_COOKIE['Errors'] );
-	$saved_array   = json_decode( $cookie, true );
-	$saved_array[] = $date;
-	$json          = json_encode( $saved_array );
-
-	setcookie( 'Errors', $json );
-	ol_error_output( $saved_array );
-	setcookie( 'Errors', '', time() );
-}
-
-/**
- * Ol_error_output
- *
- * Error output
- *
- * @param array $arr
- */
-function ol_error_output( $arr ) {
+function ol_add_errors( $data ) {
 	?>
 	<div class="info-error alert alert-danger" role="alert">
-		<?php
-		foreach ( $arr as $value ) {
-			echo $value . '<br>';
-		}
-		?>
+		<?php echo $data; ?>
 	</div>
 	<?php
 }

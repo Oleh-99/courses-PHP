@@ -7,10 +7,10 @@
 	ol_done_todo();
 	ol_edit_todo();
 	ol_save_edit_todo();
-	ol_update_orders_todo();
+	ol_update_order_todo();
 	ol_exit_profile();
 
-	if( ! $_SESSION['login'] ) {
+	if ( ! $_SESSION['login'] ) {
 		header( 'Location: /todo/registr.php' );
 	}
 ?>

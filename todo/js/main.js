@@ -6,6 +6,10 @@
 			var $this = $(this);
 			var $href = $this.attr('href');
 
+			if ( ! confirm( 'You really want to delete this todo' ) ) {
+				return;
+			}
+
 			$this.parents('.todo').fadeOut(300);
 
 			$.ajax({
@@ -138,22 +142,18 @@
 			update: function( ) {
 				var arr = [];
 				var order = $('.todos-inner').sortable('serialize').split('&');
-				
+
 				for (let i = 0; i < order.length; i++) {
 					var count = order[i].split('=');
 					arr[i] = count[1];
 				}
-			
-				for (let i = 1; i <= arr.length; i++) {
-					var index = arr.length - i;
 
-					$.ajax({
-						url: `?order=${i}&id=${arr[index]}`,
-						error: function() {
-							alert('Error');
-						},
-					});
-				}
+				$.ajax({
+					url: `?orders=${arr}`,
+					error: function() {
+						alert('Error');
+					},
+				});
 			}
 		});
 		$('.todos-inner').disableSelection();
