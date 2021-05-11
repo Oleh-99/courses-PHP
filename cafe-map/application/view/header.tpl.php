@@ -5,11 +5,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<header>
+	<header class="main-header">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">Navbar</a>
@@ -19,10 +22,13 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="?action=home">Home</a>
+							<a class="nav-link <?php if ( 'home' === get_current_route() ) echo 'active'; ?>" aria-current="page" href="?action=home">Home</a>
 						</li>
 						<li class="nav-item">
-						<a class="nav-link" href="?action=contact">contact</a>
+							<a class="nav-link <?php if ( 'contact' === get_current_route() ) echo 'active'; ?>" href="?action=contact">Contact</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link <?php if ( 'sing-up' === get_current_route() ) echo 'active'; ?>" href="?action=admin-panel">Admin sing-in</a>
 						</li>
 					</ul>
 				</div>

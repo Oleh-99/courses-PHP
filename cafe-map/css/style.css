@@ -1,4 +1,33 @@
-.cart-cafe {
-    max-width: 300px;
+body {
+    background: rgb(211, 211, 211);
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    width: 100%;
     margin-bottom: 20px;
+    outline: none;
+    border: none;
+}
+
+.title {
+    text-align: center;
+}
+
+.main-header {
+    margin-bottom: 20px;
+}
+
+.cart-cafe {
+    padding: 10px;
+    max-width: 400px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 5px;
 }

@@ -3,7 +3,6 @@
 require 'controller.php';
 require 'function.php';
 require 'model.php';
-require 'route.php';
-require 'helper.php';
+require 'router.php';
 
 router();
