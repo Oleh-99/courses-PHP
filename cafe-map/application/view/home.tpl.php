@@ -17,7 +17,7 @@
 						</div>
 					</div>
 					<div>Графік роботи <?php echo $restaurant['time_start']?> - <?php echo $restaurant['time_end']?></div>
-					<div><?php echo $restaurant['rating']?> <i class="fas fa-star"></i> <?php echo $restaurant['number of reviews']?> <i class="far fa-comments"></i></div>
+					<div><?php echo $restaurant['rating']?> <i class="fas fa-star"></i> <?php echo $restaurant['number_of_reviews']?> <i class="far fa-comments"></i></div>
 				</div>
 			<?php endforeach; ?>
 		</div>

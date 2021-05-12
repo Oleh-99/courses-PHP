@@ -9,12 +9,3 @@ function get_restaurants_db() {
 
 	return $stmt->fetchAll();
 }
-
-function get_users_restaurants_db( $login ) {
-	global $dbh;
-	$stmt = $dbh->prepare( 'SELECT * FROM users_restaurants WHERE login =:login' );
-	$stmt->bindParam( ':login', $login );
-	$stmt->execute();
-
-	return $stmt->fetchAll();
-}

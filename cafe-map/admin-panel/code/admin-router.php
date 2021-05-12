@@ -7,13 +7,32 @@ function router() {
 		$action = 'admin';
 	}
 
+	if ( ! $_SESSION['login'] && ! $_POST ) {
+		show_template( array(
+			'action' => 'sing-in',
+		) );
+		return;
+	}
+
 	switch ( $action ) {
 		case 'admin':
 			admin_page_action();
 			break;
 
-		case 'contact':
-			contact_page_action();
+		case 'add':
+			add_post_action();
+			break;
+
+		case 'exit':
+			ol_exit_account();
+			break;
+
+		case 'edit':
+			admin_edit_cafe();
+			break;
+
+		case 'remove':
+			admin_remove_cafe();
 			break;
 
 		default:

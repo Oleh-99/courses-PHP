@@ -38,25 +38,3 @@ function ar( $data ) {
 	print_r( $data );
 	echo '</pre>';
 }
-
-function ol_sing_up_user() {
-	if ( empty( $_POST['login'] ) || empty( $_POST['password'] ) ) {
-		return;
-	}
-
-	$login = esc_html( $_POST['login'] );
-	$password = esc_html( $_POST['password'] );
-	$data_users = get_users_restaurants_db( $login );
-
-	foreach ( $data_users as $value ) {
-		if ( $value['login'] === $login && password_verify( $password, $value['password'] ) ) {
-			$_SESSION['login'] = $login;
-		}
-	}
-
-	if ( ! $_SESSION['login'] ) {
-		echo 'Error';
-	}
-
-	$action = '404';
-}

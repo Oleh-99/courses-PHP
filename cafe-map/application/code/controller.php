@@ -33,11 +33,3 @@ function page_404() {
 
 	show_template( $restaurants );
 }
-
-function sing_up_page_action() {
-	$restaurants           = array();
-	$restaurants['action'] = 'admin-php';
-
-	show_template( $restaurants );
-	ol_sing_up_user();
-}
