@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Site routing.
+ */
 function router() {
 	$action = esc_html( $_GET['admin-action'] );
 
@@ -8,19 +11,21 @@ function router() {
 	}
 
 	if ( ! $_SESSION['login'] && ! $_POST ) {
-		show_template( array(
-			'action' => 'sing-in',
-		) );
+		ol_show_template(
+			array(
+				'action' => 'sing-in',
+			)
+		);
 		return;
 	}
 
 	switch ( $action ) {
 		case 'admin':
-			admin_page_action();
+			ol_admin_page_action();
 			break;
 
 		case 'add':
-			add_post_action();
+			ol_add_post_action();
 			break;
 
 		case 'exit':
@@ -28,11 +33,11 @@ function router() {
 			break;
 
 		case 'edit':
-			admin_edit_cafe();
+			ol_admin_edit_cafe();
 			break;
 
 		case 'remove':
-			admin_remove_cafe();
+			ol_admin_remove_cafe();
 			break;
 
 		default:

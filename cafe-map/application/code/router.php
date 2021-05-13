@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Site routing
+ */
 function router() {
 	$action = esc_html( $_GET['action'] );
 

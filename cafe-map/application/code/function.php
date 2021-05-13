@@ -1,20 +1,13 @@
 <?php
 
 /**
- * Show_template
  * Page generation
  * @param array $restaurants
  */
 function show_template( $restaurants ) {
-	extract( $restaurants );
-
 	include 'application/view/header.tpl.php';
-	include 'application/view/' . $action . '.tpl.php';
+	include 'application/view/' . $restaurants['action'] . '.tpl.php';
 	include 'application/view/footer.tpl.php';
-}
-
-function get_current_route() {
-	return esc_html( $_GET['action'] );
 }
 
 /**
@@ -37,4 +30,22 @@ function ar( $data ) {
 	echo '<pre>';
 	print_r( $data );
 	echo '</pre>';
+}
+
+function ol_get_count_cafe() {
+	$count = ol_get_count_restaurants_db();
+
+	return $count;
+}
+
+/**
+ * Checks which page of the asset.
+ * @return integer
+ */
+function ol_get_click_pagination() {
+	if ( empty( $_GET['pagination'] ) ) {
+		return 0;
+	}
+
+	return esc_html( $_GET['pagination'] );
 }

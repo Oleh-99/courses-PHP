@@ -22,13 +22,10 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link <?php if ( 'home' === get_current_route() ) echo 'active'; ?>" aria-current="page" href="?action=home">Home</a>
+							<a class="nav-link" aria-current="page" href="../index.php">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link <?php if ( 'contact' === get_current_route() ) echo 'active'; ?>" href="?action=contact">Contact</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link <?php if ( 'sing-up' === get_current_route() ) echo 'active'; ?>" href="admin-panel/index.php">Admin sing-in</a>
+							<a class="nav-link active" href="index.php">Admin sing-in</a>
 						</li>
 					</ul>
 				</div>

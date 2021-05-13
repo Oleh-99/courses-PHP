@@ -1,27 +1,27 @@
 <section>
 	<div class="container">
-		<form action="?admin-action" method="post" enctype = "multipart/form-data">
-			<?php foreach ( $restaurant as $value ): ?>
+		<form action="" method="post" enctype = "multipart/form-data">
+			<?php foreach ( $restaurants['restaurant'] as $value ): ?>
 				<input type="hidden" name="edit_id" value="<?php echo $value['id'] ?>">
-				<label>Назва</label>
-				<input type="text" name="edit_name" placeholder="Name" value="<?php echo $value['name']; ?>">
-				<label>Тип</label>
-				<input type="text" name="edit_type" placeholder="Type" value="<?php echo $value['type']; ?>">
-				<label>Телефон</label>
-				<input type="tel" name="edit_phone" placeholder="Telephone" value="<?php echo $value['phone']; ?>">
-				<label>Адреса</label>
-				<input type="text" name="edit_adress" placeholder="Adress" value="<?php echo $value['adress']; ?>">
-				<label>Рейтинг</label>
-				<input type="numbers" name="edit_rating" placeholder="Rating" value="<?php echo $value['rating']; ?>">
-				<label>Коментарі</label>
-				<input type="numbers" name="edit_reviews" placeholder="Number of reviews" value="<?php echo $value['number_of_reviews']; ?>"><br>
+				<label for="edit_name">Назва</label>
+				<input type="text" id="edit_name" name="edit_name" placeholder="Name" value="<?php echo $value['name']; ?>">
+				<label for="edit_type">Тип</label>
+				<input type="text" id="edit_type" name="edit_type" placeholder="Type" value="<?php echo $value['type']; ?>">
+				<label for="edit_phone">Телефон</label>
+				<input type="tel" id="edit_phone" name="edit_phone" placeholder="Telephone" value="<?php echo $value['phone']; ?>">
+				<label for="edit_address">Адреса</label>
+				<input type="text" id="edit_address" name="edit_address" placeholder="address" value="<?php echo $value['address']; ?>">
+				<label for="edit_rating">Рейтинг</label>
+				<input type="text" id="edit_rating" name="edit_rating" placeholder="Rating" value="<?php echo $value['rating']; ?>">
+				<label for="edit_reviews">Коментарі</label>
+				<input type="number" id="edit_reviews" name="edit_reviews" placeholder="Number of reviews" value="<?php echo $value['number_of_reviews']; ?>"><br>
 				<label>Години роботи </label><br>
-				<label>Від</label>
-				<input type="time" name="edit_start_time" value="<?php echo $value['time_start']; ?>">
-				<label>До</label>
-				<input type="time" name="edit_end_time" value="<?php echo $value['time_end']; ?>"><br>
-				<input type="file" name="edit_file" accept="image/jpeg,image/png"><br><br>
-				<input type="submit" value="Edit">
+				<label for="edit_start_time">Від</label>
+				<input type="time" id="edit_start_time" name="edit_start_time" value="<?php echo $value['time_start']; ?>">
+				<label for="edit_end_time">До</label>
+				<input type="time" id="edit_end_time" name="edit_end_time" value="<?php echo $value['time_end']; ?>"><br>
+				<input type="file" name="uploadedFile" accept="image/jpeg,image/png"><br><br>
+				<button type="submit" name="edit_post" class="btn btn-warning" aria-label="Edit">Edit</button>
 			<?php endforeach; ?>
 		</form>
 	</div>
