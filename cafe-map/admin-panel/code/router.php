@@ -3,7 +3,7 @@
 /**
  * Site routing.
  */
-function router() {
+function ol_router() {
 	$action = esc_html( $_GET['admin-action'] );
 
 	if ( empty( $action ) ) {

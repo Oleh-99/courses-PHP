@@ -1,21 +1,22 @@
 <?php
 
 /**
- * Generates a home page
+ * Generates a home page.
  */
-function home_page_action() {
+function ol_home_page_action() {
+	$count = ol_get_click_pagination();
 	$restaurants                = array();
-	$restaurants['restaurants'] = get_restaurants_db();
 	$restaurants['action']      = 'home';
-	// $restaurants['pagination']  = get_count_cafe();
+	$restaurants['restaurants'] = ol_get_restaurants_db( $count );
+	$restaurants['pagination']  = ol_get_count_cafe();
 
 	show_template( $restaurants );
 }
 
 /**
- * Generates a 404 page
+ * Generates a 404 page.
  */
-function page_404() {
+function ol_page_404() {
 	$restaurants           = array();
 	$restaurants['action'] = '404';
 

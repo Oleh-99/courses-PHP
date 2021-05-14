@@ -7,8 +7,12 @@
 			<input type="text" id="type" name="type" placeholder="Type">
 			<label for="phone">Telephone</label>
 			<input type="tel" id="phone" name="phone" placeholder="Telephone">
-			<label for="address">Address</label>
-			<input type="text" id="address" name="address" placeholder="Address">
+			<label for="address-input">Address</label>
+			<input type="text" id="address-input" name="address" placeholder="Address">
+            <label for="lat">Latitude</label>
+            <input type="text" id="lat" name="lat" placeholder="Latitude">
+            <label for="lon">Longitude</label>
+            <input type="text" id="lon" name="lon" placeholder="Longitude">
 			<label for="start_time">Години роботи </label><br>
 			<label for="start_time">Від</label>
 			<input type="time" id="start_time" name="start_time">

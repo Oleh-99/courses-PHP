@@ -53,56 +53,50 @@ function ol_sing_up_user() {
 	if ( ! $_SESSION['login'] ) {
 		echo 'Error';
 	}
-
 }
 
 /**
  * Data processing to create a new post.
  */
 function ol_create_post() {
-	$flag = false;
+	if ( ! isset( $_POST['add_post'] ) ) {
+	    return;
+	}
 
 	if ( isset( $_POST['add_post'] ) ) {
-		$flag = true;
 
 		if ( empty( $_POST['name'] ) ) {
 			ol_add_errors( ' Enter a name, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['type'] ) ) {
 			ol_add_errors( ' Enter the type of institution, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['phone'] ) ) {
 			ol_add_errors( ' Enter the phone, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['address'] ) ) {
 			ol_add_errors( ' Enter the address, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['start_time'] ) ) {
 			ol_add_errors( ' Enter the start time, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['end_time'] ) ) {
 			ol_add_errors( ' Enter the end time, ' );
-			$flag = false;
 		}
 		if ( 5 < $_POST['rating'] ) {
 			ol_add_errors( 'The rating cannot be more than 5 stars ' );
-			$flag = false;
 		}
 	}
 
-	if ( ! $flag ) {
+	if ( $_SESSION['errors']['danger'] ) {
 		return;
 	}
 
 	if ( isset( $_FILES['uploadedFile'] ) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK ) {
 		$file_tmp_path           = $_FILES['uploadedFile']['tmp_name'];
 		$file_name               = $_FILES['uploadedFile']['name'];
-		$file_extension          = strtolower( end( explode( '.', $file_name ) ) );
+		$array                   = explode('.', $file_name);
+		$file_extension          = strtolower( end($array) );
 		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
 		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
 
@@ -115,7 +109,7 @@ function ol_create_post() {
 	}
 
 	ol_insert_restaurant_db(
-		array(
+		[
 			'name'       => esc_html( $_POST['name'] ),
 			'type'       => esc_html( $_POST['type'] ),
 			'phone'      => esc_html( $_POST['phone'] ),
@@ -125,7 +119,9 @@ function ol_create_post() {
 			'rating'     => esc_html( $_POST['rating'] ),
 			'reviews'    => esc_html( $_POST['reviews'] ),
 			'url_photo'  => 'img/' . $new_name_file,
-		)
+			'lat'        => esc_html( $_POST['lat'] ),
+			'lon'        => esc_html( $_POST['lon'] ),
+		]
 	);
 	ol_clear_url();
 }
@@ -134,50 +130,42 @@ function ol_create_post() {
  * Data processing to edit the post.
  */
 function ol_edit_post() {
-	$flag = false;
+	if ( ! isset( $_POST['edit_post'] ) ) {
+        return;
+	}
 
 	if ( isset( $_POST['edit_post'] ) ) {
-		$flag = true;
 
 		if ( empty( $_POST['edit_name'] ) ) {
 			ol_add_errors( ' Enter the name, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_type'] ) ) {
 			ol_add_errors( ' Enter the type of institution, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_phone'] ) ) {
 			ol_add_errors( ' Enter the phone, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_address'] ) ) {
 			ol_add_errors( ' Enter the address, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_start_time'] ) ) {
 			ol_add_errors( ' Enter the start time, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_end_time'] ) ) {
 			ol_add_errors( ' Enter the end time, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_rating'] ) ) {
 			ol_add_errors( ' Enter the rating, ' );
-			$flag = false;
 		}
 		if ( empty( $_POST['edit_reviews'] ) ) {
 			ol_add_errors( ' Enter the reviews, ' );
-			$flag = false;
 		}
 		if ( 5 < $_POST['edit_rating'] ) {
 			ol_add_errors( 'The rating cannot be more than 5 stars ' );
-			$flag = false;
 		}
 	}
 
-	if ( ! $flag ) {
+	if ( $_SESSION['errors']['danger'] ) {
 		return;
 	}
 
@@ -219,9 +207,7 @@ function ol_edit_post() {
  * @return integer
  */
 function ol_get_count_cafe() {
-	$count = get_count_restaurants_db();
-
-	return $count;
+	return ol_get_count_restaurants_db();
 }
 
 /**
@@ -239,30 +225,32 @@ function ol_get_click_pagination() {
 /**
  * Adding errors.
  */
-function ol_add_errors( $string ) {
-	$_SESSION['errors'] .= $string;
+function ol_add_errors( $string, $type = 'danger' ) {
+	$_SESSION['errors'][ $type ][] = $string;
 }
 
 /**
  * Error output
  */
 function ol_echo_errors() {
-	if ( 0 === strlen( $_SESSION['errors'] ) ) {
+	if ( ! $_SESSION['errors'] ) {
 		return;
 	}
 
-	$errors = explode( ', ', $_SESSION['errors'] );
+	$errors = $_SESSION['errors'];
 	unset( $_SESSION['errors'] );
 
-	?>
-	<div class="errors-wrapper alert alert-danger" role="alert">
-		<?php foreach ( $errors as $error ) : ?>
-			<div>
-				<?php echo $error; ?>
-			</div>
-		<?php endforeach; ?>
-	</div>
-	<?php
+	foreach ( $errors as $key => $error_type ) {
+		?>
+        <div class="errors-wrapper alert alert-<?php echo $key; ?>" role="alert">
+			<?php foreach ( $error_type as $error ) : ?>
+                <div>
+					<?php echo $error; ?>
+                </div>
+			<?php endforeach; ?>
+        </div>
+		<?php
+    }
 }
 
 /**

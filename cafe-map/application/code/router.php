@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Site routing
+ * Site routing.
  */
-function router() {
+function ol_router() {
 	$action = esc_html( $_GET['action'] );
 
 	if ( empty( $action ) ) {
@@ -12,15 +12,11 @@ function router() {
 
 	switch ( $action ) {
 		case 'home':
-			home_page_action();
-			break;
-
-		case 'contact':
-			contact_page_action();
+			ol_home_page_action();
 			break;
 
 		default:
-			page_404();
+			ol_page_404();
 			break;
 	}
 }

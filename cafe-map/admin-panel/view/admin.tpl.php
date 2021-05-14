@@ -41,7 +41,7 @@
 								</div>
 							</div>
 							<div class="col-5">
-								<div class="admin-foto-wrappper">
+								<div class="admin-photo-wrapper">
 									<img src="../<?php echo $restaurant['url_photo']; ?>" alt="">
 								</div>
 								<div class="btn-group" role="group">

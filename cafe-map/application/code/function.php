@@ -12,7 +12,6 @@ function show_template( $restaurants ) {
 
 /**
  * Esc_html
- *
  * @param  string $data
  * renders data
  */
@@ -22,7 +21,6 @@ function esc_html( $data ) {
 
 /**
  * Ar
- *
  * @param  array $data
  * array output
  */
@@ -33,9 +31,7 @@ function ar( $data ) {
 }
 
 function ol_get_count_cafe() {
-	$count = ol_get_count_restaurants_db();
-
-	return $count;
+	return ol_get_count_restaurants_db();
 }
 
 /**

@@ -36,7 +36,7 @@ function ol_get_restaurants_db( $start_pos = 0 ) {
  */
 function ol_insert_restaurant_db( $restaurant ) {
 	global $ol_dbh;
-	$stmt = $ol_dbh->prepare( 'INSERT INTO restaurants ( name, type, phone, address, time_start, time_end, rating, number_of_reviews, url_photo ) VALUES ( :name, :type, :phone, :address, :time_start, :time_end, :rating, :reviews, :url_photo )' );
+	$stmt = $ol_dbh->prepare( 'INSERT INTO restaurants ( name, type, phone, address, time_start, time_end, rating, number_of_reviews, url_photo, lat, lon ) VALUES ( :name, :type, :phone, :address, :time_start, :time_end, :rating, :reviews, :url_photo, :lat, :lon )' );
 	$stmt->bindParam( ':name', $restaurant['name'] );
 	$stmt->bindParam( ':type', $restaurant['type'] );
 	$stmt->bindParam( ':phone', $restaurant['phone'] );
@@ -46,10 +46,12 @@ function ol_insert_restaurant_db( $restaurant ) {
 	$stmt->bindParam( ':rating', $restaurant['rating'] );
 	$stmt->bindParam( ':reviews', $restaurant['reviews'] );
 	$stmt->bindParam( ':url_photo', $restaurant['url_photo'] );
+	$stmt->bindParam( ':lat', $restaurant['lat'] );
+	$stmt->bindParam( ':lon', $restaurant['lon'] );
 	if ( $stmt->execute() ) {
-		$_SESSION['errors'] .= ' The post has been added to the database, ';
+		ol_add_errors( ' The post has been added to the database ', 'success' );
 	} else {
-		$_SESSION['errors'] .= ' The post has not added to the database, ';
+		ol_add_errors( ' The post has not added to the database ' );
 	}
 }
 
@@ -61,7 +63,11 @@ function ol_remove_restaurant_db( $id ) {
 	global $ol_dbh;
 	$stmt = $ol_dbh->prepare( 'DELETE FROM restaurants WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
-	$stmt->execute();
+	if ( $stmt->execute() ) {
+		ol_add_errors( ' This post has been deleted ', 'success' );
+	} else {
+		ol_add_errors( ' This post has not been deleted ' );
+	}
 }
 
 /**
@@ -96,9 +102,9 @@ function ol_update_restaurant_db( $restaurant ) {
 	$stmt->bindParam( ':reviews', $restaurant['reviews'] );
 	$stmt->bindParam( ':url_photo', $restaurant['url_photo'] );
 	if ( $stmt->execute() ) {
-		$_SESSION['errors'] .= ' The post has been updated to the database, ';
+		ol_add_errors( ' The post has been updated to the database ', 'success' );
 	} else {
-		$_SESSION['errors'] .= ' The post has not been updated to the database, ';
+		ol_add_errors( ' The post has not been updated to the database ' );
 	}
 }
 

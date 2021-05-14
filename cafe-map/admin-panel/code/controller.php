@@ -9,7 +9,7 @@ function ol_admin_page_action() {
 	ol_sing_up_user();
 	ol_show_template(
 		array(
-			'action'      => 'admin-php',
+			'action'      => 'admin',
 			'restaurants' => ol_get_restaurants_db( $pagination ),
 			'pagination'  => ol_get_count_cafe(),
 		)
@@ -31,7 +31,7 @@ function ol_add_post_action() {
 /**
  * 404 pages are generated.
  */
-function page_404() {
+function ol_page_404() {
 	ol_show_template(
 		array(
 			'action' => '404',

@@ -1,19 +1,19 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-4">
+		<div class="col-md-4"  id="controls-polyline">
 			<?php foreach ( $restaurants['restaurants'] as $restaurant ) : ?>
 				<div class="cart-cafe">
 					<h3 class="title"><?php echo $restaurant['name']?></h3>
 					<div class="cafe-info row">
 						<div class="col-7">
-							<div class="type"><?php echo $restaurant['type']?></div>
-							<div class="phone">Telephone: +<?php echo $restaurant['phone']?></div>
-							<div class="address">Address: <?php echo $restaurant['address']?></div>
+                            <div class="type"><?php echo $restaurant['type']?></div>
+                            <div class="phone">Telephone: +<?php echo $restaurant['phone']?></div>
+                            <div class="address" data-lat="<?php echo $restaurant['lat']?>" data-lon="<?php echo $restaurant['lon']?>">Address: <?php echo $restaurant['address']?></div>
 						</div>
 						<div class="col-5">
-							<div class="foto-wrappper">
+							<div class="foto-wrapper">
 								<img src="<?php echo $restaurant['url_photo']?>" alt="">
-							</div>
+                            </div>
 						</div>
 					</div>
 					<div>Графік роботи <?php echo $restaurant['time_start']?> - <?php echo $restaurant['time_end']?></div>
@@ -27,6 +27,8 @@
 				<?php endfor; ?>
 			</div>
 		</div>
-		<div class="col-8"></div>
+		<div class="col-md-8">
+            <div id="gmap"></div>
+        </div>
 	</div>
 </div>
