@@ -1,8 +1,8 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4"  id="controls-polyline">
+		<div class="col-md-4">
 			<?php foreach ( $restaurants['restaurants'] as $restaurant ) : ?>
-				<div class="cart-cafe">
+				<div class="cart-cafe" >
 					<h3 class="title"><?php echo $restaurant['name']?></h3>
 					<div class="cafe-info row">
 						<div class="col-7">
@@ -29,6 +29,6 @@
 		</div>
 		<div class="col-md-8">
             <div id="gmap"></div>
-        </div>
+        </div
 	</div>
 </div>

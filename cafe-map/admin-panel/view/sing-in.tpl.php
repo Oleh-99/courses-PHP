@@ -3,7 +3,7 @@
 		<form action="" method="post">
 			<input type="text" name="login" placeholder="Login">
 			<input type="password" name="password" placeholder="Password">
-			<input type="submit" value="Sing-up">
+			<input type="submit"  class="btn btn-warning" value="Sing-up">
 		</form>
 	</div>
 </section>

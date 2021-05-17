@@ -27,7 +27,22 @@ function ol_router() {
 		case 'add':
 			ol_add_post_action();
 			break;
-
+		
+		case 'page':
+			ol_page();
+			break;
+		
+		case 'add_page':
+			ol_form_page();
+			break;
+		
+		case 'edit-page':
+			break;
+		
+		case 'delete-page':
+			ol_delete_page();
+			break;
+			
 		case 'exit':
 			ol_exit_account();
 			break;
@@ -41,7 +56,7 @@ function ol_router() {
 			break;
 
 		default:
-			page_404();
+			ol_page_404();
 			break;
 	}
 }

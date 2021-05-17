@@ -1,7 +1,7 @@
 (function($) {
 
     function maps() {
-        if ('undefined' === typeof Maplace || 0 === $('#gmap').length) {
+        if ( 'undefined' === typeof Maplace || 0 === $('#gmap').length ) {
             return;
         }
 
@@ -18,9 +18,9 @@
             }
         });
 
-        new Maplace({
+        let maps = new Maplace({
             locations: data,
-            controls_on_map: true,
+	        controls_on_map: false,
             map_options: {
                 styles: [
                     {
@@ -370,11 +370,26 @@
                     }
                 ],
             }
+        });
 
-        }).Load();
+	    maps.Load();
+
+	    $('.cart-cafe').on( 'click', function (e) {
+		    maps.ViewOnMap( $(this).index() + 1 )
+	    })
+    }
+    
+    function tiny() {
+	    if ( 'undefined' === typeof tinymce ) {
+		    return;
+	    }
+	    tinymce.init({
+		    selector: 'textarea#content',
+	    });
     }
 
     $(document).ready(function() {
         maps();
+	    tiny();
     });
 })(jQuery);

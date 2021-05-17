@@ -27,6 +27,9 @@
 						<li class="nav-item">
 							<a class="nav-link active" href="index.php">Admin sing-in</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" aria-current="page" href="?admin-action=add-page">Add page</a>
+						</li>
 					</ul>
 				</div>
 			</div>

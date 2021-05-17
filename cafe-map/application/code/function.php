@@ -11,18 +11,16 @@ function show_template( $restaurants ) {
 }
 
 /**
- * Esc_html
+ * Renders data.
  * @param  string $data
- * renders data
  */
 function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
 }
 
 /**
- * Ar
+ * array output.
  * @param  array $data
- * array output
  */
 function ar( $data ) {
 	echo '<pre>';
