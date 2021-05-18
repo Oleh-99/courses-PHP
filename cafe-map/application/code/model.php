@@ -8,7 +8,7 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
  * @param integer $start_pos issues posts.
  * @return array
  */
-function ol_get_restaurants_db( int $start_pos = 0 ) {
+function ol_get_restaurants_db( $start_pos = 0 ) {
 	global $ol_dbh;
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants ORDER BY id DESC LIMIT :start_pos, 5' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
@@ -49,7 +49,7 @@ function ol_get_view_page_db() {
  * @param int $id id page.
  * @return array
  */
-function ol_get_view_page_by_id_db( int $id ) {
+function ol_get_view_page_by_id_db( $id ) {
 	global $ol_dbh;
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );

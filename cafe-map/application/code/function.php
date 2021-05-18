@@ -5,7 +5,7 @@
  *
  * @param array $restaurants array data.
  */
-function show_template( array $restaurants ) {
+function show_template( $restaurants ) {
 	include 'application/view/header.tpl.php';
 	include 'application/view/' . $restaurants['action'] . '.tpl.php';
 	include 'application/view/footer.tpl.php';
@@ -25,7 +25,7 @@ function esc_html( $data ) {
  *
  * @param array $data array data.
  */
-function ar( array $data ) {
+function ar( $data ) {
 	echo '<pre>';
 	print_r( $data );
 	echo '</pre>';

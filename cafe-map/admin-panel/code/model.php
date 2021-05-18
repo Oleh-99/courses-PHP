@@ -8,7 +8,7 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
  * @param string $login login user.
  * @return array
  */
-function ol_get_users_restaurants_db( string $login ) {
+function ol_get_users_restaurants_db( $login ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM users_restaurants WHERE login =:login' );
@@ -24,7 +24,7 @@ function ol_get_users_restaurants_db( string $login ) {
  * @param integer $start_pos number page.
  * @return array
  */
-function ol_get_restaurants_db( int $start_pos = 0 ) {
+function ol_get_restaurants_db( $start_pos = 0 ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants ORDER BY id DESC LIMIT :start_pos, 5' );
@@ -41,7 +41,7 @@ function ol_get_restaurants_db( int $start_pos = 0 ) {
  * @param string $action string action.
  * @return boolean
  */
-function ol_loading_restaurant_db( array $restaurant, string $action = '' ) {
+function ol_loading_restaurant_db( $restaurant, $action = '' ) {
 	global $ol_dbh;
 
 	if ( 'update' === $action ) {
@@ -76,7 +76,7 @@ function ol_loading_restaurant_db( array $restaurant, string $action = '' ) {
  * @param integer $id id posts.
  * @return boolean
  */
-function ol_remove_restaurant_db( int $id ) {
+function ol_remove_restaurant_db( $id ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'DELETE FROM restaurants WHERE id = :id' );
@@ -91,7 +91,7 @@ function ol_remove_restaurant_db( int $id ) {
  * @param integer $id id posts.
  * @return array
  */
-function ol_get_restaurant_by_id_db( int $id ) {
+function ol_get_restaurant_by_id_db( $id ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants WHERE id = :id' );
@@ -122,7 +122,7 @@ function ol_get_count_restaurants_db() {
  * @param string $action action.
  * @return boolean
  */
-function ol_loading_page_db( array $page, string $action = '' ) {
+function ol_loading_page_db( $page, $action = '' ) {
 	global $ol_dbh;
 
 	if ( 'update' === $action ) {
@@ -157,7 +157,7 @@ function ol_get_page_db() {
  * @param integer $id id page.
  * @return boolean
  */
-function ol_remove_page_db( int $id ) {
+function ol_remove_page_db( $id ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'DELETE FROM restaurants_page WHERE id = :id' );
@@ -172,7 +172,7 @@ function ol_remove_page_db( int $id ) {
  * @param integer $id id page.
  * @return array
  */
-function ol_get_page_by_id_db( int $id ) {
+function ol_get_page_by_id_db( $id ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
