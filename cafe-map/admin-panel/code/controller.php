@@ -4,13 +4,11 @@
  * The main page is generated in the admin panel.
  */
 function ol_admin_page_action() {
-	$pagination = ol_get_click_pagination();
-
 	ol_sing_up_user();
 	ol_show_template(
 		array(
 			'action'      => 'admin',
-			'restaurants' => ol_get_restaurants_db( $pagination ),
+			'restaurants' => ol_get_restaurants_db( ol_get_click_pagination() ),
 			'pagination'  => ol_get_count_cafe(),
 		)
 	);
@@ -19,13 +17,13 @@ function ol_admin_page_action() {
 /**
  * A form is generated to add a post to the admin panel.
  */
-function ol_add_post_action( $data = array([])) {
+function ol_add_post_action() {
 	ol_create_post();
 	ol_show_template(
 		array(
 			'action'     => 'form-post',
 			'btn-name'   => 'Create',
-			'restaurant' => $data,
+			'restaurant' => array( [] ),
 		)
 	);
 }
@@ -86,6 +84,9 @@ function ol_admin_edit_cafe() {
 	);
 }
 
+/**
+ * Output of pages.
+ */
 function ol_page() {
 	ol_show_template(
 		array(
@@ -95,47 +96,53 @@ function ol_page() {
 	);
 }
 
+/**
+ * Delete page.
+ */
 function ol_delete_page() {
 	if ( empty( $_GET['id'] ) ) {
 		return;
 	}
-	
+
 	$result = ol_remove_page_db( esc_html( $_GET['id'] ) );
-	
+
 	if ( $result ) {
 		ol_add_errors( ' This page has been deleted ', 'success' );
 	} else {
 		ol_add_errors( ' This page has not been deleted ' );
 	}
-	
+
 	header( 'Location: index.php?admin-action=page' );
 }
 
+/**
+ * Add a page.
+ */
 function ol_add_page() {
-	$data = array([]);
 	ol_add_page__from_db();
 	ol_show_template(
 		array(
 			'action'   => 'add-page',
-			'edit'     => $data,
-			'btn-name' => 'Create'
+			'edit'     => array( [] ),
+			'btn-name' => 'Create',
 		)
 	);
 }
 
+/**
+ * Editing a page.
+ */
 function ol_edit_page() {
 	if ( empty( $_GET['id'] ) ) {
 		return;
 	}
-	
-	$id = esc_html( $_GET['id'] );
-	
+
 	ol_edit_page__from_db();
 	ol_show_template(
 		array(
 			'action'   => 'add-page',
-			'edit'     => ol_get_page_by_id_db( $id ),
-			'btn-name' => 'Edit'
+			'edit'     => ol_get_page_by_id_db( esc_html( $_GET[ 'id' ] ) ),
+			'btn-name' => 'Edit',
 		)
 	);
 }

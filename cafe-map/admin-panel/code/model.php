@@ -4,11 +4,13 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
 
 /**
  * Checks if the user is in the database.
- * @param string $login
+ *
+ * @param string $login login user.
  * @return array
  */
-function ol_get_users_restaurants_db( $login ) {
+function ol_get_users_restaurants_db( string $login ) {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM users_restaurants WHERE login =:login' );
 	$stmt->bindParam( ':login', $login );
 	$stmt->execute();
@@ -18,12 +20,14 @@ function ol_get_users_restaurants_db( $login ) {
 
 /**
  * Issues posts from the set limit.
- * @param integer $start_pos
+ *
+ * @param integer $start_pos number page.
  * @return array
  */
-function ol_get_restaurants_db( $start_pos = 0 ) {
+function ol_get_restaurants_db( int $start_pos = 0 ) {
 	global $ol_dbh;
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants LIMIT :start_pos, 5' );
+
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants ORDER BY id DESC LIMIT :start_pos, 5' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
 	$stmt->execute();
 
@@ -32,18 +36,22 @@ function ol_get_restaurants_db( $start_pos = 0 ) {
 
 /**
  * Loading a post to the database.
- * @param array $restaurant
- * @param string $action
+ *
+ * @param array  $restaurant array data.
+ * @param string $action string action.
  * @return boolean
  */
-function ol_loading_restaurant_db( $restaurant, $action = '' ) {
+function ol_loading_restaurant_db( array $restaurant, string $action = '' ) {
 	global $ol_dbh;
-	if ( 'update' === $action) {
+
+	if ( 'update' === $action ) {
 		$stmt = $ol_dbh->prepare( 'UPDATE restaurants SET name = :name, type = :type, phone = :phone, address = :address,rating = :rating, number_of_reviews = :reviews, time_start = :time_start, time_end = :time_end, url_photo = :url_photo, lat = :lat, lon = :lon WHERE id = :id' );
 		$stmt->bindParam( ':id', $restaurant['id'] );
 	} else {
 		$stmt = $ol_dbh->prepare( 'INSERT INTO restaurants ( name, type, phone, address, time_start, time_end, rating, number_of_reviews, url_photo, lat, lon ) VALUES ( :name, :type, :phone, :address, :time_start, :time_end, :rating, :reviews, :url_photo, :lat, :lon )' );
+		$stmt->bindParam( ':url_photo', $restaurant['url_photo'] );
 	}
+
 	$stmt->bindParam( ':name', $restaurant['name'] );
 	$stmt->bindParam( ':type', $restaurant['type'] );
 	$stmt->bindParam( ':phone', $restaurant['phone'] );
@@ -64,11 +72,13 @@ function ol_loading_restaurant_db( $restaurant, $action = '' ) {
 
 /**
  * Remove the post from the database.
- * @param integer $id
+ *
+ * @param integer $id id posts.
  * @return boolean
  */
-function ol_remove_restaurant_db( $id ) {
+function ol_remove_restaurant_db( int $id ) {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'DELETE FROM restaurants WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
 
@@ -77,11 +87,13 @@ function ol_remove_restaurant_db( $id ) {
 
 /**
  * Receives post data by id.
- * @param integer $id
+ *
+ * @param integer $id id posts.
  * @return array
  */
-function ol_get_restaurant_by_id_db( $id ) {
+function ol_get_restaurant_by_id_db( int $id ) {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
 	$stmt->execute();
@@ -91,10 +103,12 @@ function ol_get_restaurant_by_id_db( $id ) {
 
 /**
  * Find out the number of posts in the database.
+ *
  * @return integer
  */
 function ol_get_count_restaurants_db() {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->query( 'SELECT COUNT(*) from restaurants' );
 	$stmt->execute();
 
@@ -103,59 +117,67 @@ function ol_get_count_restaurants_db() {
 
 /**
  * Loading a page to the database.
- * @param array $page
- * @param string $action
+ *
+ * @param array  $page page.
+ * @param string $action action.
  * @return boolean
  */
-function ol_loading_page_db( $page, $action = '' ) {
+function ol_loading_page_db( array $page, string $action = '' ) {
 	global $ol_dbh;
+
 	if ( 'update' === $action ) {
-		$stmt = $ol_dbh -> prepare( 'UPDATE restaurants_page SET title = :title, content = :content WHERE id = :id' );
-		$stmt -> bindParam( ':id', $page['id'] );
+		$stmt = $ol_dbh->prepare( 'UPDATE restaurants_page SET title = :title, content = :content WHERE id = :id' );
+		$stmt->bindParam( ':id', $page['id'] );
 	} else {
-		$stmt = $ol_dbh -> prepare( 'INSERT INTO restaurants_page ( title, content ) VALUES ( :title, :content )' );
+		$stmt = $ol_dbh->prepare( 'INSERT INTO restaurants_page ( title, content ) VALUES ( :title, :content )' );
 	}
-	$stmt -> bindParam( ':title', $page['title'] );
-	$stmt -> bindParam( ':content', $page['content'] );
-	
-	return $stmt -> execute();
+	$stmt->bindParam( ':title', $page['title'] );
+	$stmt->bindParam( ':content', $page['content'] );
+
+	return $stmt->execute();
 }
 
 /**
  * Issues page.
+ *
  * @return array
  */
 function ol_get_page_db() {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page' );
 	$stmt->execute();
-	
+
 	return $stmt->fetchAll();
 }
 
 /**
  * Remove the page from the database.
- * @param integer $id
+ *
+ * @param integer $id id page.
  * @return boolean
  */
-function ol_remove_page_db( $id ) {
+function ol_remove_page_db( int $id ) {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'DELETE FROM restaurants_page WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
-	
+
 	return $stmt->execute();
 }
 
 /**
  * Receives post data by id.
- * @param integer $id
+ *
+ * @param integer $id id page.
  * @return array
  */
-function ol_get_page_by_id_db( $id ) {
+function ol_get_page_by_id_db( int $id ) {
 	global $ol_dbh;
+
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
 	$stmt->execute();
-	
+
 	return $stmt->fetchAll();
 }

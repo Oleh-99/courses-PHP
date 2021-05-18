@@ -22,16 +22,18 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link <?php echo ol_get_current( 'home' ) ?>" aria-current="page" href="?action=home">Home</a>
+							<a class="nav-link <?php echo esc_html( ol_get_current( 'home' ) ); ?>" aria-current="page" href="?action=home">Home</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="admin-panel/index.php">Admin sing-in</a>
 						</li>
-					<?php foreach ( $restaurants['page'] as $page ): ?>
-						<li class="nav-item">
-							<a class="nav-link <?php echo ol_get_current( 'page', $page['id'] ) ?>" href="?action=page&id=<?php echo $page['id'];?>"><?php echo ucfirst( $page['title'] );?></a>
-						</li>
-					<?php endforeach;?>
+						<?php foreach ( $restaurants['page'] as $page ): ?>
+							<li class="nav-item">
+								<a class="nav-link <?php echo ol_get_current( 'page', $page['id'] ) ?>" href="?action=page&id=<?php echo esc_html( $page['id'] );?>">
+									<?php echo ucfirst( esc_html( $page['title'] ) );?>
+								</a>
+							</li>
+						<?php endforeach;?>
 					</ul>
 				</div>
 			</div>

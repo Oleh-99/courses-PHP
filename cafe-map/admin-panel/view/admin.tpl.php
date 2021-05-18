@@ -16,37 +16,37 @@
 				<?php foreach ( $restaurants['restaurants'] as $restaurant ) : ?>
 					<div class="admin-cart-cafe">
 						<h3 class="title">
-							<?php echo $restaurant['name']; ?>
+							<?php echo esc_html( $restaurant['name'] ); ?>
 						</h3>
 						<div class="cafe-info row">
 							<div class="col-7">
 								<div class="type">
-									<?php echo $restaurant['type']; ?>
+									<?php echo esc_html( $restaurant['type'] ); ?>
 								</div>
 								<div class="phone">Telephone: 
-									<?php echo '+' . $restaurant['phone']; ?>
+									<?php echo '+' . esc_html( $restaurant['phone'] ); ?>
 								</div>
 								<div class="address">Address: 
-									<?php echo $restaurant['address']; ?>
+									<?php echo esc_html( $restaurant['address'] ); ?>
 								</div>
 								<div>Графік роботи 
-									<?php echo $restaurant['time_start']; ?> - 
-									<?php echo $restaurant['time_end']; ?>
+									<?php echo esc_html( $restaurant['time_start'] ); ?> -
+									<?php echo esc_html( $restaurant['time_end'] ); ?>
 								</div>
 								<div>
-									<?php echo $restaurant['rating']; ?>
+									<?php echo esc_html( $restaurant['rating'] ); ?>
 									<i class="fas fa-star"></i>
-									<?php echo $restaurant['number_of_reviews']; ?>
+									<?php echo esc_html( $restaurant['number_of_reviews'] ); ?>
 									<i class="far fa-comments"></i>
 								</div>
 							</div>
 							<div class="col-5">
 								<div class="admin-photo-wrapper">
-									<img src="../<?php echo $restaurant['url_photo']; ?>" alt="">
+									<img src="../<?php echo esc_html( $restaurant['url_photo'] ); ?>" alt="">
 								</div>
 								<div class="btn-group" role="group">
-									<a href="?admin-action=remove&id=<?php echo $restaurant['id']; ?>" class="btn btn-danger">Remove</a>
-									<a href="?admin-action=edit&id=<?php echo $restaurant['id']; ?>" class="btn btn-warning">Edit</a>
+									<a href="?admin-action=remove&id=<?php echo esc_html( $restaurant['id'] ); ?>" class="btn btn-danger">Remove</a>
+									<a href="?admin-action=edit&id=<?php echo esc_html( $restaurant['id'] ); ?>" class="btn btn-warning">Edit</a>
 								</div>
 							</div>
 						</div>

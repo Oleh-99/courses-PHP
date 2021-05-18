@@ -25,10 +25,10 @@
 							<a class="nav-link" href="../index.php">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link <?php echo  ol_get_current( 'admin' )?>" href="index.php">Admin page</a>
+							<a class="nav-link <?php echo esc_html( ol_get_current( 'admin' ) ); ?>" href="index.php">Admin page</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link <?php echo  ol_get_current( 'page' )?>" href="?admin-action=page">Page</a>
+							<a class="nav-link <?php echo esc_html( ol_get_current( 'page' ) ); ?>" href="?admin-action=page">Page</a>
 						</li>
 					</ul>
 				</div>

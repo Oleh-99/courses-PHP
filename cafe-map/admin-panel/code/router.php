@@ -10,15 +10,6 @@ function ol_router() {
 		$action = 'admin';
 	}
 
-	if ( ! $_SESSION['login'] && ! $_POST ) {
-		ol_show_template(
-			array(
-				'action' => 'sing-in',
-			)
-		);
-		return;
-	}
-
 	switch ( $action ) {
 		case 'admin':
 			ol_admin_page_action();
@@ -27,23 +18,23 @@ function ol_router() {
 		case 'add':
 			ol_add_post_action();
 			break;
-		
+
 		case 'page':
 			ol_page();
 			break;
-		
+
 		case 'add_page':
 			ol_add_page();
 			break;
-		
+
 		case 'edit-page':
 			ol_edit_page();
 			break;
-		
+
 		case 'delete-page':
 			ol_delete_page();
 			break;
-			
+
 		case 'exit':
 			ol_exit_account();
 			break;
