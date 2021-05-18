@@ -56,11 +56,11 @@ function ol_get_click_pagination() {
 /**
  * Check for active or page.
  *
- * @param string $data data.
- * @param int $id id page.
+ * @param mixed $data data.
+ * @param mixed $id id page.
  * @return string
  */
-function ol_get_current( string $data, int $id = 0 ) {
+function ol_get_current( $data, $id = 0 ) {
 	if ( ( $data === $_GET['action'] && 0 === $id ) || ( $data === $_GET['action'] && $_GET['id'] === $id ) || ( empty( $_GET['action'] ) && 'home' === $data ) ) {
 		return 'active';
 	} else {
