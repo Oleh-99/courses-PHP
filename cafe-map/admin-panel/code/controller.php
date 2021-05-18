@@ -107,15 +107,35 @@ function ol_delete_page() {
 	} else {
 		ol_add_errors( ' This page has not been deleted ' );
 	}
+	
+	header( 'Location: index.php?admin-action=page' );
 }
 
-function ol_form_page( $data = array([])) {
+function ol_add_page() {
+	$data = array([]);
 	ol_add_page__from_db();
 	ol_show_template(
 		array(
 			'action'   => 'add-page',
 			'edit'     => $data,
 			'btn-name' => 'Create'
+		)
+	);
+}
+
+function ol_edit_page() {
+	if ( empty( $_GET['id'] ) ) {
+		return;
+	}
+	
+	$id = esc_html( $_GET['id'] );
+	
+	ol_edit_page__from_db();
+	ol_show_template(
+		array(
+			'action'   => 'add-page',
+			'edit'     => ol_get_page_by_id_db( $id ),
+			'btn-name' => 'Edit'
 		)
 	);
 }

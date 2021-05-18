@@ -2,6 +2,7 @@
 	<div class="container">
 		<form method="post">
 			<?php foreach ( $restaurants['edit'] as $value ): ?>
+				<input type="hidden" name="page_id" value="<?php echo $value['id']?>">
 				<label for="page_name">Title</label>
 				<input type="text" id="page_name" name="page_name" placeholder="Title" value="<?php echo $value['title']?>">
 				<label for="content">Content</label>

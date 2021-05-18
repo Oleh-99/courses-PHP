@@ -110,7 +110,7 @@ function ol_get_count_restaurants_db() {
 function ol_loading_page_db( $page, $action = '' ) {
 	global $ol_dbh;
 	if ( 'update' === $action ) {
-		$stmt = $ol_dbh -> prepare( 'UPDATE restaurants_page SET title = :title, content = :content, WHERE id = :id' );
+		$stmt = $ol_dbh -> prepare( 'UPDATE restaurants_page SET title = :title, content = :content WHERE id = :id' );
 		$stmt -> bindParam( ':id', $page['id'] );
 	} else {
 		$stmt = $ol_dbh -> prepare( 'INSERT INTO restaurants_page ( title, content ) VALUES ( :title, :content )' );
@@ -144,4 +144,18 @@ function ol_remove_page_db( $id ) {
 	$stmt->bindParam( ':id', $id );
 	
 	return $stmt->execute();
+}
+
+/**
+ * Receives post data by id.
+ * @param integer $id
+ * @return array
+ */
+function ol_get_page_by_id_db( $id ) {
+	global $ol_dbh;
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
+	$stmt->bindParam( ':id', $id );
+	$stmt->execute();
+	
+	return $stmt->fetchAll();
 }

@@ -27,3 +27,20 @@ function ol_get_count_restaurants_db() {
 
 	return $stmt->fetchColumn();
 }
+
+function ol_get_view_page_db() {
+	global $ol_dbh;
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page' );
+	$stmt->execute();
+	
+	return $stmt->fetchAll();
+}
+
+function ol_get_view_page_by_id_db( $id ) {
+	global $ol_dbh;
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
+	$stmt->bindParam(':id', $id );
+	$stmt->execute();
+	
+	return $stmt->fetchAll();
+}

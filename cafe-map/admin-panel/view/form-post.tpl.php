@@ -24,7 +24,7 @@
 				<input type="time" id="start_time" name="start_time" value="<?php echo $value['time_start']; ?>">
 				<label for="end_time">До</label>
 				<input type="time" id="end_time" name="end_time" value="<?php echo $value['time_end']; ?>"><br>
-				<input type="file" name="uploadedFile" value="<?php echo $value['url_photo']; ?>" accept="image/jpeg,image/png"><br><br>
+				<input type="file" name="uploaded_file" value="<?php echo $value['url_photo']; ?>" accept="image/jpeg,image/png"><br><br>
 				<button type="submit" name="btn_post" class="btn btn-warning" aria-label="<?php echo $restaurants['btn-name']; ?>"><?php echo $restaurants['btn-name']; ?></button>
 			<?php endforeach; ?>
 		</form>

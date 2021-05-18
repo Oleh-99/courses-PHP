@@ -33,10 +33,11 @@ function ol_router() {
 			break;
 		
 		case 'add_page':
-			ol_form_page();
+			ol_add_page();
 			break;
 		
 		case 'edit-page':
+			ol_edit_page();
 			break;
 		
 		case 'delete-page':

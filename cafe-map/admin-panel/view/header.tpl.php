@@ -22,13 +22,13 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link" aria-current="page" href="../index.php">Home</a>
+							<a class="nav-link" href="../index.php">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" href="index.php">Admin sing-in</a>
+							<a class="nav-link <?php echo  ol_get_current( 'admin' )?>" href="index.php">Admin page</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" aria-current="page" href="?admin-action=add-page">Add page</a>
+							<a class="nav-link <?php echo  ol_get_current( 'page' )?>" href="?admin-action=page">Page</a>
 						</li>
 					</ul>
 				</div>

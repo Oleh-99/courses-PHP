@@ -3,7 +3,7 @@ session_start();
 
 /**
  * Renders data.
- * @param  string $data
+ * @param string $data
  */
 function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
@@ -11,7 +11,7 @@ function esc_html( $data ) {
 
 /**
  * Array output.
- * @param  array $data
+ * @param array $data
  */
 function ar( $data ) {
 	echo '<pre>';
@@ -23,13 +23,7 @@ function ar( $data ) {
  * Clean the url string.
  */
 function ol_clear_url() {
-	$url = 'Location: index.php';
-
-	if ( ! empty( $_GET['pagination'] ) ) {
-		$url = 'Location: index.php?pagination=' . esc_html( $_GET['pagination'] );
-	}
-
-	header( $url );
+	header( 'Location: index.php' );
 	die();
 }
 
@@ -40,17 +34,17 @@ function ol_sing_up_user() {
 	if ( empty( $_POST['login'] ) || empty( $_POST['password'] ) ) {
 		return;
 	}
-
+	
 	$login      = esc_html( $_POST['login'] );
 	$password   = esc_html( $_POST['password'] );
 	$data_users = ol_get_users_restaurants_db( $login );
-
+	
 	foreach ( $data_users as $value ) {
 		if ( $value['login'] === $login && password_verify( $password, $value['password'] ) ) {
 			$_SESSION['login'] = $login;
 		}
 	}
-
+	
 	if ( ! $_SESSION['login'] ) {
 		ol_add_errors( ' Invalid login or password ' );
 	}
@@ -61,11 +55,11 @@ function ol_sing_up_user() {
  */
 function ol_create_post() {
 	if ( ! isset( $_POST['btn_post'] ) ) {
-	    return;
+		return;
 	}
-
+	
 	if ( isset( $_POST['btn_post'] ) ) {
-
+		
 		if ( empty( $_POST['name'] ) ) {
 			ol_add_errors( ' Enter a name, ' );
 		}
@@ -88,7 +82,7 @@ function ol_create_post() {
 			ol_add_errors( 'The rating cannot be more than 5 stars ' );
 		}
 	}
-
+	
 	if ( $_SESSION['errors']['danger'] ) {
 		ol_add_post_action(
 			array(
@@ -106,17 +100,17 @@ function ol_create_post() {
 		);
 		return;
 	}
-
+	
 	$new_name_file = '';
-
-	if ( isset( $_FILES['uploadedFile'] ) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK ) {
+	
+	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
 		$file_tmp_path           = $_FILES['uploadedFile']['tmp_name'];
 		$file_name               = $_FILES['uploadedFile']['name'];
-		$array                   = explode('.', $file_name);
-		$file_extension          = strtolower( end($array) );
+		$array                   = explode( '.', $file_name );
+		$file_extension          = strtolower( end( $array ) );
 		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
 		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
-
+		
 		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
 			$dest_path = '../img/' . $new_name_file;
 			move_uploaded_file( $file_tmp_path, $dest_path );
@@ -124,7 +118,7 @@ function ol_create_post() {
 			ol_add_errors( ' Failed to load image, ' );
 		}
 	}
-
+	
 	$result = ol_loading_restaurant_db(
 		array(
 			'name'       => esc_html( $_POST['name'] ),
@@ -138,15 +132,15 @@ function ol_create_post() {
 			'url_photo'  => 'img/' . $new_name_file,
 			'lat'        => esc_html( $_POST['lat'] ),
 			'lon'        => esc_html( $_POST['lon'] ),
-        )
+		)
 	);
-
+	
 	if ( $result ) {
 		ol_add_errors( ' The post has been added to the database ', 'success' );
 		ol_clear_url();
-    } else {
+	} else {
 		ol_add_errors( ' The post has not added to the database ' );
-    }
+	}
 }
 
 /**
@@ -154,11 +148,11 @@ function ol_create_post() {
  */
 function ol_edit_post() {
 	if ( ! isset( $_POST['btn_post'] ) ) {
-        return;
+		return;
 	}
-
+	
 	if ( isset( $_POST['btn_post'] ) ) {
-
+		
 		if ( empty( $_POST['name'] ) ) {
 			ol_add_errors( ' Enter the name, ' );
 		}
@@ -187,20 +181,20 @@ function ol_edit_post() {
 			ol_add_errors( 'The rating cannot be more than 5 stars ' );
 		}
 	}
-
+	
 	if ( $_SESSION['errors']['danger'] ) {
 		return;
 	}
-
+	
 	$new_name_file = '';
-
-	if ( isset( $_FILES['uploadedFile'] ) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK ) {
+	
+	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
 		$file_tmp_path           = $_FILES['uploadedFile']['tmp_name'];
 		$file_name               = $_FILES['uploadedFile']['name'];
 		$file_extension          = strtolower( end( explode( '.', $file_name ) ) );
 		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
 		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
-
+		
 		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
 			$dest_path = '../img/' . $new_name_file;
 			move_uploaded_file( $file_tmp_path, $dest_path );
@@ -208,8 +202,8 @@ function ol_edit_post() {
 			ol_add_errors( ' Failed to load image, ' );
 		}
 	}
-
-	$result =  ol_loading_restaurant_db(
+	
+	$result = ol_loading_restaurant_db(
 		array(
 			'id'         => esc_html( $_POST['id'] ),
 			'name'       => esc_html( $_POST['name'] ),
@@ -225,13 +219,13 @@ function ol_edit_post() {
 			'lon'        => esc_html( $_POST['lon'] ),
 		), 'update'
 	);
-
+	
 	if ( $result ) {
 		ol_add_errors( ' The post has been updated to the database ', 'success' );
 		ol_clear_url();
-    } else {
+	} else {
 		ol_add_errors( ' The post has not been updated to the database ' );
-    }
+	}
 }
 
 /**
@@ -250,10 +244,13 @@ function ol_get_click_pagination() {
 	if ( empty( $_GET['pagination'] ) ) {
 		return 0;
 	}
-
+	
 	return esc_html( $_GET['pagination'] );
 }
 
+/**
+ * Creating a page.
+ */
 function ol_add_page__from_db() {
 	if ( ! isset( $_POST['create_page'] ) ) {
 		return;
@@ -273,7 +270,7 @@ function ol_add_page__from_db() {
 		return;
 	}
 	
-	$result =  ol_loading_page_db(
+	$result = ol_loading_page_db(
 		array(
 			'title'   => esc_html( $_POST['page_name'] ),
 			'content' => $_POST['page_content'],
@@ -283,8 +280,60 @@ function ol_add_page__from_db() {
 	if ( $result ) {
 		ol_add_errors( ' The page has been added to the database ', 'success' );
 		header( 'Location: index.php?admin-action=page' );
+		die();
 	} else {
 		ol_add_errors( ' The page has not been added to the database ' );
+	}
+}
+
+/**
+ * Update data in databases.
+ */
+function ol_edit_page__from_db() {
+	if ( ! isset( $_POST['create_page'] ) ) {
+		return;
+	}
+	
+	if ( isset( $_POST['create_page'] ) ) {
+		
+		if ( empty( $_POST['page_name'] ) ) {
+			ol_add_errors( ' Enter the title, ' );
+		}
+		if ( empty( $_POST['page_content'] ) ) {
+			ol_add_errors( ' Enter the content, ' );
+		}
+	}
+	
+	if ( $_SESSION['errors']['danger'] ) {
+		return;
+	}
+	
+	$result = ol_loading_page_db(
+		array(
+			'id'      => esc_html( $_POST['page_id'] ),
+			'title'   => esc_html( $_POST['page_name'] ),
+			'content' => $_POST['page_content'],
+		), 'update'
+	);
+	
+	if ( $result ) {
+		ol_add_errors( ' The page has been edited to the database ', 'success' );
+		header( 'Location: index.php?admin-action=page' );
+		die();
+	} else {
+		ol_add_errors( ' The page has not been edited to the database ' );
+	}
+}
+
+/**
+ * Check for active or page.
+ * @return string
+ */
+function ol_get_current( $data ) {
+	if ( $data === $_GET['admin-action'] || empty( $_GET['admin-action'] ) && 'admin' === $data ) {
+		return 'active';
+	} else {
+		return '';
 	}
 }
 
@@ -292,7 +341,7 @@ function ol_add_page__from_db() {
  * Adding errors.
  */
 function ol_add_errors( $string, $type = 'danger' ) {
-	$_SESSION['errors'][ $type ][] = $string;
+	$_SESSION['errors'][$type][] = $string;
 }
 
 /**
@@ -302,21 +351,21 @@ function ol_echo_errors() {
 	if ( ! $_SESSION['errors'] ) {
 		return;
 	}
-
+	
 	$errors = $_SESSION['errors'];
 	unset( $_SESSION['errors'] );
-
+	
 	foreach ( $errors as $key => $error_type ) {
 		?>
-        <div class="errors-wrapper alert alert-<?php echo $key; ?>" role="alert">
+		<div class="errors-wrapper alert alert-<?php echo $key; ?>" role="alert">
 			<?php foreach ( $error_type as $error ) : ?>
-                <div>
+				<div>
 					<?php echo $error; ?>
-                </div>
+				</div>
 			<?php endforeach; ?>
-        </div>
+		</div>
 		<?php
-    }
+	}
 }
 
 /**
@@ -328,6 +377,6 @@ function ol_show_template( $restaurants ) {
 	include 'view/header.tpl.php';
 	include 'view/' . $restaurants['action'] . '.tpl.php';
 	include 'view/footer.tpl.php';
-
+	
 	ol_echo_errors();
 }

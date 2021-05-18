@@ -383,6 +383,7 @@
 	    if ( 'undefined' === typeof tinymce ) {
 		    return;
 	    }
+
 	    tinymce.init({
 		    selector: 'textarea#content',
 	    });

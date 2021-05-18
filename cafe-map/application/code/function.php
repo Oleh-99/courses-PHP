@@ -43,3 +43,15 @@ function ol_get_click_pagination() {
 
 	return esc_html( $_GET['pagination'] );
 }
+
+/**
+ * Check for active or page.
+ * @return string
+ */
+function ol_get_current( $data, $id = 0 ) {
+	if ( ( $data === $_GET['action'] && 0 === $id ) || ( $data === $_GET['action'] && $_GET['id'] === $id ) || ( empty( $_GET['action'] ) && 'home' === $data ) ) {
+		return 'active';
+	} else {
+		return '';
+	}
+}
