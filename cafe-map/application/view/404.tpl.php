@@ -1,1 +1,1 @@
-<img src="img/404.png" alt="" style="width: 100%">
+<img src="img/404.png" alt="" style="width: 100%; margin-top: -20px; margin-bottom: -30px;">

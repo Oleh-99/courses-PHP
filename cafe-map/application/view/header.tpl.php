@@ -27,14 +27,27 @@
 						<li class="nav-item">
 							<a class="nav-link" href="admin-panel/index.php">Admin sing-in</a>
 						</li>
-						<?php foreach ( $restaurants['page'] as $page ): ?>
+						<?php foreach ( $restaurants['page'] as $page ) : ?>
 							<li class="nav-item">
-								<a class="nav-link <?php echo ol_get_current( 'page', $page['id'] ) ?>" href="?action=page&id=<?php echo esc_html( $page['id'] );?>">
-									<?php echo ucfirst( esc_html( $page['title'] ) );?>
+								<a class="nav-link <?php echo ol_get_current( 'page', $page['id'] ); ?>" href="?action=page&id=<?php echo esc_html( $page['id'] ); ?>">
+									<?php echo ucfirst( esc_html( $page['title'] ) ); ?>
 								</a>
 							</li>
-						<?php endforeach;?>
+						<?php endforeach; ?>
+						<?php if ( $_SESSION['login'] ) : ?>
+							<li class="nav-item">
+								<a class="nav-link" href="?action=favorite">Favorite</a>
+							</li>
+						<?php endif; ?>
 					</ul>
+					<div class="initialization-user">
+						<?php if ( $_SESSION['login'] ) : ?>
+							<?php echo 'Hello, ' . esc_html( ucfirst( $_SESSION['login'] ) ); ?>
+							<a href="?action=exit" class="btn btn-danger exit">Exit</a>
+						<?php else : ?>
+							<a href="?action=sing-in" class="btn btn-success">Sing in</a>
+						<?php endif; ?>
+					</div>
 				</div>
 			</div>
 		</nav>

@@ -380,9 +380,10 @@
 
 		maps.Load();
 
-		$('.cart-cafe').on('click', function (e) {
-			maps.ViewOnMap($(this).index() + 1)
-		})
+		$('.cart-cafe').on('click', function () {
+			maps.ViewOnMap( $( this ).index() + 1 );
+			}
+		)
 	}
 
 	function tiny() {

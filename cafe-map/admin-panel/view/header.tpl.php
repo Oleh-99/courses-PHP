@@ -31,6 +31,12 @@
 							<a class="nav-link <?php echo esc_html( ol_get_current( 'page' ) ); ?>" href="?admin-action=page">Page</a>
 						</li>
 					</ul>
+					<div class="initialization-user">
+						<?php if ( $_SESSION['login'] ) : ?>
+							<?php echo 'Hello, ' . esc_html( ucfirst( $_SESSION['login'] ) ); ?>
+							<a href="?admin-action=exit" class="btn btn-danger exit">Exit</a>
+						<?php endif; ?>
+					</div>
 				</div>
 			</div>
 		</nav>

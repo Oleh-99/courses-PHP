@@ -23,32 +23,31 @@ function ar( $data ) {
 
 /**
  * Clean the url string.
+ *
+ * @param string $action action page.
  */
-function ol_clear_url() {
-	header( 'Location: index.php' );
+function ol_clear_url( $action = '' ) {
+	header( 'Location: index.php' . $action );
 	die();
 }
 
-
 /**
- *
+ * Administrator initialization.
  */
 function ol_sing_up_user() {
 	if ( ! isset( $_POST['sing_up'] ) ) {
 		return;
 	}
 
-	if ( isset( $_POST['sing_up'] ) ) {
-		if ( empty( $_POST['login'] ) ) {
-			ol_add_errors( 'Enter your login' );
-		}
-
-		if ( empty( $_POST['password'] ) ) {
-			ol_add_errors( 'Enter your password' );
-		}
+	if ( empty( $_POST['login'] ) ) {
+		ol_add_errors( 'Enter your login' );
 	}
 
-	if ( $_SESSION['errors']['danger'] ) {
+	if ( empty( $_POST['password'] ) ) {
+		ol_add_errors( 'Enter your password' );
+	}
+
+	if ( ol_get_check_error() ) {
 		return;
 	}
 
@@ -59,6 +58,7 @@ function ol_sing_up_user() {
 	foreach ( $data_users as $value ) {
 		if ( $value['login'] === $login && password_verify( $password, $value['password'] ) ) {
 			$_SESSION['login'] = $login;
+			$_SESSION['id']    = $value['id'];
 		}
 	}
 
@@ -75,32 +75,29 @@ function ol_create_post() {
 		return;
 	}
 
-	if ( isset( $_POST['btn_post'] ) ) {
-
-		if ( empty( $_POST['name'] ) ) {
-			ol_add_errors( 'Enter a name' );
-		}
-		if ( empty( $_POST['type'] ) ) {
-			ol_add_errors( 'Enter the type of institution' );
-		}
-		if ( empty( $_POST['phone'] ) ) {
-			ol_add_errors( 'Enter the phone' );
-		}
-		if ( empty( $_POST['address'] ) ) {
-			ol_add_errors( 'Enter the address' );
-		}
-		if ( empty( $_POST['start_time'] ) ) {
-			ol_add_errors( 'Enter the start time' );
-		}
-		if ( empty( $_POST['end_time'] ) ) {
-			ol_add_errors( 'Enter the end time' );
-		}
-		if ( 5 < $_POST['rating'] ) {
-			ol_add_errors( 'The rating cannot be more than 5 stars' );
-		}
+	if ( empty( $_POST['name'] ) ) {
+		ol_add_errors( 'Enter a name' );
+	}
+	if ( empty( $_POST['type'] ) ) {
+		ol_add_errors( 'Enter the type of institution' );
+	}
+	if ( empty( $_POST['phone'] ) ) {
+		ol_add_errors( 'Enter the phone' );
+	}
+	if ( empty( $_POST['address'] ) ) {
+		ol_add_errors( 'Enter the address' );
+	}
+	if ( empty( $_POST['start_time'] ) ) {
+		ol_add_errors( 'Enter the start time' );
+	}
+	if ( empty( $_POST['end_time'] ) ) {
+		ol_add_errors( 'Enter the end time' );
+	}
+	if ( 5 < $_POST['rating'] ) {
+		ol_add_errors( 'The rating cannot be more than 5 stars' );
 	}
 
-	if ( $_SESSION['errors']['danger'] ) {
+	if ( ol_get_check_error() ) {
 		return;
 	}
 
@@ -158,38 +155,35 @@ function ol_edit_post() {
 		return;
 	}
 
-	if ( isset( $_POST['btn_post'] ) ) {
-
-		if ( empty( $_POST['name'] ) ) {
-			ol_add_errors( 'Enter the name' );
-		}
-		if ( empty( $_POST['type'] ) ) {
-			ol_add_errors( 'Enter the type of institution' );
-		}
-		if ( empty( $_POST['phone'] ) ) {
-			ol_add_errors( 'Enter the phone' );
-		}
-		if ( empty( $_POST['address'] ) ) {
-			ol_add_errors( 'Enter the address' );
-		}
-		if ( empty( $_POST['start_time'] ) ) {
-			ol_add_errors( 'Enter the start time' );
-		}
-		if ( empty( $_POST['end_time'] ) ) {
-			ol_add_errors( 'Enter the end time' );
-		}
-		if ( empty( $_POST['rating'] ) ) {
-			ol_add_errors( 'Enter the rating' );
-		}
-		if ( empty( $_POST['reviews'] ) ) {
-			ol_add_errors( 'Enter the reviews' );
-		}
-		if ( 5 < $_POST['rating'] ) {
-			ol_add_errors( 'The rating cannot be more than 5 stars' );
-		}
+	if ( empty( $_POST['name'] ) ) {
+		ol_add_errors( 'Enter the name' );
+	}
+	if ( empty( $_POST['type'] ) ) {
+		ol_add_errors( 'Enter the type of institution' );
+	}
+	if ( empty( $_POST['phone'] ) ) {
+		ol_add_errors( 'Enter the phone' );
+	}
+	if ( empty( $_POST['address'] ) ) {
+		ol_add_errors( 'Enter the address' );
+	}
+	if ( empty( $_POST['start_time'] ) ) {
+		ol_add_errors( 'Enter the start time' );
+	}
+	if ( empty( $_POST['end_time'] ) ) {
+		ol_add_errors( 'Enter the end time' );
+	}
+	if ( empty( $_POST['rating'] ) ) {
+		ol_add_errors( 'Enter the rating' );
+	}
+	if ( empty( $_POST['reviews'] ) ) {
+		ol_add_errors( 'Enter the reviews' );
+	}
+	if ( 5 < $_POST['rating'] ) {
+		ol_add_errors( 'The rating cannot be more than 5 stars' );
 	}
 
-	if ( $_SESSION['errors']['danger'] ) {
+	if ( ol_get_check_error() ) {
 		return;
 	}
 
@@ -210,6 +204,10 @@ function ol_edit_post() {
 		}
 	}
 
+	if ( $new_name_file ) {
+		$new_name_file = 'img/' . $new_name_file;
+	}
+
 	$result = ol_loading_restaurant_db(
 		array(
 			'id'         => esc_html( $_POST['id'] ),
@@ -221,7 +219,7 @@ function ol_edit_post() {
 			'end_time'   => esc_html( $_POST['end_time'] ),
 			'rating'     => esc_html( $_POST['rating'] ),
 			'reviews'    => esc_html( $_POST['reviews'] ),
-			'url_photo'  => 'img/' . $new_name_file,
+			'url_photo'  => $new_name_file,
 			'lat'        => esc_html( $_POST['lat'] ),
 			'lon'        => esc_html( $_POST['lon'] ),
 		),
@@ -229,8 +227,8 @@ function ol_edit_post() {
 	);
 
 	if ( $result ) {
-		ol_clear_url();
 		ol_add_errors( 'The post has been updated to the database', 'success' );
+		ol_clear_url();
 	} else {
 		ol_add_errors( 'The post has not been updated to the database' );
 	}
@@ -251,11 +249,13 @@ function ol_get_count_cafe() {
  * @return integer
  */
 function ol_get_click_pagination() {
+	$pagination = $_GET['pagination'];
+
 	if ( empty( $_GET['pagination'] ) ) {
-		return 0;
+		$pagination = 0;
 	}
 
-	return esc_html( $_GET['pagination'] );
+	return $pagination;
 }
 
 /**
@@ -266,17 +266,14 @@ function ol_add_page__from_db() {
 		return;
 	}
 
-	if ( isset( $_POST['create_page'] ) ) {
-
-		if ( empty( $_POST['page_name'] ) ) {
-			ol_add_errors( 'Enter the title' );
-		}
-		if ( empty( $_POST['page_content'] ) ) {
-			ol_add_errors( 'Enter the content' );
-		}
+	if ( empty( $_POST['page_name'] ) ) {
+		ol_add_errors( 'Enter the title' );
+	}
+	if ( empty( $_POST['page_content'] ) ) {
+		ol_add_errors( 'Enter the content' );
 	}
 
-	if ( $_SESSION['errors']['danger'] ) {
+	if ( ol_get_check_error() ) {
 		return;
 	}
 
@@ -289,8 +286,7 @@ function ol_add_page__from_db() {
 
 	if ( $result ) {
 		ol_add_errors( 'The page has been added to the database', 'success' );
-		header( 'Location: index.php?admin-action=page' );
-		die();
+		ol_clear_url( '?admin-action=page' );
 	} else {
 		ol_add_errors( 'The page has not been added to the database' );
 	}
@@ -304,17 +300,14 @@ function ol_edit_page__from_db() {
 		return;
 	}
 
-	if ( isset( $_POST['create_page'] ) ) {
-
-		if ( empty( $_POST['page_name'] ) ) {
-			ol_add_errors( 'Enter the title' );
-		}
-		if ( empty( $_POST['page_content'] ) ) {
-			ol_add_errors( 'Enter the content' );
-		}
+	if ( empty( $_POST['page_name'] ) ) {
+		ol_add_errors( 'Enter the title' );
+	}
+	if ( empty( $_POST['page_content'] ) ) {
+		ol_add_errors( 'Enter the content' );
 	}
 
-	if ( $_SESSION['errors']['danger'] ) {
+	if ( ol_get_check_error() ) {
 		return;
 	}
 
@@ -329,8 +322,7 @@ function ol_edit_page__from_db() {
 
 	if ( $result ) {
 		ol_add_errors( 'The page has been edited to the database', 'success' );
-		header( 'Location: index.php?admin-action=page' );
-		die();
+		ol_clear_url( '?admin-action=page' );
 	} else {
 		ol_add_errors( 'The page has not been edited to the database' );
 	}
@@ -342,12 +334,14 @@ function ol_edit_page__from_db() {
  * @param string $data data.
  * @return string
  */
-function ol_get_current( string $data ) {
+function ol_get_current( $data ) {
+	$current = '';
+
 	if ( $data === $_GET['admin-action'] || empty( $_GET['admin-action'] ) && 'admin' === $data ) {
-		return 'active';
-	} else {
-		return '';
+		$current = 'active';
 	}
+
+	return $current;
 }
 
 /**
@@ -358,6 +352,15 @@ function ol_get_current( string $data ) {
  */
 function ol_add_errors( $string, $type = 'danger' ) {
 	$_SESSION['errors'][ $type ][] = $string;
+}
+
+/**
+ * Check error.
+ *
+ * @return array errors.
+ */
+function ol_get_check_error() {
+	return $_SESSION['errors']['danger'];
 }
 
 /**
@@ -385,6 +388,17 @@ function ol_echo_errors() {
 }
 
 /**
+ * Checks the role of the user.
+ */
+function ol_check_role_user() {
+	if ( ! ol_get_role_users( $_SESSION['login'] ) && $_SESSION['login'] ) {
+		ol_add_errors( 'You are not an administrator' );
+		header( 'Location: ../index.php' );
+		die();
+	}
+}
+
+/**
  * Generate a page for the user.
  *
  * @param array $restaurants array data restaurants.
@@ -393,6 +407,8 @@ function ol_show_template( $restaurants ) {
 	if ( ! $_SESSION['login'] ) {
 		$restaurants['action'] = 'sing-in';
 	}
+
+	ol_check_role_user();
 
 	include 'view/header.tpl.php';
 	include 'view/' . $restaurants['action'] . '.tpl.php';

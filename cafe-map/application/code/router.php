@@ -19,6 +19,22 @@ function ol_router() {
 			ol_view_page();
 			break;
 
+		case 'sing-in':
+			ol_sing_in();
+			break;
+
+		case 'exit':
+			ol_exit();
+			break;
+
+		case 'add-favorite':
+			ol_add_favorite();
+			break;
+
+		case 'favorite':
+			ol_view_favorite();
+			break;
+
 		default:
 			ol_page_404();
 			break;

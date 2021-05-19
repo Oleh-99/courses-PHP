@@ -38,6 +38,9 @@
 						<?php echo esc_html( $restaurant['number_of_reviews'] ); ?>
 						<i class="far fa-comments"></i>
 					</div>
+					<?php if ( $_SESSION['login'] ) : ?>
+						<a href="?action=add-favorite&id=<?php echo esc_html( $restaurant['id'] ); ?>&pagination=<?php echo ol_get_click_pagination();?>" class="favorite <?php echo ol_check_favorite( $restaurants['favorite'], $restaurant['id'] ) ?>"></a>
+					<?php endif; ?>
 				</div>
 			<?php endforeach; ?>
 			<div class="btn-group" role="group" aria-label="">

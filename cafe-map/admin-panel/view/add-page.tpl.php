@@ -6,8 +6,12 @@
 				<label for="page_name">Title</label>
 				<input type="text" id="page_name" name="page_name" placeholder="Title" value="<?php echo esc_html( $value['title'] ); ?>">
 				<label for="content">Content</label>
-				<textarea id="content" name="page_content"><?php echo esc_html( $value['content'] ); ?></textarea>
-				<button type="submit" name="create_page" class="btn btn-warning"><?php echo esc_html( $restaurants['btn-name'] ); ?></button>
+				<textarea id="content" name="page_content">
+					<?php echo esc_html( $value['content'] ); ?>
+				</textarea>
+				<button type="submit" name="create_page" class="btn btn-warning">
+					<?php echo esc_html( $restaurants['btn-name'] ); ?>
+				</button>
 			<?php endforeach; ?>
 		</form>
 	</div>

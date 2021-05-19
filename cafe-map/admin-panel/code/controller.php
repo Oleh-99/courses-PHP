@@ -44,6 +44,7 @@ function ol_page_404() {
  */
 function ol_exit_account() {
 	unset( $_SESSION['login'] );
+	unset( $_SESSION['id'] );
 	header( 'Location: ../index.php' );
 }
 
@@ -112,7 +113,7 @@ function ol_delete_page() {
 		ol_add_errors( ' This page has not been deleted ' );
 	}
 
-	header( 'Location: index.php?admin-action=page' );
+	ol_clear_url( '?admin-action=page' );
 }
 
 /**

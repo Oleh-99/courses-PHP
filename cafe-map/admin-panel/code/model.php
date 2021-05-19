@@ -11,7 +11,7 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
 function ol_get_users_restaurants_db( $login ) {
 	global $ol_dbh;
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM users_restaurants WHERE login =:login' );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM users_restaurants WHERE login =:login AND administrator = 1' );
 	$stmt->bindParam( ':login', $login );
 	$stmt->execute();
 
@@ -177,6 +177,22 @@ function ol_get_page_by_id_db( $id ) {
 
 	$stmt = $ol_dbh->prepare( 'SELECT * FROM restaurants_page WHERE id = :id' );
 	$stmt->bindParam( ':id', $id );
+	$stmt->execute();
+
+	return $stmt->fetchAll();
+}
+
+/**
+ * Queries the database for the user role.
+ *
+ * @param string $login login users.
+ * @return array
+ */
+function ol_get_role_users( $login ) {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM users_restaurants WHERE login = :login AND administrator = 1' );
+	$stmt->bindParam( ':login', $login );
 	$stmt->execute();
 
 	return $stmt->fetchAll();

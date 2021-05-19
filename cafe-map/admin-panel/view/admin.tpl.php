@@ -1,15 +1,8 @@
-<section>
-	<div class="container">
-		<div class="admin-bar">
-			<h4>Admin-panel</h4>
-			<a href="?admin-action=exit" class="btn btn-danger">Exit</a>
-		</div>
-	</div>
-</section>
 <section class="content">
 	<div class="container">
 		<div class="row">
 			<div class="col-3">
+				<h4>Admin-panel</h4>
 				<a href="?admin-action=add" class="btn btn-danger">Add</a>
 			</div>
 			<div class="col-9">
