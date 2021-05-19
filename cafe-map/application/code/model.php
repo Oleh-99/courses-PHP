@@ -62,6 +62,12 @@ function ol_get_view_page_by_id_db( $id ) {
 	return $stmt->fetchAll();
 }
 
+/**
+ * Search for a user in the database by login.
+ *
+ * @param string $login Login users.
+ * @return array
+ */
 function ol_get_login_in_db( $login ) {
 	global $ol_dbh;
 
@@ -72,6 +78,13 @@ function ol_get_login_in_db( $login ) {
 	return $stmt->fetchAll();
 }
 
+/**
+ * Adding a user in the database.
+ *
+ * @param string $login Login user.
+ * @param string $password Hashed user password.
+ * @return string
+ */
 function ol_registration_in( $login, $password ) {
 	global $ol_dbh;
 
@@ -83,6 +96,12 @@ function ol_registration_in( $login, $password ) {
 	return $ol_dbh->lastInsertId();
 }
 
+/**
+ * Adds favorite restaurants to the database.
+ *
+ * @param array $favorite Array with id favorite restaurants.
+ * @return bool
+ */
 function ol_add_favorite_in_db( $favorite ) {
 	global $ol_dbh;
 
@@ -93,6 +112,12 @@ function ol_add_favorite_in_db( $favorite ) {
 	return $stmt->execute();
 }
 
+/**
+ * Outputs user data by id.
+ *
+ * @param int $id User id.
+ * @return array
+ */
 function ol_get_data_in_db( $id ) {
 	global $ol_dbh;
 
@@ -104,9 +129,10 @@ function ol_get_data_in_db( $id ) {
 }
 
 /**
+ * Publishes a restaurant on id.
  *
- *
- * @return array
+ * @param int $id Id restaurant.
+ * @return array Data restaurant.
  */
 function ol_get_restaurant_by_id_db( $id ) {
 	global $ol_dbh;

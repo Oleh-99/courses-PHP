@@ -4,7 +4,7 @@ session_start();
 /**
  * Renders data.
  *
- * @param mixed $data data.
+ * @param mixed $data Data.
  */
 function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
@@ -13,7 +13,7 @@ function esc_html( $data ) {
 /**
  * Array output.
  *
- * @param array $data array data.
+ * @param array $data Array data.
  */
 function ar( $data ) {
 	echo '<pre>';
@@ -24,7 +24,7 @@ function ar( $data ) {
 /**
  * Clear url.
  *
- * @param string $action action page.
+ * @param string $action Action page.
  */
 function ol_clear_url( $action = '' ) {
 	header( 'Location: index.php' . $action );
@@ -34,7 +34,7 @@ function ol_clear_url( $action = '' ) {
 /**
  * Number of restaurants in the database.
  *
- * @return int number of restaurants.
+ * @return int Number of restaurants.
  */
 function ol_get_count_cafe() {
 	return ol_get_count_restaurants_db();
@@ -43,7 +43,7 @@ function ol_get_count_cafe() {
 /**
  * Checks which page of the asset.
  *
- * @return integer pagination.
+ * @return integer Pagination.
  */
 function ol_get_click_pagination() {
 	$pagination = esc_html( $_GET['pagination'] );
@@ -58,8 +58,8 @@ function ol_get_click_pagination() {
 /**
  * Check for active or page.
  *
- * @param mixed $data data.
- * @param mixed $id id page.
+ * @param mixed $data Data.
+ * @param mixed $id Id page.
  * @return string
  */
 function ol_get_current( $data, $id = 0 ) {
@@ -150,6 +150,11 @@ function ol_registration_users() {
 	}
 }
 
+/**
+ * Adds or removes from the list of favorites.
+ *
+ * @param array $favorites List of favorite restaurants from the database.
+ */
 function ol_render_favorite( $favorites ) {
 	if ( empty( $_GET['id'] ) ) {
 		return;
@@ -195,9 +200,14 @@ function ol_render_favorite( $favorites ) {
 	}
 }
 
+/**
+ * Forms the user's favorite restaurants.
+ *
+ * @return array Date restaurants.
+ */
 function ol_get_favorite() {
-	$result = ol_get_data_in_db( $_SESSION['id'] );
-	$user_favorites = [];
+	$result         = ol_get_data_in_db( $_SESSION['id'] );
+	$user_favorites = array();
 
 	foreach ( $result as $favorite ) {
 		$user_favorites = unserialize( $favorite['favorite'] );
@@ -206,21 +216,33 @@ function ol_get_favorite() {
 	return $user_favorites;
 }
 
+/**
+ * Checks in an array of favorite restaurant.
+ *
+ * @param array $favorite Array of id favorite restaurants.
+ * @param int   $id Id of the current restaurant.
+ * @return string
+ */
 function ol_check_favorite( $favorite, $id ) {
 	$class = '';
 
-	if ( in_array( $id, $favorite ) ) {
+	if ( in_array( $id, $favorite, true ) ) {
 		$class = 'active';
 	}
 
 	return $class;
 }
 
+/**
+ * The user's favorite restaurants are generated.
+ *
+ * @return array Favorite restaurants.
+ */
 function ol_get_restaurants_favorite() {
-	$favorite_post = ol_get_favorite();
+	$favorite_post    = ol_get_favorite();
 	$data_restaurants = array();
 
-	foreach ($favorite_post as $id_restaurant ) {
+	foreach ( $favorite_post as $id_restaurant ) {
 		$data_restaurants[] = ol_get_restaurant_by_id_db( $id_restaurant );
 	}
 
