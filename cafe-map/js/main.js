@@ -6,6 +6,7 @@
 		}
 
 		let data = [];
+
 		$('.cart-cafe').each(function () {
 			let $this     = $(this);
 			let $thisName = $this.find('.title').text();

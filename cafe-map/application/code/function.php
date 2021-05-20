@@ -86,9 +86,6 @@ function ol_render_form() {
 	if ( empty( $_POST['password'] ) ) {
 		ol_add_errors( 'Enter the password' );
 	}
-	if ( 8 > strlen( $_POST['password'] ) ) {
-		ol_add_errors( 'The minimum password length is 8 characters' );
-	}
 
 	if ( ol_get_check_error() ) {
 		return;
@@ -133,6 +130,11 @@ function ol_registration_users() {
 	$login    = esc_html( $_POST['login'] );
 	$password = password_hash( esc_html( $_POST['password'] ), PASSWORD_DEFAULT );
 
+	if ( 8 > strlen( $_POST['password'] ) ) {
+		ol_add_errors( 'The minimum password length is 8 characters' );
+		return;
+	}
+
 	if ( ol_get_login_in_db( $login ) ) {
 		ol_add_errors( 'A user with this login already exists' );
 		return;
@@ -156,12 +158,13 @@ function ol_registration_users() {
  * @param array $favorites List of favorite restaurants from the database.
  */
 function ol_render_favorite( $favorites ) {
-	if ( empty( $_GET['id'] ) ) {
+	if ( empty( $_GET['add-favorite'] ) ) {
 		return;
 	}
+
 	$user_id        = 0;
 	$user_favorites = array();
-	$restoran_id    = esc_html( $_GET['id'] );
+	$restoran_id    = esc_html( $_GET['add-favorite'] );
 
 	foreach ( $favorites as $favorite ) {
 		$user_id        = $favorite['id'];
@@ -189,12 +192,17 @@ function ol_render_favorite( $favorites ) {
 
 	if ( $result ) {
 		ol_add_errors( 'The restaurant is update to favorites', 'success' );
-		$pagination = '';
+		$action = '?';
+
+		if ( ! empty( $_GET['action'] ) ) {
+			$action .= 'action=' . esc_html( $_GET['action'] );
+		}
 
 		if ( ! empty( $_GET['pagination'] ) ) {
-			$pagination = '?pagination=' . esc_html( $_GET['pagination'] );
+			$action .= '&pagination=' . esc_html( $_GET['pagination'] );
 		}
-		ol_clear_url( $pagination );
+
+		ol_clear_url( $action );
 	} else {
 		ol_add_errors( 'The restaurant is not update to favorites' );
 	}
@@ -241,6 +249,10 @@ function ol_check_favorite( $favorite, $id ) {
 function ol_get_restaurants_favorite() {
 	$favorite_post    = ol_get_favorite();
 	$data_restaurants = array();
+
+	if ( ! $favorite_post ) {
+		return;
+	}
 
 	foreach ( $favorite_post as $id_restaurant ) {
 		$data_restaurants[] = ol_get_restaurant_by_id_db( $id_restaurant );

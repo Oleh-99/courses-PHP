@@ -23,7 +23,8 @@
 									<?php echo esc_html( $restaurant['address'] ); ?>
 								</div>
 								<div>Графік роботи 
-									<?php echo esc_html( $restaurant['time_start'] ); ?> -
+									<?php echo esc_html( $restaurant['time_start'] ); ?>
+									-
 									<?php echo esc_html( $restaurant['time_end'] ); ?>
 								</div>
 								<div>
@@ -48,7 +49,9 @@
 				<div class="btn-group" role="group" aria-label="">
 					<?php $num = 1; ?>
 					<?php for ( $i = 0; $i < $restaurants['pagination']; $i += 5 ) : ?>
-						<a href="?pagination=<?php echo $i; ?>" class="btn btn-danger <?php echo $i === intval( $_GET['pagination'] ) ? 'active' : ''; ?>"><?php echo $num++; ?></a>
+						<a href="?pagination=<?php echo $i; ?>" class="btn btn-danger <?php echo $i === intval( $_GET['pagination'] ) ? 'active' : ''; ?>">
+							<?php echo $num++; ?>
+						</a>
 					<?php endfor; ?>
 				</div>
 			</div>

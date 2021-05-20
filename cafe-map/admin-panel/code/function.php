@@ -42,7 +42,6 @@ function ol_sing_up_user() {
 	if ( empty( $_POST['login'] ) ) {
 		ol_add_errors( 'Enter your login' );
 	}
-
 	if ( empty( $_POST['password'] ) ) {
 		ol_add_errors( 'Enter your password' );
 	}
@@ -57,7 +56,7 @@ function ol_sing_up_user() {
 
 	foreach ( $data_users as $value ) {
 		if ( $value['login'] === $login && password_verify( $password, $value['password'] ) ) {
-			$_SESSION['login'] = $login;
+			$_SESSION['login'] = $value['login'];
 			$_SESSION['id']    = $value['id'];
 		}
 	}
@@ -75,53 +74,13 @@ function ol_create_post() {
 		return;
 	}
 
-	if ( empty( $_POST['name'] ) ) {
-		ol_add_errors( 'Enter a name' );
-	}
-	if ( empty( $_POST['type'] ) ) {
-		ol_add_errors( 'Enter the type of institution' );
-	}
-	if ( empty( $_POST['phone'] ) ) {
-		ol_add_errors( 'Enter the phone' );
-	}
-	if ( empty( $_POST['address'] ) ) {
-		ol_add_errors( 'Enter the address' );
-	}
-	if ( empty( $_POST['start_time'] ) ) {
-		ol_add_errors( 'Enter the start time' );
-	}
-	if ( empty( $_POST['end_time'] ) ) {
-		ol_add_errors( 'Enter the end time' );
-	}
-	if ( 5 < $_POST['rating'] ) {
-		ol_add_errors( 'The rating cannot be more than 5 stars' );
-	}
+	ol_check_empty_form();
 
 	if ( ol_get_check_error() ) {
 		return;
 	}
 
-	$new_name_file = '';
-
-	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
-		$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
-		$file_name               = $_FILES['uploaded_file']['name'];
-		$array                   = explode( '.', $file_name );
-		$file_extension          = strtolower( end( $array ) );
-		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
-		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
-
-		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
-			$dest_path = '../img/' . $new_name_file;
-			move_uploaded_file( $file_tmp_path, $dest_path );
-		} else {
-			ol_add_errors( 'Failed to load image' );
-		}
-	}
-
-	if ( $new_name_file ) {
-		$new_name_file = 'img/' . $new_name_file;
-	}
+	$new_name_file = ol_save_photo();
 
 	$result = ol_loading_restaurant_db(
 		array(
@@ -148,15 +107,42 @@ function ol_create_post() {
 }
 
 /**
- * Data processing to edit the post.
+ * Save the photo to the server.
+ *
+ * @return string Name the photo.
  */
-function ol_edit_post() {
-	if ( ! isset( $_POST['btn_post'] ) ) {
-		return;
+function ol_save_photo() {
+	$new_name_file = '';
+
+	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
+		$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
+		$file_name               = $_FILES['uploaded_file']['name'];
+		$array                   = explode( '.', $file_name );
+		$file_extension          = strtolower( end( $array ) );
+		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
+		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
+
+		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
+			$dest_path = '../img/' . $new_name_file;
+			move_uploaded_file( $file_tmp_path, $dest_path );
+		} else {
+			ol_add_errors( 'Failed to load image' );
+		}
 	}
 
+	if ( $new_name_file ) {
+		$new_name_file = 'img/' . $new_name_file;
+	}
+
+	return $new_name_file;
+}
+
+/**
+ * Checks for empty forms.
+ */
+function ol_check_empty_form() {
 	if ( empty( $_POST['name'] ) ) {
-		ol_add_errors( 'Enter the name' );
+		ol_add_errors( 'Enter a name' );
 	}
 	if ( empty( $_POST['type'] ) ) {
 		ol_add_errors( 'Enter the type of institution' );
@@ -173,40 +159,33 @@ function ol_edit_post() {
 	if ( empty( $_POST['end_time'] ) ) {
 		ol_add_errors( 'Enter the end time' );
 	}
+	if ( 5 < $_POST['rating'] ) {
+		ol_add_errors( 'The rating cannot be more than 5 stars' );
+	}
+}
+
+/**
+ * Data processing to edit the post.
+ */
+function ol_edit_post() {
+	if ( ! isset( $_POST['btn_post'] ) ) {
+		return;
+	}
+
+	ol_check_empty_form();
+
 	if ( empty( $_POST['rating'] ) ) {
 		ol_add_errors( 'Enter the rating' );
 	}
 	if ( empty( $_POST['reviews'] ) ) {
 		ol_add_errors( 'Enter the reviews' );
 	}
-	if ( 5 < $_POST['rating'] ) {
-		ol_add_errors( 'The rating cannot be more than 5 stars' );
-	}
 
 	if ( ol_get_check_error() ) {
 		return;
 	}
 
-	$new_name_file = '';
-
-	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
-		$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
-		$file_name               = $_FILES['uploaded_file']['name'];
-		$file_extension          = strtolower( end( explode( '.', $file_name ) ) );
-		$new_name_file           = esc_html( $_POST['name'] ) . '.' . $file_extension;
-		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
-
-		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
-			$dest_path = '../img/' . $new_name_file;
-			move_uploaded_file( $file_tmp_path, $dest_path );
-		} else {
-			ol_add_errors( ' Failed to load image, ' );
-		}
-	}
-
-	if ( $new_name_file ) {
-		$new_name_file = 'img/' . $new_name_file;
-	}
+	$new_name_file = ol_save_photo();
 
 	$result = ol_loading_restaurant_db(
 		array(

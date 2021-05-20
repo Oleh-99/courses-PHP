@@ -36,7 +36,7 @@
 						<?php endforeach; ?>
 						<?php if ( $_SESSION['login'] ) : ?>
 							<li class="nav-item">
-								<a class="nav-link" href="?action=favorite">Favorite</a>
+								<a class="nav-link <?php echo esc_html( ol_get_current( 'favorite' ) ); ?>" href="?action=favorite">Favorite</a>
 							</li>
 						<?php endif; ?>
 					</ul>
