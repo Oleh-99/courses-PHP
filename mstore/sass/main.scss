@@ -248,6 +248,10 @@ header {
 .cart {
 	display: flex;
 
+	&.active{
+		opacity: 0.6;
+	}
+
 	span {
 		position: relative;
 
@@ -287,6 +291,71 @@ header {
 	display: none;
 	flex: 1 1 0%;
 	justify-content: flex-end;
+}
+
+.cart-view {
+	@include block-absolute(100%, 0, none, none);
+	width: 400px;
+	opacity: 0;
+	visibility: hidden;
+	background: #fff;
+	border: 1px solid #25252566;
+	border-radius: 5px;
+	transition: all .3s ease;
+	z-index: 1;
+
+	&.active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.not-product {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.link-full {
+	@include block-absolute(0, 0, 0, 0);
+}
+
+.product-cart {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 10px 15px;
+	transition: background .3s ease;
+
+	a {
+		font-size: 14px;
+		color: #555555;
+		letter-spacing: 1px;
+		margin: 0;
+		padding: 0;
+	}
+
+	img {
+		height: 150px;
+		width: 150px;
+		object-fit: cover;
+		object-position: center;
+		margin-right: 20px;
+	}
+
+	.price {
+		font-size: 18px;
+		font-weight: 500;
+		letter-spacing: 1.5px;
+	}
+
+	.remove-product {
+		@include block-absolute(10px, 10px, none, none);
+		padding: 10px;
+	}
+
+	&:hover {
+		background: #d5d5d5;
+	}
 }
 
 
@@ -577,7 +646,7 @@ header {
 		color: #ff0000;
 	}
 
-	.sale-foto {
+	.sale {
 		background-color: #ed1c24;
 	}
 
@@ -647,6 +716,18 @@ header {
 		font-size: 11px;
 	}
 
+	.star-1	{
+		i:first-child{
+			color: #eecf00;
+		}
+	}
+
+	.star-2	{
+		i:not(:last-child, :nth-child(4), :nth-child(3)){
+			color: #eecf00;
+		}
+	}
+
 	.star-3	{
 		i:not(:last-child, :nth-child(4)){
 			color: #eecf00;
@@ -655,6 +736,12 @@ header {
 
 	.star-4 {
 		i:not(:last-child){
+			color: #eecf00;
+		}
+	}
+
+	.star-5	{
+		i {
 			color: #eecf00;
 		}
 	}
@@ -1092,6 +1179,20 @@ footer{
 	}
 }
 
+.navigation {
+	background: #9CDFCE;
+	padding: 30px 0;
+	text-align: center;
+	margin-bottom: 40px;
+
+	h2 {
+		margin-bottom: 0;
+		font-size: 48px;
+		font-weight: 700;
+		letter-spacing: 2px;
+		color: #31415c;
+	}
+}
 
 @media (min-width: 1200px){
 .container {
