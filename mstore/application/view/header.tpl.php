@@ -61,7 +61,7 @@
 				<a href="#"><i class="fas fa-search"></i></a>
 				<a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 				<a href="#"><i class="far fa-heart"></i></a>
-				<a href="#" class="cart">
+				<div class="cart">
 					<span>
 						<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 						<span class="numbers-cart">
@@ -71,31 +71,31 @@
 					<span>
 						$<?php echo ol_sum_product(); ?>
 					</span>
-				</a>
-				<ul class="cart-view">
-					<?php $products = ol_get_product_with_card(); ?>
-					<?php if ( $products ) : ?>
-						<?php foreach ( $products as $product ) : ?>
-							<li class="product-cart">
-								<img src="<?php echo esc_html( $product['photo'] ); ?>" alt="">
-								<div class="product-cart-wrapper">
-									<h5>
-										<a href="">
-											<?php echo esc_html( $product['title'] ); ?>
-										</a>
-									</h5>
-									<div class="price"><?php echo esc_html( ol_get_price( $product['price'] ) ); ?></div>
-								</div>
-								<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="link-full"></a>
-								<a href="?action=<?php echo esc_html( $_GET['action'] ) . '&remove-card=' . esc_html( $product['id'] ); ?>" class="remove-product">
-									<i class="fas fa-times"></i>
-								</a>
-							</li>
-						<?php endforeach; ?>
-					<?php else: ?>
-						<h4 class="not-product" ">Not product</h4>
-					<?php endif; ?>
-				</ul>
+					<ul class="cart-view">
+						<?php $products = ol_get_product_with_card(); ?>
+						<?php if ( $products ) : ?>
+							<?php foreach ( $products as $product ) : ?>
+								<li class="product-cart">
+									<img src="<?php echo esc_html( $product['photo'] ); ?>" alt="">
+									<div class="product-cart-wrapper">
+										<h5>
+											<a href="">
+												<?php echo esc_html( $product['title'] ); ?>
+											</a>
+										</h5>
+										<div class="price"><?php echo esc_html( ol_get_price( $product['price'] ) ); ?></div>
+									</div>
+									<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="link-full"></a>
+									<a href="?action=<?php echo esc_html( $_GET['action'] ) . '&remove-card=' . esc_html( $product['id'] ); ?>" class="remove-product">
+										<i class="fas fa-times"></i>
+									</a>
+								</li>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<h4 class="not-product">Not product</h4>
+						<?php endif; ?>
+					</ul>
+				</div>
 			</div>
 			<div class="burger-wrapper">
 				<button class="burger"><i class="fas fa-bars"></i></button>

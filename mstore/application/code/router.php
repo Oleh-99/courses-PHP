@@ -19,6 +19,10 @@ function ol_router() {
 			ol_shop_page();
 			break;
 
+		case 'single-product':
+			ol_single_product_page();
+			break;
+
 		default:
 			ol_page_404();
 			break;

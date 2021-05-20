@@ -26,6 +26,19 @@ function ol_shop_page() {
 	);
 }
 
+function ol_single_product_page() {
+	if ( empty( $_GET['id'] ) ) {
+		ol_clear_url();
+	}
+
+	show_template(
+		array(
+			'action'  => 'single-product',
+			'product' => ol_get_product_by_id_db( esc_html( $_GET['id'] ) ),
+		)
+	);
+}
+
 /**
  * 404 page generation.
  */
