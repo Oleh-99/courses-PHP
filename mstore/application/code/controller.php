@@ -16,21 +16,28 @@ function ol_home_page() {
  * Shop page generation.
  */
 function ol_shop_page() {
+	$page = ol_view_page_product();
 	ol_add_product_to_car();
 	ol_remove_product();
 	show_template(
 		array(
-			'action'   => 'shop',
-			'products' => ol_get_product_db(),
+			'action'     => 'shop',
+			'products'   => ol_get_product_db( $page ),
+			'pagination' => ol_get_count_product_db(),
 		)
 	);
 }
 
+/**
+ * Single-product page generation.
+ */
 function ol_single_product_page() {
 	if ( empty( $_GET['id'] ) ) {
 		ol_clear_url();
 	}
 
+	ol_add_card_with_single();
+	ol_remove_product();
 	show_template(
 		array(
 			'action'  => 'single-product',

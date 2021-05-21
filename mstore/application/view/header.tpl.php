@@ -29,6 +29,7 @@
 			<ul class="menu">
 				<li><a href="?action=home">Home</a></li>
 				<li><a href="?action=shop">Shop</a></li>
+				<li><a href="admin-panel/index.php">Admin panel</a></li>
 				<li><a href="#">Accessories <i class="fas fa-sort-down"></i></a>
 					<ul class="dropdown">
 						<li><a href="http://">Item 1</a></li>
@@ -54,7 +55,6 @@
 						<li><a href="http://">Item 5</a></li>
 					</ul>
 				</li>
-				<li><a href="#">Lookbook</a></li>
 				<li><a href="#">Contact</a></li>
 			</ul>
 			<div class="icon-header">
@@ -83,10 +83,17 @@
 												<?php echo esc_html( $product['title'] ); ?>
 											</a>
 										</h5>
-										<div class="price"><?php echo esc_html( ol_get_price( $product['price'] ) ); ?></div>
+										<div class="price">
+											<?php echo esc_html( '$' . ol_get_price( $product['price'] ) ); ?>
+											<?php if ( $product['count'] ): ?>
+												<span class="count">
+													<?php echo esc_html( ++$product['count'] ); ?>
+												</span>
+											<?php endif; ?>
+										</div>
 									</div>
 									<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="link-full"></a>
-									<a href="?action=<?php echo esc_html( $_GET['action'] ) . '&remove-card=' . esc_html( $product['id'] ); ?>" class="remove-product">
+									<a href="?action=<?php echo esc_html( $_GET['action'] ) . '&id=' . esc_html( $product['id'] ) . '&remove-card=' . esc_html( $product['id'] . ol_view_link_page() ); ?>" class="remove-product">
 										<i class="fas fa-times"></i>
 									</a>
 								</li>

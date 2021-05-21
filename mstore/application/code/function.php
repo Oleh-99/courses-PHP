@@ -40,15 +40,67 @@ function ol_add_product_to_car() {
 	}
 
 	$product_id  = esc_html( $_GET['add-card'] );
-	$key_product = array_search( $product_id, $_SESSION['card'], true );
+	$action_page = '';
 
-	if ( $key_product || 0 === $key_product ) {
-		unset( $_SESSION['card'][ $key_product ] );
-	} else {
-		$_SESSION['card'][] = $product_id;
+	ol_add_to_cart( $product_id );
+
+	if ( ! empty( $_GET['page'] ) ) {
+		$action_page = '&page=' . esc_html( $_GET['page'] );
 	}
 
-	ol_clear_url( '?action=' . esc_html( $_GET['action'] ) );
+	ol_clear_url( '?action=' . esc_html( $_GET['action'] ) . $action_page );
+}
+
+/**
+ * Processes the form on single product.
+ */
+function ol_add_card_with_single() {
+	if ( empty( $_GET['id'] ) || empty( $_GET['numbers'] ) ) {
+		return;
+	}
+
+	$product_id = esc_html( $_GET['id'] );
+	$count      = esc_html( $_GET['numbers'] ) - 1;
+
+	if ( 0 > $count ) {
+		return;
+	}
+
+	ol_add_to_cart( $product_id, $count );
+
+	 ol_clear_url( '?action=single-product&id=' . $product_id );
+}
+
+/**
+ * Add or update data in card.
+ *
+ * @param int $product_id Id product.
+ * @param int $count Count product.
+ */
+function ol_add_to_cart( $product_id, $count = '' ) {
+	$card         = $_SESSION['card'];
+	$availability = false;
+
+	if ( $_SESSION['card'] ) {
+		for ( $i = 0; $i <= count( $card ); $i++ ) {
+			if ( $card[ $i ]['id'] === $product_id ) {
+				if ( '' !== $count ) {
+					$_SESSION['card'][ $i ]['count'] = $count;
+				} else {
+					$_SESSION['card'][ $i ]['count']++;
+				}
+
+				$availability = true;
+			}
+		}
+	}
+
+	if ( ! $availability ) {
+		$_SESSION['card'][] = array(
+			'id'    => $product_id,
+			'count' => $count,
+		);
+	}
 }
 
 /**
@@ -93,8 +145,9 @@ function ol_sum_product() {
 	$sum_product = 0;
 
 	foreach ( $id_products as $id_product ) {
-		$data_product = ol_get_product_by_id_db( $id_product );
-		$sum_product += $data_product['price'];
+		$data_product = ol_get_product_by_id_db( $id_product['id'] );
+		$count        = ++$id_product['count'];
+		$sum_product += $data_product['price'] * $count;
 	}
 
 	if ( ! stristr( $sum_product, '.' ) ) {
@@ -118,7 +171,8 @@ function ol_get_product_with_card() {
 	$id_products  = $_SESSION['card'];
 
 	foreach ( $id_products as $id_product ) {
-		$data_product[] = ol_get_product_by_id_db( $id_product );
+		$count['count'] = $id_product['count'];
+		$data_product[] = array_merge( ol_get_product_by_id_db( $id_product['id'] ), $count );
 	}
 
 	return $data_product;
@@ -134,9 +188,70 @@ function ol_remove_product() {
 
 	$id_product   = esc_html( $_GET['remove-card'] );
 	$data_product = $_SESSION['card'];
+	$action_page  = '';
 
-	unset( $data_product[ array_search( $id_product, $data_product, true ) ] );
-	$_SESSION['card'] = $data_product;
+	for ( $i = 0; $i <= count( $data_product ); $i++ ) {
+		if ( $data_product[ $i ]['id'] === $id_product ) {
+			unset( $data_product[ $i ] );
+		}
+	}
+
+	$_SESSION['card'] = array_values( $data_product );
+
+	if ( ! empty( $_GET['page'] ) ) {
+		$action_page .= '&page=' . esc_html( $_GET['page'] );
+	}
+	if ( ! empty( $_GET['id'] ) ) {
+		$action_page .= '&id=' . esc_html( $_GET['id'] );
+	}
+
+	ol_clear_url( '?action=' . esc_html( $_GET['action'] ) . $action_page );
+}
+
+/**
+ * Switches content pages.
+ *
+ * @return int Page number.
+ */
+function ol_view_page_product() {
+	$page = 0;
+
+	if ( ! empty( $_GET['page'] ) ) {
+		$page = esc_html( $_GET['page'] ) * 9;
+	}
+
+	return $page;
+}
+
+/**
+ * Checks the active page.
+ *
+ * @param int $page Number page.
+ * @return string
+ */
+function ol_check_page( $page ) {
+	$action = '';
+
+	if ( $page === intval( $_GET['page'] ) || 0 === $page && empty( $_GET['page'] ) ) {
+		$action = 'active';
+	}
+
+	return $action;
+}
+
+/**
+ * Output of the number of this page with products.
+ *
+ * @return string
+ */
+function ol_view_link_page() {
+	$action = '';
+
+	if ( ! empty( $_GET['page'] ) ) {
+		$action = '&page=' . esc_html( $_GET['page'] );
+	}
+
+	return $action;
 }
 
 /**

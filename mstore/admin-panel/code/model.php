@@ -3,16 +3,14 @@
 $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
 
 /**
- * Issues products from the set limit.
+ * Issues products.
  *
- * @param integer $start_pos issues posts.
  * @return array Data products.
  */
-function ol_get_product_db( $start_pos = 0 ) {
+function ol_get_product_db() {
 	global $ol_dbh;
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore LIMIT :start_pos, 9' );
-	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore' );
 	$stmt->execute();
 
 	return $stmt->fetchAll();

@@ -1666,34 +1666,41 @@ header .icon-header {
   max-height: 50px;
 }
 
-.menu {
+.menu,
+.menu-admin {
   display: flex;
   justify-content: center;
 }
-.menu li {
+.menu li,
+.menu-admin li {
   position: relative;
   transition: background-color 0.3s ease;
 }
-.menu li:hover {
+.menu li:hover,
+.menu-admin li:hover {
   background-color: #00c8c8;
 }
-.menu li:hover > a {
+.menu li:hover > a,
+.menu-admin li:hover > a {
   color: #fff;
   opacity: 1;
 }
-.menu li:hover > .dropdown {
+.menu li:hover > .dropdown,
+.menu-admin li:hover > .dropdown {
   opacity: 1;
   visibility: visible;
   transform: translate(0, 0);
 }
-.menu a {
+.menu a,
+.menu-admin a {
   display: inline-flex;
   padding: 11px;
   margin: 0px 9px;
   font-size: 15px;
   z-index: 1;
 }
-.menu a i {
+.menu a i,
+.menu-admin a i {
   margin-left: 5px;
 }
 
@@ -1824,6 +1831,9 @@ header .icon-header {
   top: 100%;
   right: 0;
   width: 400px;
+  max-height: calc( 100vh - 120px );
+  min-height: 100px;
+  overflow-x: hidden;
   opacity: 0;
   visibility: hidden;
   background: #fff;
@@ -1835,7 +1845,7 @@ header .icon-header {
 
 .not-product {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 35px;
 }
 
 .link-full {
@@ -1868,9 +1878,21 @@ header .icon-header {
   margin-right: 20px;
 }
 .product-cart .price {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: 1.5px;
+}
+.product-cart .count {
+  opacity: 0.7;
+  font-style: italic;
+}
+.product-cart .count:before {
+  content: "*";
+  position: absolute;
+  top: 2px;
+  left: -8px;
 }
 .product-cart .remove-product {
   position: absolute;
@@ -2102,7 +2124,7 @@ header .icon-header {
 }
 
 .product {
-  margin-bottom: 24px;
+  margin-bottom: 90px;
 }
 .product .row > div {
   margin-bottom: 32px;
@@ -2122,6 +2144,9 @@ header .icon-header {
 }
 .product-foto img {
   width: 100%;
+  height: 450px;
+  object-fit: cover;
+  object-position: center;
 }
 .product-foto > a {
   position: absolute;
@@ -2668,6 +2693,9 @@ footer p {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+.button:hover {
+  background: #009e9e;
+}
 
 .button-product {
   max-width: 60px;
@@ -2675,6 +2703,108 @@ footer p {
 
 .product-page-text {
   margin: 50px 0;
+}
+
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+}
+.page-numbers a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
+  margin: 0 5px;
+  border: 1px solid rgba(16, 16, 16, 0.05);
+  color: rgba(16, 16, 16, 0.8);
+  transition: all 0.3s ease;
+}
+.page-numbers a:hover, .page-numbers a.active {
+  background: #da8a67;
+  color: #fff;
+  opacity: 1;
+}
+
+.number-product {
+  position: relative;
+  border: 1px solid #00c8c8;
+  margin-right: 10px;
+}
+.number-product input[type=number] {
+  height: 40px;
+  padding: 0 50px;
+  max-width: 150px;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+.number-product input::-webkit-outer-spin-button,
+.number-product input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.num-min,
+.num-plus {
+  position: absolute;
+  top: 0;
+  background: #00c8c8;
+  color: #ffff;
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.num-min:hover,
+.num-plus:hover {
+  background: #009e9e;
+}
+
+.num-min {
+  left: 0;
+}
+
+.num-plus {
+  right: 0;
+}
+
+.logo-admin {
+  margin-right: 15px;
+}
+
+.header-admin {
+  border-bottom: 1px solid #363a42;
+}
+
+.product-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #fff;
+}
+.product-admin .title:after {
+  content: none;
+}
+
+.product-inner {
+  margin-right: 15px;
+}
+.product-inner .price {
+  font-size: 18px;
+}
+
+.product-admin-wrapper {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #9cdfce26;
 }
 
 @media (min-width: 1200px) {
@@ -2688,7 +2818,8 @@ footer p {
     display: flex;
   }
 
-  .menu {
+  .menu,
+.menu-admin {
     display: none;
   }
 

@@ -21,10 +21,10 @@
 							</div>
 						<?php endif; ?>
 						<div class="product-hover">
-							<a href="?action=shop&add-card=<?php echo esc_html( $product['id'] ); ?>">
+							<a href="?action=shop&add-card=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
 								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 							</a>
-							<a href="?action=shop&add-favorite=<?php echo esc_html( $product['id'] ); ?>">
+							<a href="?action=shop&add-favorite=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
 								<i class="far fa-heart"></i>
 							</a>
 							<a href="#">
@@ -53,6 +53,13 @@
 					</div>
 				</div>
 			<?php endforeach; ?>
+		</div>
+		<div class="page-numbers">
+			<?php for ( $i = 0; $i <= $page['pagination'] / 9; $i++ ) : ?>
+				<a href="?action=shop&page=<?php echo esc_html( $i ); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
+					<?php echo esc_html( $i + 1 ); ?>
+				</a>
+			<?php endfor; ?>
 		</div>
 	</div>
 </section>
