@@ -1,4 +1,9 @@
 <?php
+/**
+ * Model.
+ *
+ * @package Funtion.
+ */
 
 $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
 
@@ -46,4 +51,28 @@ function ol_get_count_product_db() {
 	$stmt->execute();
 
 	return $stmt->fetchColumn();
+}
+
+/**
+ * Records a user order.
+ *
+ * @param array $order_data Order data.
+ * @return bool
+ */
+function ol_add_order_db( $order_data ) {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'INSERT INTO mstore_order (name, last_name, country, city, address, zip, phone, email, price, card) VALUES ( :name, :last_name, :country, :city, :address, :zip, :phone, :email, :price, :card)' );
+	$stmt->bindParam( ':name', $order_data['name'] );
+	$stmt->bindParam( ':last_name', $order_data['last-name'] );
+	$stmt->bindParam( ':country', $order_data['country'] );
+	$stmt->bindParam( ':city', $order_data['city'] );
+	$stmt->bindParam( ':address', $order_data['address'] );
+	$stmt->bindParam( ':zip', $order_data['zip'] );
+	$stmt->bindParam( ':phone', $order_data['phone'] );
+	$stmt->bindParam( ':email', $order_data['email'] );
+	$stmt->bindParam( ':price', $order_data['price'] );
+	$stmt->bindParam( ':card', $order_data['card'] );
+
+	return $stmt->execute();
 }

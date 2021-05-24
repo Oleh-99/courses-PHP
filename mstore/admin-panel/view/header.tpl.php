@@ -19,6 +19,7 @@
 			<div class="logo-admin"><a href="?action=home"><img src="../img/Logo.png" alt=""></a></div>
 			<ul class="menu-admin">
 				<li><a href="index.php">Admin panel</a></li>
+				<li><a href="?action=orders">Order</a></li>
 				<li><a href="../index.php">Home</a></li>
 			</ul>
 			<div class="burger-wrapper">

@@ -45,6 +45,8 @@ a {
 
 	&:hover {
 		opacity: 0.6;
+		color: $color-base;
+		text-decoration: none;
 	}
 
 }
@@ -1332,6 +1334,13 @@ footer{
 	}
 }
 
+a.button {
+	&:hover {
+		opacity: 1;
+		color: #fff;
+	}
+}
+
 .button-product {
 	max-width: 60px;
 }
@@ -1366,7 +1375,10 @@ footer{
 }
 
 .number-product {
+	display: inline-block;
 	position: relative;
+	max-width: 152px;
+	height: 42px;
 	border: 1px solid #00c8c8;
 	margin-right: 10px;
 
@@ -1450,6 +1462,192 @@ footer{
 	padding-top: 20px;
 	padding-bottom: 20px;
 	background: #9cdfce26;
+}
+
+.view-card-wrapper {
+	padding: 10px;
+	text-align: center;
+
+	a {
+		display: inline-block;
+		margin: 0;
+		padding: 10px;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.card-product-wrapper {
+
+	img {
+		height: 200px;
+		width: 200px;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.title {
+		&:after {
+			content: none;
+		}
+	}
+}
+
+.card-product-wrapper {
+	font-size: 16px;
+	width: 100%;
+
+	.product-remove {
+		width: 2%;
+	}
+	.product-photo {
+		width: 15%;
+		padding: 10px 0;
+	}
+	.product-name {
+		width: 25%;
+	}
+	.product-price {
+		width: 10%;
+	}
+	.product-quantity {
+		width: 10%;
+	}
+	.product-subtotal {
+		width: 10%;
+	}
+
+	.update-card {
+		margin: 0;
+		margin-left: -1px;
+		width: 152px;
+	}
+}
+
+.not-product-card {
+	margin-bottom: 30px;
+	text-align: center;
+
+	.title {
+		&:after {
+			content: none;
+		}
+	}
+}
+
+.view-card {
+	margin-bottom: 50px;
+}
+
+.subtotal {
+	text-align: end;
+	font-size: 18px;
+	margin-right: 30px;
+	span {
+		font-weight: 500;
+	}
+}
+
+.btn-wrapper {
+	text-align: center;
+}
+
+.checkout {
+	display: inline-block;
+	text-align: center;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.checkout-form {
+	margin-bottom: 50px;
+
+	input[type=text],
+	input[type=tel],
+	input[type=email]{
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 20px;
+		background: #9cdfce47;
+		border-radius: 5px;
+		border: none;
+		outline: none;
+	}
+
+	label {
+		font-size: 16px;
+		font-weight: 500;
+		margin-bottom: 5px;
+
+		span {
+			color: #ba0000;
+		}
+	}
+}
+
+.errors-wrapper {
+	@include block-absolute( 50px, 30px, none, none );
+	font-size: 14px;
+}
+
+.orders-wrapper {
+	margin-bottom: 50px;
+}
+
+.orders {
+	width: 100%;
+	margin-bottom: 20px;
+	font-size: 16px;
+
+	td,
+	th {
+		padding: 10px;
+	}
+
+	tfoot {
+		font-weight: 600;
+	}
+
+	.table-title {
+		width: 70%;
+		font-weight: 500;
+	}
+
+	.table-number {
+		width: 15%;
+		font-weight: 500;
+	}
+
+	.table-price  {
+		width: 15%;
+		font-weight: 500;
+	}
+}
+
+.order-link {
+	text-align: center;
+}
+
+.orders-table {
+	width: 100%;
+	font-size: 16px;
+
+	td,
+	th {
+		padding: 15px 0 ;
+	}
+
+	th {
+		font-weight: 500;
+	}
+}
+
+.admin-orders {
+	margin-bottom: 50px;
 }
 
 @media (min-width: 1200px){

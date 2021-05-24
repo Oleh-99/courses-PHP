@@ -1,3 +1,12 @@
+<?php
+/**
+ * Single product.
+ *
+ * @package Template.
+ * @var array $page Page data.
+ */
+
+?>
 <section class="navigation">
 	<div class="container">
 		<h2>Shop page</h2>

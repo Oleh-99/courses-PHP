@@ -1,3 +1,11 @@
+<?php
+/**
+ * Header.
+ *
+ * @package Template.
+ */
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +15,7 @@
 	<link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/style.css">
 	<script src="https://use.fontawesome.com/24f5e681bf.js"></script>
 	<title>Document</title>
@@ -32,27 +41,27 @@
 				<li><a href="admin-panel/index.php">Admin panel</a></li>
 				<li><a href="#">Accessories <i class="fas fa-sort-down"></i></a>
 					<ul class="dropdown">
-						<li><a href="http://">Item 1</a></li>
-						<li><a href="http://">Item 2</a></li>
-						<li><a href="http://">Item 3 <i class="fas fa-caret-right"></i></a>
+						<li><a href="#">Item 1</a></li>
+						<li><a href="#">Item 2</a></li>
+						<li><a href="#">Item 3 <i class="fas fa-caret-right"></i></a>
 							<ul class="dropdown">
-								<li><a href="http://">Item 1</a></li>
-								<li><a href="http://">Item 2 <i class="fas fa-caret-right"></i></a>
+								<li><a href="#">Item 1</a></li>
+								<li><a href="#">Item 2 <i class="fas fa-caret-right"></i></a>
 									<ul class="dropdown">
-										<li><a href="http://">Item 1</a></li>
-										<li><a href="http://">Item 2</a></li>
-										<li><a href="http://">Item 3</a></li>
-										<li><a href="http://">Item 4</a></li>
-										<li><a href="http://">Item 5</a></li>
+										<li><a href="#">Item 1</a></li>
+										<li><a href="#">Item 2</a></li>
+										<li><a href="#">Item 3</a></li>
+										<li><a href="#">Item 4</a></li>
+										<li><a href="#">Item 5</a></li>
 									</ul>
 								</li>
-								<li><a href="http://">Item 3</a></li>
-								<li><a href="http://">Item 4</a></li>
-								<li><a href="http://">Item 5</a></li>
+								<li><a href="#">Item 3</a></li>
+								<li><a href="#">Item 4</a></li>
+								<li><a href="#">Item 5</a></li>
 							</ul>
 						</li>
-						<li><a href="http://">Item 4</a></li>
-						<li><a href="http://">Item 5</a></li>
+						<li><a href="#">Item 4</a></li>
+						<li><a href="#">Item 5</a></li>
 					</ul>
 				</li>
 				<li><a href="#">Contact</a></li>
@@ -65,11 +74,11 @@
 					<span>
 						<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 						<span class="numbers-cart">
-							<?php echo ol_get_check_card(); ?>
+							<?php echo esc_html( ol_get_check_card() ); ?>
 						</span>
 					</span>
 					<span>
-						$<?php echo ol_sum_product(); ?>
+						$<?php echo esc_html( ol_sum_product() ); ?>
 					</span>
 					<ul class="cart-view">
 						<?php $products = ol_get_product_with_card(); ?>
@@ -85,7 +94,7 @@
 										</h5>
 										<div class="price">
 											<?php echo esc_html( '$' . ol_get_price( $product['price'] ) ); ?>
-											<?php if ( $product['count'] ): ?>
+											<?php if ( $product['count'] ) : ?>
 												<span class="count">
 													<?php echo esc_html( ++$product['count'] ); ?>
 												</span>
@@ -98,7 +107,10 @@
 									</a>
 								</li>
 							<?php endforeach; ?>
-						<?php else: ?>
+								<li class="view-card-wrapper">
+									<a href="?action=view-card" class="button">View card</a>
+								</li>
+						<?php else : ?>
 							<h4 class="not-product">Not product</h4>
 						<?php endif; ?>
 					</ul>

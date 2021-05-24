@@ -1,4 +1,10 @@
 <?php
+/**
+ * Function.
+ *
+ * @package Funtion.
+ */
+
 session_start();
 
 /**
@@ -31,7 +37,24 @@ function ol_clear_url( $action = '' ) {
 	die();
 }
 
+/**
+ * Generates a query to the database.
+ *
+ * @param array $products Array with id products.
+ * @return array Data.
+ */
+function ol_get_product_user( $data_products ) {
+	$products = unserialize( $data_products );
+	$request = 'SELECT * FROM mstore_order WHERE';
 
+	foreach ( $products as $product ) {
+		$request .= ' id = ' . $product['id'] . ' OR';
+	}
+
+	$request = mb_substr( $request, 0, -2 );
+
+	return ol_get_product_by_string_id_db( $request );
+}
 
 /**
  * Adding errors.

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Function.
+ *
+ * @package Function.
+ */
+
 session_start();
 
 /**
@@ -69,6 +75,84 @@ function ol_add_card_with_single() {
 	ol_add_to_cart( $product_id, $count );
 
 	 ol_clear_url( '?action=single-product&id=' . $product_id );
+}
+
+/**
+ * Processes the form on card.
+ */
+function ol_add_card_with_card() {
+	if ( empty( $_GET['card_id'] ) || empty( $_GET['card_numbers'] ) ) {
+		return;
+	}
+
+	$product_id = esc_html( $_GET['card_id'] );
+	$count      = esc_html( $_GET['card_numbers'] ) - 1;
+
+	if ( 0 > $count ) {
+		return;
+	}
+
+	ol_add_to_cart( $product_id, $count );
+
+	ol_clear_url( '?action=view-card' );
+}
+
+function ol_add_order() {
+	if ( ! isset( $_GET['checkout'] ) ) {
+		return;
+	}
+
+	if ( empty( $_GET['name'] ) ) {
+		ol_add_errors( 'Enter a name' );
+	}
+	if ( empty( $_GET['last-name'] ) ) {
+		ol_add_errors( 'Enter a last-name' );
+	}
+	if ( empty( $_GET['country'] ) ) {
+		ol_add_errors( 'Enter a country' );
+	}
+	if ( empty( $_GET['city'] ) ) {
+		ol_add_errors( 'Enter a city' );
+	}
+	if ( empty( $_GET['address'] ) ) {
+		ol_add_errors( 'Enter a address' );
+	}
+	if ( empty( $_GET['zip'] ) ) {
+		ol_add_errors( 'Enter a zip' );
+	}
+	if ( empty( $_GET['phone'] ) ) {
+		ol_add_errors( 'Enter a phone' );
+	}
+	if ( empty( $_GET['email'] ) ) {
+		ol_add_errors( 'Enter a email' );
+	}
+
+	if ( ol_get_check_error() ) {
+		ol_clear_url( '?action=checkout' );
+		return;
+	}
+
+	$result = ol_add_order_db(
+		array(
+			'name'      => esc_html( $_GET['name'] ),
+			'last-name' => esc_html( $_GET['last-name'] ),
+			'country'   => esc_html( $_GET['country'] ),
+			'city'      => esc_html( $_GET['city'] ),
+			'address'   => esc_html( $_GET['address'] ),
+			'zip'       => esc_html( $_GET['zip'] ),
+			'phone'     => esc_html( $_GET['phone'] ),
+			'email'     => esc_html( $_GET['email'] ),
+			'price'     => esc_html( ol_sum_product() ),
+			'card'      => esc_html( serialize( $_SESSION['card'] ) ),
+		)
+	);
+
+	if ( $result ) {
+		ol_clear_url( '?action=order-complete' );
+	} else {
+		ol_add_errors( 'Error' );
+		ol_clear_url( '?action=checkout' );
+	}
 }
 
 /**

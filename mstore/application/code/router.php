@@ -1,4 +1,9 @@
 <?php
+/**
+ * Router.
+ *
+ * @package Function.
+ */
 
 /**
  * Site routing.
@@ -21,6 +26,18 @@ function ol_router() {
 
 		case 'single-product':
 			ol_single_product_page();
+			break;
+
+		case 'view-card':
+			ol_view_card();
+			break;
+
+		case 'checkout':
+			ol_checkout();
+			break;
+
+		case 'order-complete':
+			ol_order_complete();
 			break;
 
 		default:
