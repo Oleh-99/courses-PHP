@@ -45,7 +45,7 @@ function ol_clear_url( $action = '' ) {
  */
 function ol_get_product_user( $data_products ) {
 	$products = unserialize( $data_products );
-	$request = 'SELECT * FROM mstore_order WHERE';
+	$request  = 'SELECT * FROM mstore WHERE';
 
 	foreach ( $products as $product ) {
 		$request .= ' id = ' . $product['id'] . ' OR';
