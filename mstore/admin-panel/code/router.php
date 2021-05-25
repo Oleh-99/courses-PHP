@@ -28,6 +28,10 @@ function ol_router() {
 			ol_view_order_page();
 			break;
 
+		case 'remove':
+			ol_remove_product();
+			break;
+
 		default:
 			ol_page_404();
 			break;

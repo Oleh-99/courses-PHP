@@ -2699,9 +2699,15 @@ footer p {
   background: #009e9e;
 }
 
-a.button:hover {
+a.button:hover,
+a.btn:hover {
   opacity: 1;
   color: #fff;
+}
+
+.btn-warning,
+.btn-success {
+  color: #ffff !important;
 }
 
 .button-product {
@@ -2729,7 +2735,7 @@ a.button:hover {
   transition: all 0.3s ease;
 }
 .page-numbers a:hover, .page-numbers a.active {
-  background: #da8a67;
+  background: #9CDFCE;
   color: #fff;
   opacity: 1;
 }
@@ -2965,8 +2971,15 @@ a.button:hover {
   text-align: center;
 }
 
+.order-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .orders-table {
   width: 100%;
+  margin-bottom: 25px;
   font-size: 16px;
 }
 .orders-table td,
@@ -2975,6 +2988,19 @@ a.button:hover {
 }
 .orders-table th {
   font-weight: 500;
+}
+
+.order-product {
+  width: 100%;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+.order-product th {
+  font-weight: 500;
+}
+.order-product th,
+.order-product td {
+  padding: 10px 0;
 }
 
 .admin-orders {

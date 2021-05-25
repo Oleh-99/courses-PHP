@@ -59,7 +59,7 @@ function ol_get_count_product_db() {
 function ol_get_orders_db() {
 	global $ol_dbh;
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore_order' );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore_order ORDER BY id DESC ' );
 	$stmt->execute();
 
 	return $stmt->fetchAll();

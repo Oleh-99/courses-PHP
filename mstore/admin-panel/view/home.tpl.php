@@ -11,9 +11,9 @@
 					</div>
 				</div>
 				<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-					<a href="" class="btn btn-danger">Remove</a>
-					<a href="" class="btn btn-warning">Edit</a>
-					<a class="btn btn-success">View</a>
+					<a href="?action=remove?id=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-danger">Remove</a>
+					<a href="?action=edit?id=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-warning">Edit</a>
+					<a href="../index.php?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-success">View</a>
 				</div>
 			</div>
 		<?php endforeach; ?>

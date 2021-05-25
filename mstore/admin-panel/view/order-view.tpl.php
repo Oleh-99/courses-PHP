@@ -6,6 +6,7 @@
  * @var array $page Page data.
  */
 
+$card_user = unserialize( $page['order']['card'] );
 ?>
 
 <section>
@@ -43,6 +44,38 @@
 					</td>
 				</tr>
 			</tbody>
+		</table>
+		<h4 class="order-title">Orders</h4>
+		<table class="order-product">
+			<thead>
+				<tr>
+					<th>№</th>
+					<th>Title</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Subtotal</th>
+				</tr>
+			</thead>
+			<?php foreach ( ol_get_product_user( $card_user ) as $product ) : ?>
+				<?php $count = ol_get_product_count( $card_user, $product['id'] ); ?>
+				<tr>
+					<td>
+						<?php echo esc_html( $product['id'] ); ?>
+					</td>
+					<td>
+						<?php echo esc_html( $product['title'] ); ?>
+					</td>
+					<td>
+						<?php echo esc_html( $product['price'] ); ?>
+					</td>
+					<td>
+						<?php echo esc_html( $count ); ?>
+					</td>
+					<td>
+						<?php echo esc_html( $count * $product['price'] ); ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
 		</table>
 	</div>
 </section>

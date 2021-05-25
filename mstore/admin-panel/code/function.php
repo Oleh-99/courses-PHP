@@ -40,12 +40,11 @@ function ol_clear_url( $action = '' ) {
 /**
  * Generates a query to the database.
  *
- * @param array $data_products Array with id products.
+ * @param array $products Array with id products.
  * @return array Data.
  */
-function ol_get_product_user( $data_products ) {
-	$products = unserialize( $data_products );
-	$request  = 'SELECT * FROM mstore WHERE';
+function ol_get_product_user( $products ) {
+	$request = 'SELECT * FROM mstore WHERE';
 
 	foreach ( $products as $product ) {
 		$request .= ' id = ' . $product['id'] . ' OR';
@@ -55,6 +54,26 @@ function ol_get_product_user( $data_products ) {
 
 	return ol_get_product_by_string_id_db( $request );
 }
+
+/**
+ * Check count product.
+ *
+ * @param array $products Data product.
+ * @param int   $id Id product.
+ * @return int|mixed
+ */
+function ol_get_product_count( $products, $id ) {
+	$count = 1;
+
+	foreach ( $products as $product ) {
+		if ( $product['id'] === $id ) {
+			$count = ++$product['count'];
+		}
+	}
+
+	return $count;
+}
+
 
 /**
  * Adding errors.

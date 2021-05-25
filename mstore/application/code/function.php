@@ -143,7 +143,7 @@ function ol_add_order() {
 			'phone'     => esc_html( $_GET['phone'] ),
 			'email'     => esc_html( $_GET['email'] ),
 			'price'     => esc_html( ol_sum_product() ),
-			'card'      => esc_html( serialize( $_SESSION['card'] ) ),
+			'card'      => serialize( $_SESSION['card'] ),
 		)
 	);
 
