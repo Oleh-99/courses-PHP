@@ -40,7 +40,7 @@ function ol_clear_url( $action = '' ) {
 /**
  * Generates a query to the database.
  *
- * @param array $products Array with id products.
+ * @param array $data_products Array with id products.
  * @return array Data.
  */
 function ol_get_product_user( $data_products ) {
