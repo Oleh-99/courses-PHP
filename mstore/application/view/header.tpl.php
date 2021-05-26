@@ -5,6 +5,7 @@
  * @package Template.
  */
 
+ol_remove_product();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,49 +40,49 @@
 				<li><a href="?action=home">Home</a></li>
 				<li><a href="?action=shop">Shop</a></li>
 				<li><a href="admin-panel/index.php">Admin panel</a></li>
-				<li><a href="#">Accessories <i class="fas fa-sort-down"></i></a>
-					<ul class="dropdown">
-						<li><a href="#">Item 1</a></li>
-						<li><a href="#">Item 2</a></li>
-						<li><a href="#">Item 3 <i class="fas fa-caret-right"></i></a>
-							<ul class="dropdown">
-								<li><a href="#">Item 1</a></li>
-								<li><a href="#">Item 2 <i class="fas fa-caret-right"></i></a>
-									<ul class="dropdown">
-										<li><a href="#">Item 1</a></li>
-										<li><a href="#">Item 2</a></li>
-										<li><a href="#">Item 3</a></li>
-										<li><a href="#">Item 4</a></li>
-										<li><a href="#">Item 5</a></li>
-									</ul>
-								</li>
-								<li><a href="#">Item 3</a></li>
-								<li><a href="#">Item 4</a></li>
-								<li><a href="#">Item 5</a></li>
-							</ul>
-						</li>
-						<li><a href="#">Item 4</a></li>
-						<li><a href="#">Item 5</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Contact</a></li>
+<!--				<li><a href="#">Accessories <i class="fas fa-sort-down"></i></a>-->
+<!--					<ul class="dropdown">-->
+<!--						<li><a href="#">Item 1</a></li>-->
+<!--						<li><a href="#">Item 2</a></li>-->
+<!--						<li><a href="#">Item 3 <i class="fas fa-caret-right"></i></a>-->
+<!--							<ul class="dropdown">-->
+<!--								<li><a href="#">Item 1</a></li>-->
+<!--								<li><a href="#">Item 2 <i class="fas fa-caret-right"></i></a>-->
+<!--									<ul class="dropdown">-->
+<!--										<li><a href="#">Item 1</a></li>-->
+<!--										<li><a href="#">Item 2</a></li>-->
+<!--										<li><a href="#">Item 3</a></li>-->
+<!--										<li><a href="#">Item 4</a></li>-->
+<!--										<li><a href="#">Item 5</a></li>-->
+<!--									</ul>-->
+<!--								</li>-->
+<!--								<li><a href="#">Item 3</a></li>-->
+<!--								<li><a href="#">Item 4</a></li>-->
+<!--								<li><a href="#">Item 5</a></li>-->
+<!--							</ul>-->
+<!--						</li>-->
+<!--						<li><a href="#">Item 4</a></li>-->
+<!--						<li><a href="#">Item 5</a></li>-->
+<!--					</ul>-->
+<!--				</li>-->
+<!--				<li><a href="#">Contact</a></li>-->
 			</ul>
 			<div class="icon-header">
-				<a href="#"><i class="fas fa-search"></i></a>
-				<a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
-				<a href="#"><i class="far fa-heart"></i></a>
+<!--				<a href="#"><i class="fas fa-search"></i></a>-->
+<!--				<a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>-->
+<!--				<a href="#"><i class="far fa-heart"></i></a>-->
 				<div class="cart">
 					<span>
 						<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 						<span class="numbers-cart">
-							<?php echo esc_html( ol_get_check_card() ); ?>
+							<?php echo esc_html( ol_get_check_cart() ); ?>
 						</span>
 					</span>
 					<span>
 						$<?php echo esc_html( ol_sum_product() ); ?>
 					</span>
 					<ul class="cart-view">
-						<?php $products = ol_get_product_with_card(); ?>
+						<?php $products = ol_get_product_with_cart(); ?>
 						<?php if ( $products ) : ?>
 							<?php foreach ( $products as $product ) : ?>
 								<li class="product-cart">
@@ -94,11 +95,9 @@
 										</h5>
 										<div class="price">
 											<?php echo esc_html( '$' . ol_get_price( $product['price'] ) ); ?>
-											<?php if ( $product['count'] ) : ?>
-												<span class="count">
-													<?php echo esc_html( ++$product['count'] ); ?>
-												</span>
-											<?php endif; ?>
+											<span class="count">
+												<?php echo esc_html( ol_get_count_product( $product['id'] ) ); ?>
+											</span>
 										</div>
 									</div>
 									<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="link-full"></a>

@@ -1,3 +1,11 @@
+<?php
+/**
+ * Header page.
+ *
+ * @package Template.
+ */
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +24,18 @@
 <header>
 	<div class="bottom-bar header-admin">
 		<div class="container">
-			<div class="logo-admin"><a href="?action=home"><img src="../img/Logo.png" alt=""></a></div>
+			<div class="logo-admin"><a href="../index.php"><img src="../img/Logo.png" alt=""></a></div>
 			<ul class="menu-admin">
-				<li><a href="index.php">Admin panel</a></li>
-				<li><a href="?action=orders">Order</a></li>
 				<li><a href="../index.php">Home</a></li>
+				<li><a href="index.php">Admin panel</a></li>
+				<?php if ( $_SESSION['mstore-login'] ) : ?>
+					<li><a href="?action=orders">Order</a></li>
+					<li><a href="?action=add-product">Add new product</a></li>
+				<?php endif; ?>
 			</ul>
+			<?php if ( $_SESSION['mstore-login'] ) : ?>
+				<a href="?action=exit-user" class="button">Exit</a>
+			<?php endif; ?>
 			<div class="burger-wrapper">
 				<button class="burger"><i class="fas fa-bars"></i></button>
 			</div>

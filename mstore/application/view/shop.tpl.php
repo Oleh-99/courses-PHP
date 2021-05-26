@@ -15,8 +15,7 @@
 <section class="product">
 	<div class="container">
 		<div class="title-wrapper">
-			<h2 class="title">Feauture Product</h2>
-			<a href="#">All Product</a>
+			<h2 class="title">Feature Product</h2>
 		</div>
 		<div class="row">
 			<?php foreach ( $page['products'] as $product ) : ?>
@@ -33,12 +32,12 @@
 							<a href="?action=shop&add-card=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
 								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 							</a>
-							<a href="?action=shop&add-favorite=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
-								<i class="far fa-heart"></i>
-							</a>
-							<a href="#">
-								<i class="fas fa-search-plus"></i>
-							</a>
+<!--							<a href="">-->
+<!--								<i class="far fa-heart"></i>-->
+<!--							</a>-->
+<!--							<a href="#">-->
+<!--								<i class="fas fa-search-plus"></i>-->
+<!--							</a>-->
 						</div>
 					</div>
 					<div class="product-text">
@@ -64,7 +63,7 @@
 			<?php endforeach; ?>
 		</div>
 		<div class="page-numbers">
-			<?php for ( $i = 0; $i <= $page['pagination'] / 9; $i++ ) : ?>
+			<?php for ( $i = 0; $i < $page['pagination'] / 9; $i++ ) : ?>
 				<a href="?action=shop&page=<?php echo esc_html( $i ); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
 					<?php echo esc_html( $i + 1 ); ?>
 				</a>

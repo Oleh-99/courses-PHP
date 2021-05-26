@@ -44,7 +44,7 @@ function ol_clear_url( $action = '' ) {
  * @return array Data.
  */
 function ol_get_product_user( $products ) {
-	$request = 'SELECT * FROM mstore WHERE';
+	$request = '';
 
 	foreach ( $products as $product ) {
 		$request .= ' id = ' . $product['id'] . ' OR';
@@ -74,6 +74,159 @@ function ol_get_product_count( $products, $id ) {
 	return $count;
 }
 
+/**
+ * Sing in user.
+ */
+function ol_sing_in_user() {
+	if ( ! isset( $_POST['sing-in'] ) ) {
+		return;
+	}
+
+	if ( empty( $_POST['login'] ) ) {
+		ol_add_errors( 'Enter a login' );
+	}
+	if ( empty( $_POST['password'] ) ) {
+		ol_add_errors( 'Enter a password' );
+	}
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	$users_data = ol_sing_in_user_db( esc_html( $_POST['login'] ) );
+
+	foreach ( $users_data as $user_data ) {
+		if ( $user_data['login'] === esc_html( $_POST['login'] ) && password_verify( esc_html( $_POST['password'] ), $user_data['password'] ) ) {
+			$_SESSION['mstore-login'] = esc_html( $_POST['login'] );
+		}
+	}
+
+	if ( ! $_SESSION['mstore-login'] ) {
+		ol_add_errors( 'Wrong login or password' );
+	}
+}
+
+/**
+ * Adding posts to the database.
+ */
+function ol_add_product() {
+	if ( ! isset( $_POST['btn-product'] ) ) {
+		return;
+	}
+
+	ol_check_form_error();
+
+	if ( ! isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] !== UPLOAD_ERR_OK  ) {
+		ol_add_errors( 'Enter a photo' );
+	}
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	$result = ol_product_db(
+		array(
+			'title'       => esc_html( $_POST['title'] ),
+			'price'       => esc_html( $_POST['price'] ),
+			'description' => esc_html( $_POST['description'] ),
+			'label'       => esc_html( $_POST['label'] ),
+			'stars'       => esc_html( $_POST['stars'] ),
+			'photo'       => ol_save_photo(),
+		)
+	);
+
+	if ( $result ) {
+		ol_clear_url();
+	} else {
+		ol_add_errors( 'Error writing to database' );
+	}
+}
+
+/**
+ * Edit product.
+ */
+function ol_edit_product() {
+	if ( ! isset( $_POST['btn-product'] ) ) {
+		return;
+	}
+
+	$new_name_photo = '';
+
+	ol_check_form_error();
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK  ) {
+		$new_name_photo = ol_save_photo();
+	} else {
+		$new_name_photo = esc_html( $_POST['photo'] );
+	}
+
+	$result = ol_product_db(
+		array(
+			'id'          => esc_html( $_POST['id'] ),
+			'title'       => esc_html( $_POST['title'] ),
+			'price'       => esc_html( $_POST['price'] ),
+			'description' => esc_html( $_POST['description'] ),
+			'label'       => esc_html( $_POST['label'] ),
+			'stars'       => esc_html( $_POST['stars'] ),
+			'photo'       => $new_name_photo,
+		), 'update'
+	);
+
+	if ( $result ) {
+		ol_clear_url();
+	} else {
+		ol_add_errors( 'Error editing to database' );
+	}
+}
+
+/**
+ * Check is not empty form.
+ */
+function ol_check_form_error() {
+	if ( empty( $_POST['title'] ) ) {
+		ol_add_errors( 'Enter a title' );
+	}
+	if ( empty( $_POST['description'] ) ) {
+		ol_add_errors( 'Enter a description' );
+	}
+	if ( empty( $_POST['price'] ) ) {
+		ol_add_errors( 'Enter a price' );
+	}
+	if ( 5 < $_POST['stars'] || 0 > $_POST['stars'] ) {
+		ol_add_errors( 'The stars cannot be more than 5 and less than 0' );
+	}
+}
+
+/**
+ * Save photo on server.
+ *
+ * @return string new name photo.
+ */
+function ol_save_photo() {
+	$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
+	$file_name               = $_FILES['uploaded_file']['name'];
+	$array                   = explode( '.', $file_name );
+	$file_extension          = strtolower( end( $array ) );
+	$new_name_file           = esc_html( $_POST['title'] ) . '.' . $file_extension;
+	$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
+
+	if ( in_array( $file_extension, $allowed_file_extensions, true ) ) {
+		$dest_path = '../img/' . $new_name_file;
+		move_uploaded_file( $file_tmp_path, $dest_path );
+	} else {
+		ol_add_errors( 'Failed to load image' );
+	}
+
+	if ( $new_name_file ) {
+		$new_name_file = 'img/' . $new_name_file;
+	}
+
+	return $new_name_file;
+}
 
 /**
  * Adding errors.
@@ -124,6 +277,10 @@ function ol_echo_errors() {
  * @param array $page array data.
  */
 function show_template( $page ) {
+	if ( ! $_SESSION['mstore-login'] ) {
+		$page['action'] = 'sing-in';
+	}
+
 	include 'view/header.tpl.php';
 	include 'view/' . $page['action'] . '.tpl.php';
 	include 'view/footer.tpl.php';

@@ -42,7 +42,7 @@
 						<input type="hidden" name="id" value="<?php echo esc_html( $page['product']['id'] ); ?>">
 						<span class="number-product">
 							<span class="num-min">-</span>
-							<input type="number" class="input-number" aria-label="numbers" name="numbers">
+							<input type="number" class="input-number" aria-label="numbers" name="numbers" value="<?php echo esc_html( ol_get_count_product( $page['product']['id'] ) ); ?>">
 							<span class="num-plus">+</span>
 						</span>
 						<button type="submit" class="button button-cart">Add to cart</button>

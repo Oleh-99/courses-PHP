@@ -32,6 +32,18 @@ function ol_router() {
 			ol_remove_product();
 			break;
 
+		case 'add-product':
+			ol_view_add_product();
+			break;
+
+		case 'edit':
+			ol_view_edit_product();
+			break;
+
+		case 'exit-user':
+			ol_exit_user();
+			break;
+
 		default:
 			ol_page_404();
 			break;

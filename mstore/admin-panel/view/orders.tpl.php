@@ -7,7 +7,6 @@
  */
 
 ?>
-
 <section class="admin-orders">
 	<div class="container">
 		<table class="orders-table">

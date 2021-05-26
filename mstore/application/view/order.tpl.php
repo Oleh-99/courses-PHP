@@ -7,7 +7,6 @@
  */
 
 ?>
-
 <section class="navigation">
 	<div class="container">
 		<h2>Order complete</h2>

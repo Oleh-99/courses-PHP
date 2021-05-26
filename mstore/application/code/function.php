@@ -40,7 +40,7 @@ function ol_clear_url( $action = '' ) {
 /**
  * Adding products to cart.
  */
-function ol_add_product_to_car() {
+function ol_add_product_to_cart() {
 	if ( empty( $_GET['add-card'] ) ) {
 		return;
 	}
@@ -60,13 +60,13 @@ function ol_add_product_to_car() {
 /**
  * Processes the form on single product.
  */
-function ol_add_card_with_single() {
+function ol_add_cart_with_single() {
 	if ( empty( $_GET['id'] ) || empty( $_GET['numbers'] ) ) {
 		return;
 	}
 
 	$product_id = esc_html( $_GET['id'] );
-	$count      = esc_html( $_GET['numbers'] ) - 1;
+	$count      = esc_html( $_GET['numbers'] );
 
 	if ( 0 > $count ) {
 		return;
@@ -78,15 +78,33 @@ function ol_add_card_with_single() {
 }
 
 /**
+ * Check count product.
+ *
+ * @param int $id Id product.
+ * @return int
+ */
+function ol_get_count_product( $id ) {
+	$count = 0;
+
+	foreach ( $_SESSION['card'] as $product ) {
+		if ( $product['id'] === $id ) {
+			$count = $product['count'];
+		}
+	}
+
+	return $count;
+}
+
+/**
  * Processes the form on card.
  */
-function ol_add_card_with_card() {
+function ol_add_card_with_basket() {
 	if ( empty( $_GET['card_id'] ) || empty( $_GET['card_numbers'] ) ) {
 		return;
 	}
 
 	$product_id = esc_html( $_GET['card_id'] );
-	$count      = esc_html( $_GET['card_numbers'] ) - 1;
+	$count      = esc_html( $_GET['card_numbers'] );
 
 	if ( 0 > $count ) {
 		return;
@@ -97,51 +115,52 @@ function ol_add_card_with_card() {
 	ol_clear_url( '?action=view-card' );
 }
 
+/**
+ * Insert cart database.
+ */
 function ol_add_order() {
-	if ( ! isset( $_GET['checkout'] ) ) {
+	if ( ! isset( $_POST['checkout'] ) ) {
 		return;
 	}
 
-	if ( empty( $_GET['name'] ) ) {
+	if ( empty( $_POST['name'] ) ) {
 		ol_add_errors( 'Enter a name' );
 	}
-	if ( empty( $_GET['last-name'] ) ) {
+	if ( empty( $_POST['last-name'] ) ) {
 		ol_add_errors( 'Enter a last-name' );
 	}
-	if ( empty( $_GET['country'] ) ) {
+	if ( empty( $_POST['country'] ) ) {
 		ol_add_errors( 'Enter a country' );
 	}
-	if ( empty( $_GET['city'] ) ) {
+	if ( empty( $_POST['city'] ) ) {
 		ol_add_errors( 'Enter a city' );
 	}
-	if ( empty( $_GET['address'] ) ) {
+	if ( empty( $_POST['address'] ) ) {
 		ol_add_errors( 'Enter a address' );
 	}
-	if ( empty( $_GET['zip'] ) ) {
+	if ( empty( $_POST['zip'] ) ) {
 		ol_add_errors( 'Enter a zip' );
 	}
-	if ( empty( $_GET['phone'] ) ) {
+	if ( empty( $_POST['phone'] ) ) {
 		ol_add_errors( 'Enter a phone' );
 	}
-	if ( empty( $_GET['email'] ) ) {
+	if ( empty( $_POST['email'] ) ) {
 		ol_add_errors( 'Enter a email' );
 	}
-
 	if ( ol_get_check_error() ) {
-		ol_clear_url( '?action=checkout' );
 		return;
 	}
 
 	$result = ol_add_order_db(
 		array(
-			'name'      => esc_html( $_GET['name'] ),
-			'last-name' => esc_html( $_GET['last-name'] ),
-			'country'   => esc_html( $_GET['country'] ),
-			'city'      => esc_html( $_GET['city'] ),
-			'address'   => esc_html( $_GET['address'] ),
-			'zip'       => esc_html( $_GET['zip'] ),
-			'phone'     => esc_html( $_GET['phone'] ),
-			'email'     => esc_html( $_GET['email'] ),
+			'name'      => esc_html( $_POST['name'] ),
+			'last-name' => esc_html( $_POST['last-name'] ),
+			'country'   => esc_html( $_POST['country'] ),
+			'city'      => esc_html( $_POST['city'] ),
+			'address'   => esc_html( $_POST['address'] ),
+			'zip'       => esc_html( $_POST['zip'] ),
+			'phone'     => esc_html( $_POST['phone'] ),
+			'email'     => esc_html( $_POST['email'] ),
 			'price'     => esc_html( ol_sum_product() ),
 			'card'      => serialize( $_SESSION['card'] ),
 		)
@@ -150,9 +169,18 @@ function ol_add_order() {
 	if ( $result ) {
 		ol_clear_url( '?action=order-complete' );
 	} else {
-		ol_add_errors( 'Error' );
-		ol_clear_url( '?action=checkout' );
+		ol_add_errors( 'Error recording your data' );
 	}
+}
+
+/**
+ * Gives the deadline from the request.
+ *
+ * @param string $type Type GET request.
+ * @return mixed
+ */
+function ol_view_user_data( $type ) {
+	return $_POST[ $type ];
 }
 
 /**
@@ -169,7 +197,7 @@ function ol_add_to_cart( $product_id, $count = '' ) {
 		for ( $i = 0; $i <= count( $card ); $i++ ) {
 			if ( $card[ $i ]['id'] === $product_id ) {
 				if ( '' !== $count ) {
-					$_SESSION['card'][ $i ]['count'] = $count;
+					$_SESSION['card'][ $i ]['count'] += $count;
 				} else {
 					$_SESSION['card'][ $i ]['count']++;
 				}
@@ -177,6 +205,10 @@ function ol_add_to_cart( $product_id, $count = '' ) {
 				$availability = true;
 			}
 		}
+	}
+
+	if ( '' === $count ) {
+		$count = 1;
 	}
 
 	if ( ! $availability ) {
@@ -192,11 +224,15 @@ function ol_add_to_cart( $product_id, $count = '' ) {
  *
  * @return int The amount of products.
  */
-function ol_get_check_card() {
+function ol_get_check_cart() {
 	$count = 0;
 
-	if ( $_SESSION['card'] ) {
-		$count = count( $_SESSION['card'] );
+	if ( ! $_SESSION['card'] ) {
+		return 0;
+	}
+
+	for ( $i = 0; $i <= count( $_SESSION['card'] ); $i++ ) {
+		$count += $_SESSION['card'][$i]['count'];
 	}
 
 	return $count;
@@ -225,13 +261,19 @@ function ol_sum_product() {
 		return '0.00';
 	}
 
-	$id_products = $_SESSION['card'];
 	$sum_product = 0;
+	$request     = '';
 
-	foreach ( $id_products as $id_product ) {
-		$data_product = ol_get_product_by_id_db( $id_product['id'] );
-		$count        = ++$id_product['count'];
-		$sum_product += $data_product['price'] * $count;
+	foreach ( $_SESSION['card'] as $id_product ) {
+		$request .= ' id = ' . $id_product['id'] . ' OR';
+	}
+
+	$request = mb_substr( $request, 0, -2 );
+
+	$result = ol_get_product_request_db( $request );
+
+	foreach ( $result as $product ) {
+		$sum_product += $product['price'] * ol_get_count_product( $product['id'] );
 	}
 
 	if ( ! stristr( $sum_product, '.' ) ) {
@@ -246,20 +288,20 @@ function ol_sum_product() {
  *
  * @return array|void Array products.
  */
-function ol_get_product_with_card() {
+function ol_get_product_with_cart() {
 	if ( ! $_SESSION['card'] ) {
 		return;
 	}
 
-	$data_product = array();
-	$id_products  = $_SESSION['card'];
+	$request = '';
 
-	foreach ( $id_products as $id_product ) {
-		$count['count'] = $id_product['count'];
-		$data_product[] = array_merge( ol_get_product_by_id_db( $id_product['id'] ), $count );
+	foreach ( $_SESSION['card'] as $id_product ) {
+		$request .= ' id = ' . $id_product['id'] . ' OR';
 	}
 
-	return $data_product;
+	$request = mb_substr( $request, 0, -2 );
+
+	return ol_get_product_request_db( $request );
 }
 
 /**

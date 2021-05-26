@@ -1440,6 +1440,10 @@ a.btn {
 
 .header-admin {
 	border-bottom: 1px solid #363a42;
+
+	.container {
+		justify-content: space-between;
+	}
 }
 
 .product-admin {
@@ -1575,7 +1579,11 @@ a.btn {
 
 	input[type=text],
 	input[type=tel],
-	input[type=email]{
+	input[type=email],
+	input[type=number],
+	input[type=password],
+	textarea,
+	select {
 		width: 100%;
 		padding: 10px;
 		margin-bottom: 20px;
@@ -1594,6 +1602,10 @@ a.btn {
 			color: #ba0000;
 		}
 	}
+}
+
+.sing-in-wrapper {
+	margin-top: 30px;
 }
 
 .errors-wrapper {

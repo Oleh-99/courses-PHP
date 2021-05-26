@@ -40,6 +40,21 @@ function ol_get_product_by_id_db( $id ) {
 }
 
 /**
+ * We make a request to the database on id.
+ *
+ * @param string $request String product.
+ * @return array Data product.
+ */
+function ol_get_product_request_db( $request ) {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore WHERE ' . $request );
+	$stmt->execute();
+
+	return $stmt->fetchAll();
+}
+
+/**
  * The number of products in the database.
  *
  * @return int

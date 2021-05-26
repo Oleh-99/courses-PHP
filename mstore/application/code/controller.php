@@ -9,10 +9,7 @@
  * Home page generation.
  */
 function ol_home_page() {
-	ol_add_card_with_single();
-	ol_add_card_with_card();
-	ol_remove_product();
-	ol_add_order();
+	ol_add_card_with_basket();
 	show_template(
 		array(
 			'action' => 'home',
@@ -25,8 +22,7 @@ function ol_home_page() {
  */
 function ol_shop_page() {
 	$page = ol_view_page_product();
-	ol_add_product_to_car();
-	ol_remove_product();
+	ol_add_product_to_cart();
 	show_template(
 		array(
 			'action'     => 'shop',
@@ -44,7 +40,7 @@ function ol_single_product_page() {
 		ol_clear_url();
 	}
 
-	ol_remove_product();
+	ol_add_cart_with_single();
 	show_template(
 		array(
 			'action'  => 'single-product',
@@ -57,11 +53,10 @@ function ol_single_product_page() {
  * View card page generation.
  */
 function ol_view_card() {
-	ol_remove_product();
 	show_template(
 		array(
 			'action' => 'view-card',
-			'card'   => ol_get_product_with_card(),
+			'card'   => ol_get_product_with_cart(),
 		)
 	);
 }
@@ -70,6 +65,7 @@ function ol_view_card() {
  * Checkout page generation.
  */
 function ol_checkout() {
+	ol_add_order();
 	show_template(
 		array(
 			'action' => 'checkout',
@@ -84,7 +80,7 @@ function ol_order_complete() {
 	show_template(
 		array(
 			'action'  => 'order',
-			'product' => ol_get_product_with_card(),
+			'product' => ol_get_product_with_cart(),
 		)
 	);
 	unset( $_SESSION['card'] );
