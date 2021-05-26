@@ -70,6 +70,7 @@
 		</div>
 	</footer>
 	<script src="lib/jquery-3.6.0.min.js"></script>
+	<script src="lib/jquery-ui.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

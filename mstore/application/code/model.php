@@ -15,12 +15,30 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
  */
 function ol_get_product_db( $start_pos = 0 ) {
 	global $ol_dbh;
+	$sort_price = ol_sort_price();
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore LIMIT :start_pos, 9' );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore ' . $sort_price . ' LIMIT :start_pos, 9' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
 	$stmt->execute();
 
 	return $stmt->fetchAll();
+}
+
+/**
+ * Finds out the prices of products on the page.
+ *
+ * @param int $start_pos issues posts.
+ * @return array Price product.
+ */
+function ol_get_price_db( $start_pos = 0 ) {
+	global $ol_dbh;
+	$sort_price = ol_sort_price();
+
+	$stmt = $ol_dbh->prepare( 'SELECT price FROM mstore ' . $sort_price . ' LIMIT :start_pos, 9' );
+	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
+	$stmt->execute();
+
+	return $stmt->fetchAll( PDO::FETCH_COLUMN );
 }
 
 /**
@@ -61,8 +79,9 @@ function ol_get_product_request_db( $request ) {
  */
 function ol_get_count_product_db() {
 	global $ol_dbh;
+	$sort_price = ol_sort_price();
 
-	$stmt = $ol_dbh->query( 'SELECT COUNT(*) from mstore' );
+	$stmt = $ol_dbh->query( 'SELECT COUNT(*) from mstore ' . $sort_price );
 	$stmt->execute();
 
 	return $stmt->fetchColumn();
@@ -90,4 +109,32 @@ function ol_add_order_db( $order_data ) {
 	$stmt->bindParam( ':card', $order_data['card'] );
 
 	return $stmt->execute();
+}
+
+/**
+ * Find out the maximum price of the products in the database.
+ *
+ * @return mixed Maximum price of the product.
+ */
+function ol_get_full_max_price() {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->query( 'SELECT MAX(price) from mstore' );
+	$stmt->execute();
+
+	return $stmt->fetchColumn();
+}
+
+/**
+ * Find out the minimum price of the products in the database.
+ *
+ * @return mixed Minimum price of the product.
+ */
+function ol_get_full_min_price() {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->query( 'SELECT MIN(price) from mstore' );
+	$stmt->execute();
+
+	return $stmt->fetchColumn();
 }

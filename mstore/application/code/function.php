@@ -335,6 +335,32 @@ function ol_remove_product() {
 }
 
 /**
+ * Sort by price.
+ *
+ * @return string Request to sort by price.
+ */
+function ol_sort_price() {
+	if ( empty($_GET['min-price'] ) || empty($_GET['max-price'] ) ) {
+		return '';
+	}
+
+	return ' WHERE price > ' . esc_html( $_GET['min-price'] ) . ' AND price < ' . esc_html( $_GET['max-price'] );
+}
+
+/**
+ * Generation of price sorting with active pagination.
+ *
+ * @return string Request to sort by price.
+ */
+function ol_sort_price_with_pagination() {
+	if ( empty($_GET['min-price'] ) || empty($_GET['max-price'] ) ) {
+		return '';
+	}
+
+	return '&min-price=' . esc_html( $_GET['min-price'] ) . '&max-price=' . esc_html( $_GET['max-price'] );
+}
+
+/**
  * Switches content pages.
  *
  * @return int Page number.
