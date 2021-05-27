@@ -1,3 +1,12 @@
+<?php
+/**
+ * View product.
+ *
+ * @package Template.
+ * @var array $page Page data.
+ */
+
+?>
 <section class="navigation">
 	<div class="container">
 		<h2>View card</h2>
@@ -18,7 +27,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<?php foreach ( $page['card'] as $product ): ?>
+				<?php foreach ( $page['card'] as $product ) : ?>
 					<tr>
 						<th class="product-remove">
 							<a href="?action=<?php echo esc_html( $_GET['action'] ) . '&id=' . esc_html( $product['id'] ) . '&remove-card=' . esc_html( $product['id'] . ol_view_link_page() ); ?>" class="remove-product">
@@ -48,7 +57,6 @@
 									<button type="submit" class="button update-card">Update</button>
 								</span>
 							</form>
-
 						</th>
 						<th class="product-subtotal">
 							<?php $subtotal = $product['price'] * ( ol_get_count_product( $product['id'] ) ); ?>
@@ -60,13 +68,13 @@
 			</table>
 		<div class="subtotal">Total:
 			<span>
-				$<?php echo ol_sum_product(); ?>
+				$<?php echo esc_html( ol_sum_product() ); ?>
 			</span>
 		</div>
 		<div class="btn-wrapper">
 			<a href="?action=checkout" class="button checkout">Checkout</a>
 		</div>
-		<?php else: ?>
+		<?php else : ?>
 			<div class="not-product-card">
 				<h3 class="title">Not product</h3>
 			</div>

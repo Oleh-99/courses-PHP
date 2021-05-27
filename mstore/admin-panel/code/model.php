@@ -202,6 +202,12 @@ function ol_remove_category_db( $id ) {
 	return $stmt->execute();
 }
 
+/**
+ * Returns a category by id.
+ *
+ * @param int $id Id category.
+ * @return mixed
+ */
 function ol_get_category_by_id_db( $id ) {
 	global $ol_dbh;
 

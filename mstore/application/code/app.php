@@ -1,4 +1,9 @@
 <?php
+/**
+ * APP.
+ *
+ * @package Function.
+ */
 
 require 'controller.php';
 require 'function.php';

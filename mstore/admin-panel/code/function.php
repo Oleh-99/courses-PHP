@@ -151,8 +151,6 @@ function ol_edit_product() {
 		return;
 	}
 
-	$new_name_photo = '';
-
 	ol_check_form_error();
 
 	if ( ol_get_check_error() ) {
@@ -227,11 +225,7 @@ function ol_save_photo() {
 		ol_add_errors( 'Failed to load image' );
 	}
 
-	if ( $new_name_file ) {
-		$new_name_file = 'img/' . $new_name_file;
-	}
-
-	return $new_name_file;
+	return 'img/' . $new_name_file;
 }
 
 /**
@@ -303,7 +297,8 @@ function ol_edit_category() {
 		array(
 			'id'       => esc_html( $_POST['id'] ),
 			'category' => esc_html( $_POST['category'] ),
-		), 'update'
+		),
+		'update'
 	);
 
 	if ( $result ) {
