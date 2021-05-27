@@ -116,7 +116,7 @@ function ol_add_product() {
 
 	ol_check_form_error();
 
-	if ( ! isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] !== UPLOAD_ERR_OK  ) {
+	if ( ! isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] !== UPLOAD_ERR_OK ) {
 		ol_add_errors( 'Enter a photo' );
 	}
 
@@ -129,6 +129,7 @@ function ol_add_product() {
 			'title'       => esc_html( $_POST['title'] ),
 			'price'       => esc_html( $_POST['price'] ),
 			'description' => esc_html( $_POST['description'] ),
+			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
 			'stars'       => esc_html( $_POST['stars'] ),
 			'photo'       => ol_save_photo(),
@@ -158,7 +159,7 @@ function ol_edit_product() {
 		return;
 	}
 
-	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK  ) {
+	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
 		$new_name_photo = ol_save_photo();
 	} else {
 		$new_name_photo = esc_html( $_POST['photo'] );
@@ -170,10 +171,12 @@ function ol_edit_product() {
 			'title'       => esc_html( $_POST['title'] ),
 			'price'       => esc_html( $_POST['price'] ),
 			'description' => esc_html( $_POST['description'] ),
+			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
 			'stars'       => esc_html( $_POST['stars'] ),
 			'photo'       => $new_name_photo,
-		), 'update'
+		),
+		'update'
 	);
 
 	if ( $result ) {
@@ -195,6 +198,9 @@ function ol_check_form_error() {
 	}
 	if ( empty( $_POST['price'] ) ) {
 		ol_add_errors( 'Enter a price' );
+	}
+	if ( empty( $_POST['category'] ) ) {
+		ol_add_errors( 'Enter a category' );
 	}
 	if ( 5 < $_POST['stars'] || 0 > $_POST['stars'] ) {
 		ol_add_errors( 'The stars cannot be more than 5 and less than 0' );
@@ -226,6 +232,86 @@ function ol_save_photo() {
 	}
 
 	return $new_name_file;
+}
+
+/**
+ * Add category.
+ */
+function ol_add_category() {
+	if ( ! isset( $_POST['category-form'] ) ) {
+		return;
+	}
+
+	if ( empty( $_POST['category'] ) ) {
+		ol_add_errors( 'Enter a category' );
+	}
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	$result = ol_add_category_db(
+		array(
+			'category' => esc_html( $_POST['category'] ),
+		)
+	);
+
+	if ( $result ) {
+		ol_add_errors( 'Category success adding', 'success' );
+		ol_clear_url( '?action=category' );
+	} else {
+		ol_add_errors( 'Category is not adding' );
+	}
+}
+
+/**
+ * Remove category.
+ */
+function ol_remove_category() {
+	if ( empty( $_GET['remove-category'] ) ) {
+		return;
+	}
+
+	$result = ol_remove_category_db( esc_html( $_GET['remove-category'] ) );
+
+	if ( $result ) {
+		ol_add_errors( 'Category success remove', 'success' );
+	} else {
+		ol_add_errors( 'Category is not remove' );
+	}
+
+	ol_clear_url( '?action=category' );
+}
+
+/**
+ * Edit category.
+ */
+function ol_edit_category() {
+	if ( ! isset( $_POST['category-form'] ) ) {
+		return;
+	}
+
+	if ( empty( $_POST['category'] ) ) {
+		ol_add_errors( 'Enter a category' );
+	}
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	$result = ol_add_category_db(
+		array(
+			'id'       => esc_html( $_POST['id'] ),
+			'category' => esc_html( $_POST['category'] ),
+		), 'update'
+	);
+
+	if ( $result ) {
+		ol_add_errors( 'Category success update', 'success' );
+		ol_clear_url( '?action=category' );
+	} else {
+		ol_add_errors( 'Category is not update' );
+	}
 }
 
 /**

@@ -32,18 +32,51 @@
 				</div>
 				<div class="product-category">
 					<h5>Category</h5>
-					<ul>
-						<li>All</li>
+					<ul class="list-category">
+						<li>
+							<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&category=all" class="<?php echo ( ol_get_active_category( 'all' ) ) ? 'active' : ''; ?>">All</a>
+						</li>
+						<?php $categories = ol_get_category_db(); ?>
+						<?php foreach ( $categories as $category ) : ?>
+							<li>
+								<a href="?action=shop<?php echo esc_html( ol_get_price_url() . '&category=' . $category ); ?>" class="<?php echo ( ol_get_active_category( $category ) ) ? 'active' : ''; ?>">
+									<?php echo esc_html( $category ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md-12 col-lg-9">
+				<div class="shop-tools">
+					<div class="products-per-page">
+						<span class="show">Show:</span>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&view-count=6" class="<?php echo ( ol_get_active_count_product( 6 ) ) ? 'active' : ''; ?>">6</a>
+						<span>/</span>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&view-count=9" class="<?php echo ( ol_get_active_count_product( 9 ) ) ? 'active' : ''; ?>">9</a>
+						<span>/</span>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&view-count=12" class="<?php echo ( ol_get_active_count_product( 12 ) ) ? 'active' : ''; ?>">12</a>
+						<span>/</span>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&view-count=18" class="<?php echo ( ol_get_active_count_product( 18 ) ) ? 'active' : ''; ?>">18</a>
+					</div>
+					<div class="products-view-grid">
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&grid-view=6" class="<?php echo ( 6 === ol_check_grid_product() ) ? 'active' : ''; ?>">
+							<img src="img/grid2x2.png" alt="">
+						</a>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&grid-view=4" class="<?php echo ( 4 === ol_check_grid_product() ) ? 'active' : ''; ?>">
+							<img src="img/grid3x3.png" alt="">
+						</a>
+						<a href="?action=shop<?php echo esc_html( ol_get_price_url() ); ?>&grid-view=3" class="<?php echo ( 3 === ol_check_grid_product() ) ? 'active' : ''; ?>">
+							<img src="img/grid4x4.png" alt="">
+						</a>
+					</div>
+				</div>
 				<div class="row">
-					<?php if ( ! $page['products'] ): ?>
+					<?php if ( ! $page['products'] ) : ?>
 						<h3 style="font-size: 30px;">Not product</h3>
 					<?php endif; ?>
 					<?php foreach ( $page['products'] as $product ) : ?>
-						<div class="col-sm-12 col-md-6 col-lg-4 product-mstore">
+						<div class="col-sm-12 col-md-6 col-lg-<?php echo esc_html( ol_check_grid_product() ); ?> product-mstore">
 							<div class="product-foto">
 								<img src="<?php echo esc_html( $product['photo'] ); ?>" alt="">
 								<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>"></a>
@@ -87,11 +120,14 @@
 					<?php endforeach; ?>
 				</div>
 				<div class="page-numbers">
-					<?php for ( $i = 0; $i < $page['pagination'] / 9; $i++ ) : ?>
-						<a href="?action=shop&page=<?php echo esc_html( $i ) .  ol_sort_price_with_pagination(); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
-							<?php echo esc_html( $i + 1 ); ?>
-						</a>
-					<?php endfor; ?>
+					<?php $count = ol_get_view_product_in_page(); ?>
+					<?php if ( $count < $page['pagination'] ) : ?>
+						<?php for ( $i = 0; $i < $page['pagination'] / $count; $i++ ) : ?>
+							<a href="?action=shop&page=<?php echo esc_html( $i ) . ol_sort_price_with_pagination(); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
+								<?php echo esc_html( $i + 1 ); ?>
+							</a>
+						<?php endfor; ?>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

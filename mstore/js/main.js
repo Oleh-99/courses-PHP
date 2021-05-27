@@ -1,5 +1,6 @@
 (function ($) {
 	function countNumber() {
+
 		$( '.num-min' ).on('click', function () {
 			let $this = $(this);
 			let $number = $this.siblings('.input-number').val() - 1;
@@ -18,6 +19,10 @@
 	}
 
 	function priceShop() {
+		if ( 'undefined' === typeof $.fn.slider ) {
+			return;
+		}
+
 		let $minInput = $( '.min-price' );
 		let $maxInput = $( '.max-price' );
 		let $price    = $( '.price-format' );

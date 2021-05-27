@@ -8,7 +8,7 @@
 ?>
 <section class="navigation">
 	<div class="container">
-		<h2>View card</h2>
+		<h2>Checkout</h2>
 	</div>
 </section>
 <section class="checkout-form">

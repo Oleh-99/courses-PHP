@@ -43,7 +43,7 @@
 								<span class="number-product">
 									<input type="hidden" name="card_id" value="<?php echo esc_html( $product['id'] ); ?>">
 									<span class="num-min">-</span>
-									<input type="number" class="input-number" aria-label="numbers" name="card_numbers" value="<?php echo esc_html( ++$product['count'] ); ?>">
+									<input type="number" class="input-number" aria-label="numbers" name="card_numbers" value="<?php echo esc_html( ol_get_count_product( $product['id'] ) ); ?>">
 									<span class="num-plus">+</span>
 									<button type="submit" class="button update-card">Update</button>
 								</span>
@@ -51,7 +51,7 @@
 
 						</th>
 						<th class="product-subtotal">
-							<?php $subtotal = $product['price'] * ( $product['count'] ); ?>
+							<?php $subtotal = $product['price'] * ( ol_get_count_product( $product['id'] ) ); ?>
 							<?php echo esc_html( '$' . ol_get_price( $subtotal ) ); ?>
 						</th>
 					</tr>

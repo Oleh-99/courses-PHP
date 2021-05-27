@@ -105,14 +105,15 @@ function ol_product_db( $product, $action = '' ) {
 	global $ol_dbh;
 
 	if ( 'update' === $action ) {
-		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, photo = :photo, description = :description, label = :label, stars = :stars WHERE id = :id' );
+		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, photo = :photo, description = :description, category = :category, label = :label, stars = :stars WHERE id = :id' );
 		$stmt->bindParam( ':id', $product['id'] );
 	} else {
-		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore ( title, price, photo, description, label, stars ) VALUE ( :title, :price, :photo, :description, :label, :stars )' );
+		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore ( title, price, photo, description, category, label, stars ) VALUE ( :title, :price, :photo, :description, :category, :label, :stars )' );
 	}
 	$stmt->bindParam( ':title', $product['title'] );
 	$stmt->bindParam( ':price', $product['price'] );
 	$stmt->bindParam( ':description', $product['description'] );
+	$stmt->bindParam( ':category', $product['category'] );
 	$stmt->bindParam( ':label', $product['label'] );
 	$stmt->bindParam( ':photo', $product['photo'] );
 	$stmt->bindParam( ':stars', $product['stars'] );
@@ -149,4 +150,64 @@ function ol_sing_in_user_db( $login ) {
 	$stmt->execute();
 
 	return $stmt->fetchAll();
+}
+
+/**
+ * Gives categories from the database.
+ *
+ * @return array Data category.
+ */
+function ol_get_category_db() {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore_category ORDER BY id DESC' );
+	$stmt->execute();
+
+	return $stmt->fetchAll();
+}
+
+/**
+ * Create or update a category in the database.
+ *
+ * @param array  $category Data category.
+ * @param string $action Action.
+ * @return bool
+ */
+function ol_add_category_db( $category, $action = '' ) {
+	global $ol_dbh;
+
+	if ( 'update' === $action ) {
+		$stmt = $ol_dbh->prepare( 'UPDATE mstore_category SET category = :category WHERE id = :id' );
+		$stmt->bindParam( ':id', $category['id'] );
+	} else {
+		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore_category (category) VALUES (:category)' );
+	}
+	$stmt->bindParam( ':category', $category['category'] );
+
+	return $stmt->execute();
+}
+
+/**
+ * Remove category with database.
+ *
+ * @param int $id Id category.
+ * @return bool
+ */
+function ol_remove_category_db( $id ) {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'DELETE FROM mstore_category WHERE id = :id' );
+	$stmt->bindParam( ':id', $id );
+
+	return $stmt->execute();
+}
+
+function ol_get_category_by_id_db( $id ) {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore_category WHERE id = :id' );
+	$stmt->bindParam( ':id', $id );
+	$stmt->execute();
+
+	return $stmt->fetch();
 }

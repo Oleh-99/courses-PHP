@@ -86,7 +86,7 @@ function ol_add_cart_with_single() {
 function ol_get_count_product( $id ) {
 	$count = 0;
 
-	foreach ( $_SESSION['card'] as $product ) {
+	foreach ( $_SESSION['mstore_cart'] as $product ) {
 		if ( $product['id'] === $id ) {
 			$count = $product['count'];
 		}
@@ -162,7 +162,7 @@ function ol_add_order() {
 			'phone'     => esc_html( $_POST['phone'] ),
 			'email'     => esc_html( $_POST['email'] ),
 			'price'     => esc_html( ol_sum_product() ),
-			'card'      => serialize( $_SESSION['card'] ),
+			'card'      => serialize( $_SESSION['mstore_cart'] ),
 		)
 	);
 
@@ -190,16 +190,16 @@ function ol_view_user_data( $type ) {
  * @param int $count Count product.
  */
 function ol_add_to_cart( $product_id, $count = '' ) {
-	$card         = $_SESSION['card'];
+	$card         = $_SESSION['mstore_cart'];
 	$availability = false;
 
-	if ( $_SESSION['card'] ) {
+	if ( $_SESSION['mstore_cart'] ) {
 		for ( $i = 0; $i <= count( $card ); $i++ ) {
 			if ( $card[ $i ]['id'] === $product_id ) {
 				if ( '' !== $count ) {
-					$_SESSION['card'][ $i ]['count'] += $count;
+					$_SESSION['mstore_cart'][ $i ]['count'] += $count;
 				} else {
-					$_SESSION['card'][ $i ]['count']++;
+					$_SESSION['mstore_cart'][ $i ]['count']++;
 				}
 
 				$availability = true;
@@ -212,7 +212,7 @@ function ol_add_to_cart( $product_id, $count = '' ) {
 	}
 
 	if ( ! $availability ) {
-		$_SESSION['card'][] = array(
+		$_SESSION['mstore_cart'][] = array(
 			'id'    => $product_id,
 			'count' => $count,
 		);
@@ -227,12 +227,12 @@ function ol_add_to_cart( $product_id, $count = '' ) {
 function ol_get_check_cart() {
 	$count = 0;
 
-	if ( ! $_SESSION['card'] ) {
+	if ( ! $_SESSION['mstore_cart'] ) {
 		return 0;
 	}
 
-	for ( $i = 0; $i <= count( $_SESSION['card'] ); $i++ ) {
-		$count += $_SESSION['card'][$i]['count'];
+	for ( $i = 0; $i <= count( $_SESSION['mstore_cart'] ); $i++ ) {
+		$count += (int) $_SESSION['mstore_cart'][ $i ]['count'];
 	}
 
 	return $count;
@@ -257,14 +257,14 @@ function ol_get_price( $price ) {
  * @return mixed|string Amount of products.
  */
 function ol_sum_product() {
-	if ( ! $_SESSION['card'] ) {
+	if ( ! $_SESSION['mstore_cart'] ) {
 		return '0.00';
 	}
 
 	$sum_product = 0;
 	$request     = '';
 
-	foreach ( $_SESSION['card'] as $id_product ) {
+	foreach ( $_SESSION['mstore_cart'] as $id_product ) {
 		$request .= ' id = ' . $id_product['id'] . ' OR';
 	}
 
@@ -273,7 +273,7 @@ function ol_sum_product() {
 	$result = ol_get_product_request_db( $request );
 
 	foreach ( $result as $product ) {
-		$sum_product += $product['price'] * ol_get_count_product( $product['id'] );
+		$sum_product += (int) $product['price'] * ol_get_count_product( $product['id'] );
 	}
 
 	if ( ! stristr( $sum_product, '.' ) ) {
@@ -289,13 +289,13 @@ function ol_sum_product() {
  * @return array|void Array products.
  */
 function ol_get_product_with_cart() {
-	if ( ! $_SESSION['card'] ) {
+	if ( ! $_SESSION['mstore_cart'] ) {
 		return;
 	}
 
 	$request = '';
 
-	foreach ( $_SESSION['card'] as $id_product ) {
+	foreach ( $_SESSION['mstore_cart'] as $id_product ) {
 		$request .= ' id = ' . $id_product['id'] . ' OR';
 	}
 
@@ -313,7 +313,7 @@ function ol_remove_product() {
 	}
 
 	$id_product   = esc_html( $_GET['remove-card'] );
-	$data_product = $_SESSION['card'];
+	$data_product = $_SESSION['mstore_cart'];
 	$action_page  = '';
 
 	for ( $i = 0; $i <= count( $data_product ); $i++ ) {
@@ -322,7 +322,7 @@ function ol_remove_product() {
 		}
 	}
 
-	$_SESSION['card'] = array_values( $data_product );
+	$_SESSION['mstore_cart'] = array_values( $data_product );
 
 	if ( ! empty( $_GET['page'] ) ) {
 		$action_page .= '&page=' . esc_html( $_GET['page'] );
@@ -340,11 +340,11 @@ function ol_remove_product() {
  * @return string Request to sort by price.
  */
 function ol_sort_price() {
-	if ( empty($_GET['min-price'] ) || empty($_GET['max-price'] ) ) {
+	if ( empty( $_GET['min-price'] ) || empty( $_GET['max-price'] ) ) {
 		return '';
 	}
 
-	return ' WHERE price > ' . esc_html( $_GET['min-price'] ) . ' AND price < ' . esc_html( $_GET['max-price'] );
+	return ' price > ' . esc_html( $_GET['min-price'] ) . ' AND price < ' . esc_html( $_GET['max-price'] );
 }
 
 /**
@@ -353,7 +353,7 @@ function ol_sort_price() {
  * @return string Request to sort by price.
  */
 function ol_sort_price_with_pagination() {
-	if ( empty($_GET['min-price'] ) || empty($_GET['max-price'] ) ) {
+	if ( empty( $_GET['min-price'] ) || empty( $_GET['max-price'] ) ) {
 		return '';
 	}
 
@@ -369,7 +369,8 @@ function ol_view_page_product() {
 	$page = 0;
 
 	if ( ! empty( $_GET['page'] ) ) {
-		$page = esc_html( $_GET['page'] ) * 9;
+		$count = ol_get_view_product_in_page();
+		$page  = esc_html( $_GET['page'] ) * $count;
 	}
 
 	return $page;
@@ -404,6 +405,151 @@ function ol_view_link_page() {
 	}
 
 	return $action;
+}
+
+/**
+ * Active term url with minimum and maximum price filter.
+ *
+ * @return string Active term url with minimum and maximum price filter.
+ */
+function ol_get_price_url() {
+	$action = '';
+
+	if ( ! empty( $_GET['min-price'] ) || ! empty( $_GET['max-price'] ) ) {
+		$action = '&min-price=' . esc_html( $_GET['min-price'] ) . '&max-price=' . esc_html( $_GET['max-price'] );
+	}
+
+	return $action;
+}
+
+/**
+ * Adds an active category to the session.
+ */
+function ol_view_category_product() {
+	if ( empty( $_GET['category'] ) ) {
+		return;
+	}
+
+	$_SESSION['mstore_category'] = esc_html( $_GET['category'] );
+	ol_clear_url( '?action=shop' . ol_get_price_url() );
+}
+
+/**
+ * Generates a term from the active category.
+ *
+ * @return string Active category.
+ */
+function ol_get_check_category() {
+	if ( ! isset( $_SESSION['mstore_category'] ) || 'all' === $_SESSION['mstore_category'] ) {
+		return '';
+	}
+
+	return ' category = \'' . $_SESSION['mstore_category'] . '\'';
+}
+
+/**
+ * Creates a query with active filters to be sent to the database query.
+ *
+ * @return string Query string in the database.
+ */
+function ol_get_request_for_db() {
+	$request  = '';
+	$category = ol_get_check_category();
+	$price    = ol_sort_price();
+
+	if ( ! $category && ! $price ) {
+		return '';
+	} elseif ( $category && ! $price ) {
+		$request .= $category;
+	} elseif ( ! $category && $price ) {
+		$request .= $price;
+	} else {
+		$request .= $price . ' AND ' . $category;
+	}
+
+	return ' WHERE ' . $request;
+}
+
+/**
+ * Checks for the active category.
+ *
+ * @param string $active Given Category.
+ * @return bool
+ */
+function ol_get_active_category( $active ) {
+	if ( ! isset( $_SESSION['mstore_category'] ) && 'all' === $active ) {
+		return true;
+	}
+
+	return ( $active === $_SESSION['mstore_category'] );
+}
+
+/**
+ * Adds the number of products per page to the session.
+ */
+function ol_view_product_in_page() {
+	if ( empty( $_GET['view-count'] ) ) {
+		return;
+	}
+
+	$_SESSION['mstore_view_count'] = esc_html( $_GET['view-count'] );
+	ol_clear_url( '?action=shop' . ol_get_price_url() );
+}
+
+/**
+ * Returns the number of products per page.
+ *
+ * @return int|mixed
+ */
+function ol_get_view_product_in_page() {
+	$count = 9;
+
+	if ( isset( $_SESSION['mstore_view_count'] ) ) {
+		$count = $_SESSION['mstore_view_count'];
+	}
+
+	return $count;
+}
+
+/**
+ * Returns the active number of products on the page.
+ *
+ * @param int $count Number of products.
+ * @return bool
+ */
+function ol_get_active_count_product( $count ) {
+	if ( ! isset( $_SESSION['mstore_view_count'] ) ) {
+		return ( 9 === $count );
+	}
+
+	return ( intval( $_SESSION['mstore_view_count'] ) === $count );
+}
+
+/**
+ * Adds grid values to the session.
+ */
+function ol_grid_page() {
+	if ( empty( $_GET['grid-view'] ) ) {
+		return;
+	}
+
+	$_SESSION['mstore_grid-view'] = esc_html( $_GET['grid-view'] );
+	ol_clear_url( '?action=shop' . ol_get_price_url() );
+}
+
+/**
+ * Checks the active grid.
+ *
+ * @return int
+ */
+function ol_check_grid_product() {
+	$grid = 4;
+
+	if ( isset( $_SESSION['mstore_grid-view'] ) ) {
+		$grid = intval( $_SESSION['mstore_grid-view'] );
+	}
+
+	return $grid;
 }
 
 /**

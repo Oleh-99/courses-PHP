@@ -24,6 +24,11 @@
 					<h3 class="title">
 						<?php echo esc_html( $page['product']['title'] ); ?>
 					</h3>
+					<div class="category">Category:
+						<a href="">
+							<?php echo esc_html( $page['product']['category'] ); ?>
+						</a>
+					</div>
 					<div class="price">
 						$ <?php echo esc_html( ol_get_price( $page['product']['price'] ) ); ?>
 					</div>

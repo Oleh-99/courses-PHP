@@ -2825,6 +2825,7 @@ a.btn:hover {
   padding-top: 20px;
   padding-bottom: 20px;
   background: #9cdfce26;
+  min-height: calc( 100vh - 196px );
 }
 
 .view-card-wrapper {
@@ -3071,6 +3072,70 @@ a.btn:hover {
 
 .ui-state-active {
   background: #9CDFCE !important;
+}
+
+.add-category {
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.title-category {
+  margin: 30px 0;
+}
+
+.category {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.list-category {
+  font-size: 16px;
+}
+.list-category li {
+  margin-bottom: 10px;
+}
+.list-category a {
+  display: block;
+  padding: 5px 10px;
+}
+.list-category a:hover, .list-category a.active {
+  opacity: 1;
+  color: #9CDFCE;
+}
+
+.shop-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.products-per-page {
+  margin-right: 30px;
+}
+.products-per-page .show {
+  margin-right: 5px;
+  font-weight: 500;
+}
+.products-per-page a {
+  display: inline-block;
+  position: relative;
+  padding: 3px;
+}
+.products-per-page a.active {
+  font-weight: 500;
+}
+
+.products-view-grid a {
+  padding: 5px;
+  opacity: 0.6;
+}
+.products-view-grid a:hover, .products-view-grid a.active {
+  opacity: 1;
+}
+.products-view-grid img {
+  max-height: 20px;
 }
 
 @media (min-width: 1200px) {

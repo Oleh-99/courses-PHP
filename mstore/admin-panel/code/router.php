@@ -44,6 +44,18 @@ function ol_router() {
 			ol_exit_user();
 			break;
 
+		case 'category':
+			ol_category_view();
+			break;
+
+		case 'add-category':
+			ol_add_category_view();
+			break;
+
+		case 'edit-category':
+			ol_edit_category_view();
+			break;
+
 		default:
 			ol_page_404();
 			break;

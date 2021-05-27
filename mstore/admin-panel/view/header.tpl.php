@@ -30,6 +30,7 @@
 				<li><a href="index.php">Admin panel</a></li>
 				<?php if ( $_SESSION['mstore-login'] ) : ?>
 					<li><a href="?action=orders">Order</a></li>
+					<li><a href="?action=category">Category</a></li>
 					<li><a href="?action=add-product">Add new product</a></li>
 				<?php endif; ?>
 			</ul>

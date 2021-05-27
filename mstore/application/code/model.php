@@ -15,10 +15,12 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
  */
 function ol_get_product_db( $start_pos = 0 ) {
 	global $ol_dbh;
-	$sort_price = ol_sort_price();
+	$request = ol_get_request_for_db();
+	$count   = ol_get_view_product_in_page();
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore ' . $sort_price . ' LIMIT :start_pos, 9' );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM mstore ' . $request . ' LIMIT :start_pos, :count' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
+	$stmt->bindValue( ':count', $count, PDO::PARAM_INT );
 	$stmt->execute();
 
 	return $stmt->fetchAll();
@@ -32,10 +34,12 @@ function ol_get_product_db( $start_pos = 0 ) {
  */
 function ol_get_price_db( $start_pos = 0 ) {
 	global $ol_dbh;
-	$sort_price = ol_sort_price();
+	$request = ol_get_request_for_db();
+	$count   = ol_get_view_product_in_page();
 
-	$stmt = $ol_dbh->prepare( 'SELECT price FROM mstore ' . $sort_price . ' LIMIT :start_pos, 9' );
+	$stmt = $ol_dbh->prepare( 'SELECT price FROM mstore ' . $request . ' LIMIT :start_pos, :count' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
+	$stmt->bindValue( ':count', $count, PDO::PARAM_INT );
 	$stmt->execute();
 
 	return $stmt->fetchAll( PDO::FETCH_COLUMN );
@@ -79,9 +83,9 @@ function ol_get_product_request_db( $request ) {
  */
 function ol_get_count_product_db() {
 	global $ol_dbh;
-	$sort_price = ol_sort_price();
+	$request = ol_get_request_for_db();
 
-	$stmt = $ol_dbh->query( 'SELECT COUNT(*) from mstore ' . $sort_price );
+	$stmt = $ol_dbh->query( 'SELECT COUNT(*) from mstore ' . $request );
 	$stmt->execute();
 
 	return $stmt->fetchColumn();
@@ -137,4 +141,18 @@ function ol_get_full_min_price() {
 	$stmt->execute();
 
 	return $stmt->fetchColumn();
+}
+
+/**
+ * Publishes existing categories in the table.
+ *
+ * @return array Categories.
+ */
+function ol_get_category_db() {
+	global $ol_dbh;
+
+	$stmt = $ol_dbh->prepare( 'SELECT category FROM mstore_category' );
+	$stmt->execute();
+
+	return $stmt->fetchAll( PDO::FETCH_COLUMN );
 }

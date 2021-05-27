@@ -15,11 +15,18 @@
 			<label for="title">Title<span>*</span></label>
 			<input type="text" name="title" id="title" value="<?php echo ( $_POST['title'] ) ? esc_html( $_POST['title'] ) : esc_html( $page['product']['title'] ); ?>">
 			<label for="description">Description<span>*</span></label>
-			<textarea name="description" id="description" rows="5">
-				<?php echo ( $_POST['description'] ) ? esc_html( $_POST['description'] ) : esc_html( $page['product']['description'] ); ?>
-			</textarea>
+			<textarea name="description" id="description" rows="5"><?php echo ( $_POST['description'] ) ? esc_html( $_POST['description'] ) : esc_html( $page['product']['description'] ); ?></textarea>
 			<label for="price">Price<span>*</span></label>
 			<input type="text" name="price" id="price" value="<?php echo ( $_POST['price'] ) ? esc_html( $_POST['price'] ) : esc_html( $page['product']['price'] ); ?>">
+			<label for="category">Category<span>*</span></label>
+			<select name="category" id="category">
+				<?php $categories = ol_get_category_db(); ?>
+				<?php foreach ( $categories as $category ) : ?>
+					<option <?php echo ( $category['category'] === $page['product']['category'] ) ? 'selected' : ''; ?>>
+						<?php echo esc_html( $category['category'] ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
 			<label for="label">Label</label>
 			<select name="label" id="label">
 				<option <?php echo ( '' === $page['product']['label'] ) ? 'selected' : ''; ?>></option>

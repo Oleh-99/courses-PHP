@@ -100,6 +100,46 @@ function ol_exit_user() {
 }
 
 /**
+ * Category page generation.
+ */
+function ol_category_view() {
+	ol_remove_category();
+	show_template(
+		array(
+			'action'   => 'category',
+			'category' => ol_get_category_db(),
+		)
+	);
+}
+
+/**
+ * Add category page generation.
+ */
+function ol_add_category_view() {
+	ol_add_category();
+	show_template(
+		array(
+			'action'   => 'category-form',
+			'btn-name' => 'Add category',
+		)
+	);
+}
+
+/**
+ * Edit category page generation.
+ */
+function ol_edit_category_view() {
+	ol_edit_category();
+	show_template(
+		array(
+			'action'   => 'category-form',
+			'btn-name' => 'Edit category',
+			'category' => ol_get_category_by_id_db( esc_html( $_GET['id'] ) ),
+		)
+	);
+}
+
+/**
  * 404 page generation.
  */
 function ol_page_404() {

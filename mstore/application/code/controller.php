@@ -21,12 +21,14 @@ function ol_home_page() {
  * Shop page generation.
  */
 function ol_shop_page() {
-	$page = ol_view_page_product();
+	ol_view_category_product();
 	ol_add_product_to_cart();
+	ol_view_product_in_page();
+	ol_grid_page();
 	show_template(
 		array(
 			'action'     => 'shop',
-			'products'   => ol_get_product_db( $page ),
+			'products'   => ol_get_product_db( ol_view_page_product() ),
 			'pagination' => ol_get_count_product_db(),
 		)
 	);
@@ -55,7 +57,7 @@ function ol_single_product_page() {
 function ol_view_card() {
 	show_template(
 		array(
-			'action' => 'view-card',
+			'action' => 'view-cart',
 			'card'   => ol_get_product_with_cart(),
 		)
 	);
@@ -83,7 +85,7 @@ function ol_order_complete() {
 			'product' => ol_get_product_with_cart(),
 		)
 	);
-	unset( $_SESSION['card'] );
+	unset( $_SESSION['mstore_cart'] );
 }
 
 /**
