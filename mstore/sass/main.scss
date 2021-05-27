@@ -679,6 +679,14 @@ header {
 		height: 360px;
 		object-fit: cover;
 		object-position: center;
+
+		.col-lg-6 & {
+			height: 500px;
+		}
+		.col-lg-3 & {
+			height: 260px;
+		}
+
 	}
 
 	> a {

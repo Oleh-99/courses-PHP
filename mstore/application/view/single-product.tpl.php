@@ -25,7 +25,7 @@
 						<?php echo esc_html( $page['product']['title'] ); ?>
 					</h3>
 					<div class="category">Category:
-						<a href="">
+						<a href="?action=shop&category=<?php echo esc_html( $page['product']['category'] ); ?>">
 							<?php echo esc_html( $page['product']['category'] ); ?>
 						</a>
 					</div>

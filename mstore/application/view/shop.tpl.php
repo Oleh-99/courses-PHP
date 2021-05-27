@@ -25,8 +25,8 @@
 					<form method="get" class="price-form">
 						<input type="hidden" name="action" value="shop">
 						<input type="hidden" name="page" value="<?php echo esc_html( $_GET['page'] ); ?>">
-						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo esc_html( intval( min( ol_get_price_db( ol_view_page_product() ) ) ) ); ?>" placeholder="min" aria-label="min-price">
-						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo esc_html( intval( max( ol_get_price_db( ol_view_page_product() ) ) ) ); ?>" placeholder="max" aria-label="max-price">
+						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo ( min( ol_get_price_db( ol_view_page_product() ) ) ) ? esc_html( intval( min( ol_get_price_db( ol_view_page_product() ) ) ) ) : esc_html( ( $_GET['min-price'] ) ); ?>" placeholder="min" aria-label="min-price">
+						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo ( max( ol_get_price_db( ol_view_page_product() ) ) ) ? esc_html( intval( max( ol_get_price_db( ol_view_page_product() ) ) ) ) : esc_html( ( $_GET['max-price'] ) ) ; ?>" placeholder="max" aria-label="max-price">
 						<button type="submit" class="sort-price">Sort</button>
 					</form>
 				</div>

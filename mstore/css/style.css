@@ -2151,6 +2151,12 @@ header .icon-header {
   object-fit: cover;
   object-position: center;
 }
+.col-lg-6 .product-foto img {
+  height: 500px;
+}
+.col-lg-3 .product-foto img {
+  height: 260px;
+}
 .product-foto > a {
   position: absolute;
   top: 0;

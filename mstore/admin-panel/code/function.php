@@ -246,7 +246,7 @@ function ol_add_category() {
 
 	$result = ol_add_category_db(
 		array(
-			'category' => esc_html( $_POST['category'] ),
+			'category' => ucfirst( esc_html( $_POST['category'] ) ),
 		)
 	);
 
