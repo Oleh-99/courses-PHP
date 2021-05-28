@@ -18,6 +18,8 @@
 			<textarea name="description" id="description" rows="5"><?php echo ( $_POST['description'] ) ? esc_html( $_POST['description'] ) : esc_html( $page['product']['description'] ); ?></textarea>
 			<label for="price">Price<span>*</span></label>
 			<input type="text" name="price" id="price" value="<?php echo ( $_POST['price'] ) ? esc_html( $_POST['price'] ) : esc_html( $page['product']['price'] ); ?>">
+			<label for="sale-price">Sale price</label>
+			<input type="text" name="sale-price" id="sale-price" value="<?php echo ( $_POST['sale-price'] ) ? esc_html( $_POST['sale-price'] ) : esc_html( $page['product']['sale'] ); ?>">
 			<label for="category">Category<span>*</span></label>
 			<select name="category" id="category">
 				<?php $categories = ol_get_category_db(); ?>
@@ -34,8 +36,6 @@
 				<option <?php echo ( 'new' === $page['product']['label'] ) ? 'selected' : ''; ?>>new</option>
 				<option <?php echo ( 'sale' === $page['product']['label'] ) ? 'selected' : ''; ?>>sale</option>
 			</select>
-			<label for="stars">Stars</label>
-			<input type="number" id="stars" name="stars" value="<?php echo ( $_POST['stars'] ) ? esc_html( $_POST['stars'] ) : esc_html( $page['product']['stars'] ); ?>">
 			<label for="file">Photo product<span>*</span></label>
 			<input type="file" id="file" name="uploaded_file" accept="image/jpeg,image/png"><br>
 			<button type="submit" class="button" name="btn-product">

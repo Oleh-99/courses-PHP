@@ -105,18 +105,18 @@ function ol_product_db( $product, $action = '' ) {
 	global $ol_dbh;
 
 	if ( 'update' === $action ) {
-		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, photo = :photo, description = :description, category = :category, label = :label, stars = :stars WHERE id = :id' );
+		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, sale = :sale, photo = :photo, description = :description, category = :category, label = :label WHERE id = :id' );
 		$stmt->bindParam( ':id', $product['id'] );
 	} else {
-		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore ( title, price, photo, description, category, label, stars ) VALUE ( :title, :price, :photo, :description, :category, :label, :stars )' );
+		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore ( title, price, sale, photo, description, category, label) VALUE ( :title, :price, :sale, :photo, :description, :category, :label )' );
 	}
 	$stmt->bindParam( ':title', $product['title'] );
 	$stmt->bindParam( ':price', $product['price'] );
+	$stmt->bindParam( ':sale', $product['sale-price'] );
 	$stmt->bindParam( ':description', $product['description'] );
 	$stmt->bindParam( ':category', $product['category'] );
 	$stmt->bindParam( ':label', $product['label'] );
 	$stmt->bindParam( ':photo', $product['photo'] );
-	$stmt->bindParam( ':stars', $product['stars'] );
 
 	return $stmt->execute();
 }

@@ -41,11 +41,11 @@ function ol_clear_url( $action = '' ) {
  * Adding products to cart.
  */
 function ol_add_product_to_cart() {
-	if ( empty( $_GET['add-card'] ) ) {
+	if ( empty( $_GET['add-cart'] ) ) {
 		return;
 	}
 
-	$product_id  = esc_html( $_GET['add-card'] );
+	$product_id  = esc_html( $_GET['add-cart'] );
 	$action_page = '';
 
 	ol_add_to_cart( $product_id );
@@ -99,18 +99,17 @@ function ol_get_count_product( $id ) {
  * Processes the form on card.
  */
 function ol_add_card_with_basket() {
-	if ( empty( $_GET['card_id'] ) || empty( $_GET['card_numbers'] ) ) {
+	if ( empty( $_POST['cart_numbers'] ) ) {
 		return;
 	}
 
-	$product_id = esc_html( $_GET['card_id'] );
-	$count      = esc_html( $_GET['card_numbers'] );
+	$cart = $_POST['cart_numbers'];
 
-	if ( 0 > $count ) {
-		return;
+	foreach ( $cart as $id => $count ) {
+		if ( 0 < $count ) {
+			ol_add_to_cart( esc_html( $id ), esc_html( $count ) );
+		}
 	}
-
-	ol_add_to_cart( $product_id, $count );
 
 	ol_clear_url( '?action=view-card' );
 }
@@ -273,7 +272,13 @@ function ol_sum_product() {
 	$result = ol_get_product_request_db( $request );
 
 	foreach ( $result as $product ) {
-		$sum_product += (int) $product['price'] * ol_get_count_product( $product['id'] );
+		$price = $product['price'];
+
+		if ( $product['sale'] ) {
+			$price = $product['sale'];
+		}
+
+		$sum_product += (int) $price * ol_get_count_product( $product['id'] );
 	}
 
 	if ( ! stristr( $sum_product, '.' ) ) {
@@ -431,7 +436,6 @@ function ol_view_category_product() {
 	}
 
 	$_SESSION['mstore_category'] = esc_html( $_GET['category'] );
-	ol_clear_url( '?action=shop' . ol_get_price_url() );
 }
 
 /**
@@ -493,7 +497,6 @@ function ol_view_product_in_page() {
 	}
 
 	$_SESSION['mstore_view_count'] = esc_html( $_GET['view-count'] );
-	ol_clear_url( '?action=shop' . ol_get_price_url() );
 }
 
 /**
@@ -534,7 +537,6 @@ function ol_grid_page() {
 	}
 
 	$_SESSION['mstore_grid-view'] = esc_html( $_GET['grid-view'] );
-	ol_clear_url( '?action=shop' . ol_get_price_url() );
 }
 
 /**
@@ -550,6 +552,69 @@ function ol_check_grid_product() {
 	}
 
 	return $grid;
+}
+
+/**
+ * Determines the difference between the old price and the discount in percent.
+ *
+ * @param int $price Old price.
+ * @param int $sale_price Sale price.
+ * @return int
+ */
+function ol_get_sale_interest( $price, $sale_price ) {
+	return 100 - intval( $sale_price * 100 / $price );
+}
+
+/**
+ * Saves user comments.
+ */
+function ol_add_comment() {
+	if ( ! isset( $_POST['add-comment'] ) ) {
+		return;
+	}
+
+	if ( empty( $_POST['comm-name'] ) ) {
+		ol_add_errors( 'Enter a name' );
+	}
+	if ( empty( $_POST['comm-description'] ) ) {
+		ol_add_errors( 'Enter a review' );
+	}
+	if ( empty( $_POST['comm-rating'] ) ) {
+		ol_add_errors( 'Enter a rating' );
+	}
+	if ( 0 > $_POST['comm-rating'] || $_POST['comm-rating'] > 5 ) {
+		ol_add_errors( 'The rating cannot be more than 5 and less than 0' );
+	}
+
+	if ( ol_get_check_error() ) {
+		return;
+	}
+
+	$result = ol_save_comment_db(
+		array(
+			'product_id'  => esc_html( $_POST['id'] ),
+			'name'        => esc_html( $_POST['comm-name'] ),
+			'description' => esc_html( $_POST['comm-description'] ),
+			'stars'       => esc_html( $_POST['comm-rating'] ),
+		)
+	);
+
+	if ( $result ) {
+		ol_add_errors( 'Comment successfully added', 'success' );
+		ol_clear_url( '?action=single-product&id=' . esc_html( $_POST['id'] ) );
+	} else {
+		ol_add_errors( 'Comment not added' );
+	}
+}
+
+/**
+ * Calculate the rating as a percentage.
+ *
+ * @param int $rating Rating from 0 to 5.
+ * @return float|int Rating as a percentage.
+ */
+function ol_get_stars_product( $rating ) {
+	return $rating * 100 / 5;
 }
 
 /**

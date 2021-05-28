@@ -128,10 +128,10 @@ function ol_add_product() {
 		array(
 			'title'       => esc_html( $_POST['title'] ),
 			'price'       => esc_html( $_POST['price'] ),
+			'sale-price'  => esc_html( $_POST['sale-price'] ),
 			'description' => esc_html( $_POST['description'] ),
 			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
-			'stars'       => esc_html( $_POST['stars'] ),
 			'photo'       => ol_save_photo(),
 		)
 	);
@@ -168,10 +168,10 @@ function ol_edit_product() {
 			'id'          => esc_html( $_POST['id'] ),
 			'title'       => esc_html( $_POST['title'] ),
 			'price'       => esc_html( $_POST['price'] ),
+			'sale-price'  => esc_html( $_POST['sale-price'] ),
 			'description' => esc_html( $_POST['description'] ),
 			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
-			'stars'       => esc_html( $_POST['stars'] ),
 			'photo'       => $new_name_photo,
 		),
 		'update'
@@ -199,9 +199,6 @@ function ol_check_form_error() {
 	}
 	if ( empty( $_POST['category'] ) ) {
 		ol_add_errors( 'Enter a category' );
-	}
-	if ( 5 < $_POST['stars'] || 0 > $_POST['stars'] ) {
-		ol_add_errors( 'The stars cannot be more than 5 and less than 0' );
 	}
 }
 

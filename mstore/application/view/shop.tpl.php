@@ -24,9 +24,8 @@
 					<div class="price-format" data-max="<?php echo esc_html( ol_get_full_max_price() ); ?>" data-min="<?php echo esc_html( ol_get_full_min_price() ); ?>"></div>
 					<form method="get" class="price-form">
 						<input type="hidden" name="action" value="shop">
-						<input type="hidden" name="page" value="<?php echo esc_html( $_GET['page'] ); ?>">
-						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo ( min( ol_get_price_db( ol_view_page_product() ) ) ) ? esc_html( intval( min( ol_get_price_db( ol_view_page_product() ) ) ) ) : esc_html( ( $_GET['min-price'] ) ); ?>" placeholder="min" aria-label="min-price">
-						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo ( max( ol_get_price_db( ol_view_page_product() ) ) ) ? esc_html( intval( max( ol_get_price_db( ol_view_page_product() ) ) ) ) : esc_html( ( $_GET['max-price'] ) ) ; ?>" placeholder="max" aria-label="max-price">
+						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo ( $_GET['min-price'] ) ? esc_html( $_GET['min-price'] ) : intval( min( ol_get_price_db( ol_view_page_product() ) ) ); ?>" placeholder="min" aria-label="min-price">
+						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo ( $_GET['max-price'] ) ? esc_html( $_GET['max-price'] ) : intval( max( ol_get_price_db( ol_view_page_product() ) ) ); ?>" placeholder="max" aria-label="max-price">
 						<button type="submit" class="sort-price">Sort</button>
 					</form>
 				</div>
@@ -80,21 +79,20 @@
 							<div class="product-foto">
 								<img src="<?php echo esc_html( $product['photo'] ); ?>" alt="">
 								<a href="?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>"></a>
+								<?php if ( $product['sale'] ) : ?>
+									<div class="product-sale-label">
+										-<?php echo esc_html( ol_get_sale_interest( $product['price'], $product['sale'] ) ); ?>%
+									</div>
+								<?php endif; ?>
 								<?php if ( $product['label'] ) : ?>
 									<div class="product-banner <?php echo esc_html( $product['label'] ); ?>">
 										<?php echo esc_html( $product['label'] ); ?>
 									</div>
 								<?php endif; ?>
 								<div class="product-hover">
-									<a href="?action=shop&add-card=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
+									<a href="?action=shop&add-cart=<?php echo esc_html( $product['id'] . ol_view_link_page() ); ?>">
 										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 									</a>
-									<!--							<a href="">-->
-									<!--								<i class="far fa-heart"></i>-->
-									<!--							</a>-->
-									<!--							<a href="#">-->
-									<!--								<i class="fas fa-search-plus"></i>-->
-									<!--							</a>-->
 								</div>
 							</div>
 							<div class="product-text">
@@ -105,14 +103,21 @@
 								</h5>
 								<div class="price-wrapper">
 									<div class="price">
-										$<?php echo esc_html( ol_get_price( $product['price'] ) ); ?>
+										<?php if ( $product['sale'] ) : ?>
+											<div class="old-price">
+												$<?php echo esc_html( ol_get_price( $product['price'] ) ); ?>
+											</div>
+											<div>
+												$<?php echo esc_html( ol_get_price( $product['sale'] ) ); ?>
+											</div>
+										<?php else : ?>
+											<div>
+												$<?php echo esc_html( ol_get_price( $product['price'] ) ); ?>
+											</div>
+										<?php endif; ?>
 									</div>
-									<div class="star star-<?php echo esc_html( $product['stars'] ); ?>">
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
+									<div class="rating-product">
+										<span style="width: <?php echo esc_html( ol_get_stars_product( $product['AVG(stars)'] ) ); ?>%"></span>
 									</div>
 								</div>
 							</div>

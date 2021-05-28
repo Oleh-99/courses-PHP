@@ -9,7 +9,6 @@
  * Home page generation.
  */
 function ol_home_page() {
-	ol_add_card_with_basket();
 	show_template(
 		array(
 			'action' => 'home',
@@ -43,10 +42,12 @@ function ol_single_product_page() {
 	}
 
 	ol_add_cart_with_single();
+	ol_add_comment();
 	show_template(
 		array(
 			'action'  => 'single-product',
 			'product' => ol_get_product_by_id_db( esc_html( $_GET['id'] ) ),
+			'comment' => ol_get_comment_product_db ( esc_html( $_GET['id'] ) )
 		)
 	);
 }
@@ -55,6 +56,11 @@ function ol_single_product_page() {
  * View card page generation.
  */
 function ol_view_card() {
+	if ( ! $_SESSION['mstore_cart'] ) {
+		ol_clear_url();
+	}
+
+	ol_add_card_with_basket();
 	show_template(
 		array(
 			'action' => 'view-cart',
@@ -67,6 +73,10 @@ function ol_view_card() {
  * Checkout page generation.
  */
 function ol_checkout() {
+	if ( ! $_SESSION['mstore_cart'] ) {
+		ol_clear_url();
+	}
+
 	ol_add_order();
 	show_template(
 		array(
@@ -79,6 +89,10 @@ function ol_checkout() {
  * Order Complete page generation.
  */
 function ol_order_complete() {
+	if ( ! $_SESSION['mstore_cart'] ) {
+		ol_clear_url();
+	}
+
 	show_template(
 		array(
 			'action'  => 'order',

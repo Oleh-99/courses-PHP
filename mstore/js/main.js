@@ -26,9 +26,10 @@
 		let $minInput = $( '.min-price' );
 		let $maxInput = $( '.max-price' );
 		let $price    = $( '.price-format' );
-		let minValue  = $price.data('min');
-		let maxValue  = $price.data('max');
+		let minValue  = $price.data( 'min' );
+		let maxValue  = $price.data( 'max' );
 		let step      = parseInt( maxValue / 50 );
+		maxValue      = maxValue + ( maxValue / 100 * 10 );
 
 		$( '.min-price, .max-price' ).on( 'change', function () {
 			let minPrice = parseInt( $minInput.val() );

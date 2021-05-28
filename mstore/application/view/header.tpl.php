@@ -95,7 +95,11 @@ ol_remove_product();
 											</a>
 										</h5>
 										<div class="price">
-											<?php echo esc_html( '$' . ol_get_price( $product['price'] ) ); ?>
+											<?php if ( $product['sale'] ) : ?>
+												<?php echo esc_html( '$' . ol_get_price( $product['sale'] ) ); ?>
+											<?php else : ?>
+												<?php echo esc_html( '$' . ol_get_price( $product['price'] ) ); ?>
+											<?php endif; ?>
 											<span class="count">
 												<?php echo esc_html( ol_get_count_product( $product['id'] ) ); ?>
 											</span>

@@ -23,7 +23,7 @@
 				<div class="btn-group" role="group">
 					<a href="?action=category&remove-category=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-danger">Remove</a>
 					<a href="?action=edit-category&id=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-warning">Edit</a>
-					<a href="../index.php?action=single-product&id=<?php echo esc_html( $product['id'] ); ?>" class="btn btn-success">View</a>
+					<a href="../index.php?action=shop&category=<?php echo esc_html( $product['category'] ); ?>" class="btn btn-success">View</a>
 				</div>
 			</div>
 		<?php endforeach; ?>

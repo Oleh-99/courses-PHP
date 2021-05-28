@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -2206,6 +2207,23 @@ header .icon-header {
   text-align: center;
 }
 
+.product-sale-label {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #ed1c24;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 .product-text h5 {
   margin-bottom: 1px;
 }
@@ -2673,8 +2691,27 @@ footer p {
   color: #eecf00;
 }
 
+.single-photo {
+  position: relative;
+}
 .single-photo img {
   width: 100%;
+}
+.single-photo .product-sale-label {
+  top: 10px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  font-size: 22px;
+}
+
+.single-old-price {
+  display: inline-block;
+  margin-right: 5px;
+  opacity: 0.6;
+  font-size: 20px;
+  color: #5f5f5f;
+  text-decoration: line-through;
 }
 
 .add-to-card {
@@ -2723,6 +2760,11 @@ a.btn:hover {
 
 .product-page-text {
   margin: 50px 0;
+}
+.product-page-text .rating-product {
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 0;
 }
 
 .page-numbers {
@@ -2951,7 +2993,7 @@ a.btn:hover {
 }
 
 .errors-wrapper {
-  position: absolute;
+  position: fixed;
   top: 50px;
   right: 30px;
   font-size: 14px;
@@ -3142,6 +3184,80 @@ a.btn:hover {
 }
 .products-view-grid img {
   max-height: 20px;
+}
+
+.old-price {
+  margin-top: 5px;
+  opacity: 0.5;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: line-through;
+}
+
+.product-comment {
+  margin-bottom: 30px;
+}
+.product-comment .title {
+  margin-bottom: 20px;
+}
+
+.rating-product {
+  position: relative;
+  display: inline-block;
+  margin-top: 5px;
+  white-space: nowrap;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #EABE12;
+  font-family: Font Awesome\ 5 Free;
+}
+.rating-product:before {
+  content: "" "" "" "" "";
+  color: #C9C9C9;
+}
+.rating-product span:before {
+  content: "" "" "" "" "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-indent: 0;
+}
+.rating-product span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  text-indent: 99999px;
+}
+
+.single-comment {
+  padding: 15px;
+  background: #9cdfce47;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.single-comment .comm-title-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.single-comment .comm-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 15px;
+}
+.single-comment .comm-date {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+}
+.single-comment .comm-rewires {
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 @media (min-width: 1200px) {

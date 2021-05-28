@@ -31,10 +31,10 @@
 						</a>
 					</td>
 					<td>
-						×<?php echo esc_html( ++$product['count'] ); ?>
+						×<?php echo esc_html( ol_get_count_product( $product['id'] ) ); ?>
 					</td>
 					<td>
-						$<?php echo esc_html( ol_get_price( $product['price'] * $product['count'] ) ); ?>
+						$<?php echo esc_html( ol_get_price( $product['price'] * ol_get_count_product( $product['id'] ) ) ); ?>
 					</td>
 				</tr>
 				<?php endforeach; ?>

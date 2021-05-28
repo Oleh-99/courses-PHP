@@ -6,7 +6,7 @@
  * @var array $page Page data.
  */
 
-$card_user = unserialize( $page['order']['card'] );
+$cart_user = unserialize( $page['order']['card'] );
 ?>
 
 <section>
@@ -56,8 +56,8 @@ $card_user = unserialize( $page['order']['card'] );
 					<th>Subtotal</th>
 				</tr>
 			</thead>
-			<?php foreach ( ol_get_product_user( $card_user ) as $product ) : ?>
-				<?php $count = ol_get_product_count( $card_user, $product['id'] ); ?>
+			<?php foreach ( ol_get_product_user( $cart_user ) as $product ) : ?>
+				<?php $count = ol_get_product_count( $cart_user, $product['id'] ); ?>
 				<tr>
 					<td>
 						<?php echo esc_html( $product['id'] ); ?>
