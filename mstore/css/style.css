@@ -3260,6 +3260,17 @@ a.btn:hover {
   line-height: 1.6;
 }
 
+.price-sort {
+  margin-left: 10px;
+}
+.price-sort select {
+  padding: 5px;
+  margin: 0 8px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #9cdfce;
+}
+
 @media (min-width: 1200px) {
   .container {
     width: 1200px;

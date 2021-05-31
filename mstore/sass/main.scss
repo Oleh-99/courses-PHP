@@ -1960,6 +1960,19 @@ a.btn {
 	}
 }
 
+.price-sort {
+	margin-left: 10px;
+
+	select {
+		padding: 5px;
+		margin: 0 8px;
+		outline: none;
+		border: none;
+		border-bottom: 1px solid #9cdfce;
+	}
+
+}
+
 @media (min-width: 1200px){
 .container {
     width: 1200px;

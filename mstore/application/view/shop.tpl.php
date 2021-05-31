@@ -6,6 +6,7 @@
  * @var array $page Page data.
  */
 
+$products_price_page = ol_get_price_db( ol_view_page_product() );
 ?>
 <section class="navigation">
 	<div class="container">
@@ -24,8 +25,8 @@
 					<div class="price-format" data-max="<?php echo esc_html( ol_get_full_max_price() ); ?>" data-min="<?php echo esc_html( ol_get_full_min_price() ); ?>"></div>
 					<form method="get" class="price-form">
 						<input type="hidden" name="action" value="shop">
-						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo ( $_GET['min-price'] ) ? esc_html( $_GET['min-price'] ) : intval( min( ol_get_price_db( ol_view_page_product() ) ) ); ?>" placeholder="min" aria-label="min-price">
-						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo ( $_GET['max-price'] ) ? esc_html( $_GET['max-price'] ) : intval( max( ol_get_price_db( ol_view_page_product() ) ) ); ?>" placeholder="max" aria-label="max-price">
+						<input type="number" name="min-price" min="0" class="min-price" value="<?php echo ( $_GET['min-price'] ) ? esc_html( $_GET['min-price'] ) : intval( min( $products_price_page ) ); ?>" placeholder="min" aria-label="min-price">
+						<input type="number" name="max-price" min="0" class="max-price" value="<?php echo ( $_GET['max-price'] ) ? esc_html( $_GET['max-price'] ) : intval( max( $products_price_page ) ); ?>" placeholder="max" aria-label="max-price">
 						<button type="submit" class="sort-price">Sort</button>
 					</form>
 				</div>
@@ -69,6 +70,15 @@
 							<img src="img/grid4x4.png" alt="">
 						</a>
 					</div>
+					<form method="get" class="price-sort">
+						<input type="hidden" name="action" value="shop">
+						<select name="sort-price">
+							<option value="" <?php echo (! $_GET['sort-price'] ) ? 'selected' : ''; ?>>Default sorting</option>
+							<option value="price" <?php echo ( 'price' === $_GET['sort-price'] ) ? 'selected' : ''; ?>>Sort by price: low to high</option>
+							<option value="price DESC" <?php echo ( 'price DESC' === $_GET['sort-price'] ) ? 'selected' : ''; ?>>Sort by price: high to low</option>
+						</select>
+						<button type="submit" class="sort-price">Sort</button>
+					</form>
 				</div>
 				<div class="row">
 					<?php if ( ! $page['products'] ) : ?>

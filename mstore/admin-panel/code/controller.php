@@ -63,7 +63,11 @@ function ol_remove_product() {
 		return;
 	}
 
-	$result = ol_remove_product_db( esc_html( $_GET['id'] ) );
+	$id_product = esc_html( $_GET['id'] );
+	$url_photo  = ol_get_product_by_id_db( $id_product );
+	$result     = ol_remove_product_db( $id_product );
+
+	unlink( '../' . $url_photo['photo'] );
 
 	if ( $result ) {
 		ol_add_errors( 'Product remove', 'success' );

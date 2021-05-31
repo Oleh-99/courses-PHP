@@ -104,6 +104,8 @@ function ol_get_product_by_string_id_db( $request ) {
 function ol_product_db( $product, $action = '' ) {
 	global $ol_dbh;
 
+//	ar( $product );
+
 	if ( 'update' === $action ) {
 		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, sale = :sale, photo = :photo, description = :description, category = :category, label = :label WHERE id = :id' );
 		$stmt->bindParam( ':id', $product['id'] );

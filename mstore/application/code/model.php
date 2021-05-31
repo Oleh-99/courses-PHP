@@ -15,10 +15,11 @@ $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
  */
 function ol_get_product_db( $start_pos = 0 ) {
 	global $ol_dbh;
-	$request = ol_get_request_for_db();
-	$count   = ol_get_view_product_in_page();
+	$request    = ol_get_request_for_db();
+	$sort_price = ol_get_sort_price();
+	$count      = ol_get_view_product_in_page();
 
-	$stmt = $ol_dbh->prepare( 'SELECT * FROM ( SELECT * FROM mstore ' . $request . ' LIMIT :start_pos, :count) AS product LEFT JOIN ( SELECT product_id, AVG(stars),COUNT(*) FROM mstore_comment GROUP BY product_id ) AS comment ON comment.product_id = product.id' );
+	$stmt = $ol_dbh->prepare( 'SELECT * FROM ( SELECT * FROM mstore ' . $request . $sort_price . ' LIMIT :start_pos, :count) AS product LEFT JOIN ( SELECT product_id, AVG(stars),COUNT(*) FROM mstore_comment GROUP BY product_id ) AS comment ON comment.product_id = product.id' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
 	$stmt->bindValue( ':count', $count, PDO::PARAM_INT );
 	$stmt->execute();
@@ -34,10 +35,11 @@ function ol_get_product_db( $start_pos = 0 ) {
  */
 function ol_get_price_db( $start_pos = 0 ) {
 	global $ol_dbh;
-	$request = ol_get_request_for_db();
-	$count   = ol_get_view_product_in_page();
+	$request    = ol_get_request_for_db();
+	$sort_price = ol_get_sort_price();
+	$count      = ol_get_view_product_in_page();
 
-	$stmt = $ol_dbh->prepare( 'SELECT price FROM mstore ' . $request . ' LIMIT :start_pos, :count' );
+	$stmt = $ol_dbh->prepare( 'SELECT price FROM mstore ' . $request . $sort_price . ' LIMIT :start_pos, :count' );
 	$stmt->bindValue( ':start_pos', $start_pos, PDO::PARAM_INT );
 	$stmt->bindValue( ':count', $count, PDO::PARAM_INT );
 	$stmt->execute();

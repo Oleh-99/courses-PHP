@@ -618,6 +618,19 @@ function ol_get_stars_product( $rating ) {
 }
 
 /**
+ * Sort by price.
+ *
+ * @return string Sort condition in the database.
+ */
+function ol_get_sort_price() {
+	if ( empty( $_GET['sort-price'] ) ) {
+		return '';
+	}
+
+	return ' ORDER BY ' . esc_html( $_GET['sort-price']);
+}
+
+/**
  * Adding errors.
  *
  * @param string $string errors string.

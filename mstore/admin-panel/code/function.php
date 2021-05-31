@@ -127,8 +127,8 @@ function ol_add_product() {
 	$result = ol_product_db(
 		array(
 			'title'       => esc_html( $_POST['title'] ),
-			'price'       => esc_html( $_POST['price'] ),
-			'sale-price'  => esc_html( $_POST['sale-price'] ),
+			'price'       => (double) esc_html( $_POST['price'] ),
+			'sale-price'  => (double) esc_html( $_POST['sale-price'] ),
 			'description' => esc_html( $_POST['description'] ),
 			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
@@ -158,6 +158,7 @@ function ol_edit_product() {
 	}
 
 	if ( isset( $_FILES['uploaded_file'] ) && $_FILES['uploaded_file']['error'] === UPLOAD_ERR_OK ) {
+		unlink( '../' . esc_html( $_POST['photo'] ) );
 		$new_name_photo = ol_save_photo();
 	} else {
 		$new_name_photo = esc_html( $_POST['photo'] );
