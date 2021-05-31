@@ -631,6 +631,19 @@ function ol_get_sort_price() {
 }
 
 /**
+ * Returns active sorting by price.
+ *
+ * @return string
+ */
+function ol_get_action_sort_price() {
+	if ( empty( $_GET['sort-price'] ) ) {
+		return '';
+	}
+
+	return '&sort-price=' . esc_html( $_GET['sort-price']);
+}
+
+/**
  * Adding errors.
  *
  * @param string $string errors string.

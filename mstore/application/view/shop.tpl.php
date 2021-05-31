@@ -138,7 +138,7 @@ $products_price_page = ol_get_price_db( ol_view_page_product() );
 					<?php $count = ol_get_view_product_in_page(); ?>
 					<?php if ( $count < $page['pagination'] ) : ?>
 						<?php for ( $i = 0; $i < $page['pagination'] / $count; $i++ ) : ?>
-							<a href="?action=shop&page=<?php echo esc_html( $i . ol_sort_price_with_pagination() ); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
+							<a href="?action=shop&page=<?php echo esc_html( $i . ol_sort_price_with_pagination() . ol_get_action_sort_price() ); ?>" class="<?php echo esc_html( ol_check_page( $i ) ); ?>">
 								<?php echo esc_html( $i + 1 ); ?>
 							</a>
 						<?php endfor; ?>
