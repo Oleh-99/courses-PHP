@@ -74,7 +74,7 @@ function ol_add_cart_with_single() {
 
 	ol_add_to_cart( $product_id, $count );
 
-	 ol_clear_url( '?action=single-product&id=' . $product_id );
+	ol_clear_url( '?action=single-product&id=' . $product_id );
 }
 
 /**
@@ -192,7 +192,7 @@ function ol_add_to_cart( $product_id, $count = '' ) {
 	$card         = $_SESSION['mstore_cart'];
 	$availability = false;
 
-	if ( $_SESSION['mstore_cart'] ) {
+	if ( $card ) {
 		for ( $i = 0; $i <= count( $card ); $i++ ) {
 			if ( $card[ $i ]['id'] === $product_id ) {
 				if ( '' !== $count ) {

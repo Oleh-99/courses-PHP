@@ -12,7 +12,7 @@
 			<label for="login">Login</label>
 			<input type="text" id="login" name="login" value="<?php echo esc_html( $_POST['login'] ); ?>">
 			<label for="password">Password</label>
-			<input type="password" id="password" name="password" value="<?php echo esc_html( $_POST['password'] ); ?>">
+			<input type="password" id="password" name="password">
 			<button type="submit" name="sing-in" class="button">Sing-in</button>
 		</form>
 	</div>

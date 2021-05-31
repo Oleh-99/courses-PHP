@@ -28,13 +28,13 @@
 			<ul class="menu-admin">
 				<li><a href="../index.php">Home</a></li>
 				<li><a href="index.php">Admin panel</a></li>
-				<?php if ( $_SESSION['mstore-login'] ) : ?>
+				<?php if ( ol_get_verification_user() ) : ?>
 					<li><a href="?action=orders">Order</a></li>
 					<li><a href="?action=category">Category</a></li>
 					<li><a href="?action=add-product">Add new product</a></li>
 				<?php endif; ?>
 			</ul>
-			<?php if ( $_SESSION['mstore-login'] ) : ?>
+			<?php if ( ol_get_verification_user() ) : ?>
 				<a href="?action=exit-user" class="button">Exit</a>
 			<?php endif; ?>
 			<div class="burger-wrapper">

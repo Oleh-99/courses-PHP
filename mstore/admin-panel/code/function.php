@@ -2,7 +2,7 @@
 /**
  * Function.
  *
- * @package Funtion.
+ * @package Funсtion.
  */
 
 session_start();
@@ -168,8 +168,8 @@ function ol_edit_product() {
 		array(
 			'id'          => esc_html( $_POST['id'] ),
 			'title'       => esc_html( $_POST['title'] ),
-			'price'       => esc_html( $_POST['price'] ),
-			'sale-price'  => esc_html( $_POST['sale-price'] ),
+			'price'       => (double) esc_html( $_POST['price'] ),
+			'sale-price'  => (double) esc_html( $_POST['sale-price'] ),
 			'description' => esc_html( $_POST['description'] ),
 			'category'    => esc_html( $_POST['category'] ),
 			'label'       => esc_html( $_POST['label'] ),
@@ -305,6 +305,15 @@ function ol_edit_category() {
 	} else {
 		ol_add_errors( 'Category is not update' );
 	}
+}
+
+/**
+ * Checks user initialization.
+ *
+ * @return string Login user.
+ */
+function ol_get_verification_user() {
+	return $_SESSION['mstore-login'];
 }
 
 /**

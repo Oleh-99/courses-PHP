@@ -2,7 +2,7 @@
 /**
  * APP.
  *
- * @package Funtion.
+ * @package Funсtion.
  */
 
 require 'controller.php';

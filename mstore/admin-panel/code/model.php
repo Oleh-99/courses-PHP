@@ -2,7 +2,7 @@
 /**
  * Model.
  *
- * @package Funtion.
+ * @package Funсtion.
  */
 
 $ol_dbh = new PDO( 'mysql:host=192.168.1.84;dbname=courses', 'cours', 'cours' );
@@ -91,6 +91,7 @@ function ol_get_product_by_string_id_db( $request ) {
 	global $ol_dbh;
 
 	$stmt = $ol_dbh->query( 'SELECT * FROM mstore WHERE' . $request );
+
 	return $stmt->fetchAll();
 }
 
@@ -104,14 +105,13 @@ function ol_get_product_by_string_id_db( $request ) {
 function ol_product_db( $product, $action = '' ) {
 	global $ol_dbh;
 
-//	ar( $product );
-
 	if ( 'update' === $action ) {
 		$stmt = $ol_dbh->prepare( 'UPDATE mstore SET title = :title, price = :price, sale = :sale, photo = :photo, description = :description, category = :category, label = :label WHERE id = :id' );
 		$stmt->bindParam( ':id', $product['id'] );
 	} else {
 		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore ( title, price, sale, photo, description, category, label) VALUE ( :title, :price, :sale, :photo, :description, :category, :label )' );
 	}
+
 	$stmt->bindParam( ':title', $product['title'] );
 	$stmt->bindParam( ':price', $product['price'] );
 	$stmt->bindParam( ':sale', $product['sale-price'] );
@@ -184,6 +184,7 @@ function ol_add_category_db( $category, $action = '' ) {
 	} else {
 		$stmt = $ol_dbh->prepare( 'INSERT INTO mstore_category (category) VALUES (:category)' );
 	}
+
 	$stmt->bindParam( ':category', $category['category'] );
 
 	return $stmt->execute();

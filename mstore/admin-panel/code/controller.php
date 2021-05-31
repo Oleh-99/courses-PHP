@@ -2,7 +2,7 @@
 /**
  * Controller.
  *
- * @package Funtion.
+ * @package Funсtion.
  */
 
 /**

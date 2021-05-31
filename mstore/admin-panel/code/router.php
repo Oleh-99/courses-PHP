@@ -2,7 +2,7 @@
 /**
  * Router.
  *
- * @package Funtion.
+ * @package Funсtion.
  */
 
 /**
