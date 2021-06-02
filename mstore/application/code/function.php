@@ -627,7 +627,7 @@ function ol_get_sort_price() {
 		return '';
 	}
 
-	return ' ORDER BY ' . esc_html( $_GET['sort-price']);
+	return ' ORDER BY ' . esc_html( $_GET['sort-price'] );
 }
 
 /**
@@ -640,7 +640,7 @@ function ol_get_action_sort_price() {
 		return '';
 	}
 
-	return '&sort-price=' . esc_html( $_GET['sort-price']);
+	return '&sort-price=' . esc_html( $_GET['sort-price'] );
 }
 
 /**
